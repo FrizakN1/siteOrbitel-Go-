@@ -1,0 +1,115 @@
+{{ define "vpn_for_ul"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Телефон - Orbitel</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+    {{template "header"}}
+    <section class="vpn_for_ul-info">
+        <div class="contain1">
+            <h2>Виртуальная частная сеть <span>VPN</span></h2>
+            <p>
+                Услуга по предоставлению защищенной общей сети  для организации взаимодействия 
+                между территориально-распределенными объектами Клиента
+            </p>
+        </div>
+        <img src="/assets/img/vpn_for_ul-background1.png" alt="" class="img1">
+        <div class="border-connect">
+            <div class="start"></div>
+            <div class="end"></div>
+        </div>
+    </section>
+    <section class="vpn_for_ul-info">
+        <img src="/assets/img/vpn_for_ul-background2.png" alt="" class="img2">
+        <div class="contain2">
+            <p>
+                Услуга <span>VPN</span> (Layer 3/2 VPN) состоит в предоставлении защищенной общей
+                сети для организации  связей между территориально-распределенными объектами
+                Клиента с соблюдением параметров качества, определенных соглашением об уровне
+                сервиса. Услуга предоставляется на базе магистральной сети «Орбител»,
+                использующей технологию MPLS.
+            </p>
+        </div>
+        <div class="border-connect type2">
+            <div class="start"></div>
+            <div class="middle"></div>
+            <div class="end"></div>
+        </div>
+    </section>
+    <section class="vpn_for_ul-info">
+        <div class="contain3">
+            <ul>
+                <li>Создание защищенной корпоративной сети для эффективного обмена разнородной информацией;</li>
+                <li>Объединение более двух удаленных офисов/объектов Клиента;</li>
+                <li>Обеспечение высокой защищенности передачи информации;</li>
+                <li>Интеграция всех видов трафика и данных  в рамках одной услуги;</li>
+                <li>Обеспечение высокой  доступности сервисов;</li>
+                <li>Оптимальный размер платежа за получаемые услуги;</li>
+            </ul>
+        </div>
+        <img src="/assets/img/vpn_for_ul-background3.png" alt="" class="img2">
+    </section>
+    <section class="application">
+        <div class="images">
+            <img src="/assets/img/inet_for_ul-background-2.png" alt="" class="img1">
+            <img src="/assets/img/rocketline.svg" alt="" class="img2">
+            <img src="/assets/img/rocket.svg" alt="" class="img3">
+        </div>
+        <div class="application-form-block">
+            <h3>Оставить заявку на подключение</h3>
+            <div class="application-form">
+                <div class="left">
+                    <label class="label-text">
+                        <input type="text" id="name" required="required">
+                        <span>Ваше имя</span>
+                        <i></i>
+                    </label>
+                    <label class="label-text">
+                        <input type="text" id="organization" required="required">
+                        <span>Организация</span>
+                        <i></i>
+                    </label>
+                    <label class="label-text">
+                        <input type="tel" id="phone" required="required">
+                        <span>Контактный телефон</span>
+                        <i></i>
+                    </label>
+                </div>
+                <div class="right">
+                    <label class="label-text">
+                        <input type="text" id="address" required="required">
+                        <span>Адрес подключения</span>
+                        <i></i>
+                    </label>
+                    <div class="label-checkbox">
+                        <h4>Услуги</h4>
+                        <label for="services1">
+                            <input type="checkbox" name="services" value="1" id="services1">
+                            <span>Интернет</span>
+                        </label>
+                        <label for="services2">
+                            <input type="checkbox" name="services" value="2" id="services2">
+                            <span>Телефон</span>
+                        </label>
+                        <label for="services3">
+                            <input type="checkbox" name="services" value="3" id="services3">
+                            <span>Канал передачи данных</span>
+                        </label>
+                        <label for="services4">
+                            <input type="checkbox" name="services" value="4" id="services4">
+                            <span>Виртуальная АТС</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button>Отправить</button>
+        </div>
+    </section>
+    {{ template "footer" }}
+    </body>
+    </html>
+{{end}}

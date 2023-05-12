@@ -1,0 +1,9 @@
+2023/05/12 00:55:16 main.go:44: json: cannot unmarshal object into Go struct field User.AccountNumber of type string
+2023/05/12 00:56:39 user.go:94: sql: expected 0 arguments, got 2
+2023/05/12 00:59:46 user.go:90: sql: expected 0 arguments, got 2
+2023/05/12 01:01:55 user.go:95: sql: no rows in result set
+2023/05/12 01:04:00 user.go:94: sql: no rows in result set
+2023/05/12 01:04:47 user.go:94: sql: no rows in result set
+2023/05/12 01:05:15 user.go:94: sql: Scan error on column index 0, name "id": destination not a pointer
+2023/05/12 01:07:34 user.go:94: sql: Scan error on column index 0, name "id": destination not a pointer
+2023/05/12 01:08:55 user.go:94: sql: Scan error on column index 5, name "current_tariff": converting NULL to int is unsupported

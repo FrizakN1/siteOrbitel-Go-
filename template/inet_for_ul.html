@@ -1,0 +1,118 @@
+{{ define "inet_for_ul"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Телефон - Orbitel</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+    {{template "header"}}
+        <section class="inet_for_ul-info">
+            <img src="/assets/img/inet_for_ul-background-1.png" alt="">
+            <div class="contain">
+                <h2>Корпоративный интернет от ООО "Орбител"</h2>
+                <p>Подключение к сети Интернет от компании «Орбител» обеспечит вашему предприятию высокоскоростной и надежный доступ ко множеству ресурсов «Мировой паутины». Мы предлагаем высокое качество передачи данных на разных скоростях по оптимальным тарифным планам. Заключив договор на доступ к сети Интернет с нами, Вы сможете воспользоваться дополнительными сервисами, которые могут вам потребоваться в процессе работы.</p>
+                <button>Подключить</button>
+            </div>
+            <div class="fusion"></div>
+        </section>
+        <section class="advantages">
+            <h2>Сотрудничая с нами вы получите</h2>
+            <div class="bar">
+                <div class="round-main round1">
+                    <div>Высокую надежность соединения 24/7</div>
+                </div>
+                <div class="round-type4 round1"></div>
+                <div class="round-type3 round1"></div>
+                <div class="round-type2 round1"></div>
+                <div class="round-type1 round1-round2"></div>
+                <div class="round-type2 round2"></div>
+                <div class="round-type3 round2"></div>
+                <div class="round-type4 round2"></div>
+                <div class="round-main round2">
+                    <div>Скорость доступа до 1 Гб/сек</div>
+                </div>
+                <div class="round-type4 round2"></div>
+                <div class="round-type3 round2"></div>
+                <div class="round-type2 round2"></div>
+                <div class="round-type1 round2-round3"></div>
+                <div class="round-type2 round3"></div>
+                <div class="round-type3 round3"></div>
+                <div class="round-type4 round3"></div>
+                <div class="round-main round3">
+                    <div>Грамотную и своевременную техническую поддержку</div>
+                </div>
+                <div class="round-type4 round3"></div>
+                <div class="round-type3 round3"></div>
+                <div class="round-type2 round3"></div>
+                <div class="round-type1 round3-round4"></div>
+                <div class="round-type2 round4"></div>
+                <div class="round-type3 round4"></div>
+                <div class="round-type4 round4"></div>
+                <div class="round-main round4">
+                    <div>Кредитную систему оплаты</div>
+                </div>
+            </div>
+        </section>
+        <section class="application">
+            <div class="images">
+                <img src="/assets/img/inet_for_ul-background-2.png" alt="" class="img1">
+                <img src="/assets/img/rocketline.svg" alt="" class="img2">
+                <img src="/assets/img/rocket.svg" alt="" class="img3">
+            </div>
+            <div class="application-form-block">
+                <h3>Оставить заявку на подключение</h3>
+                <div class="application-form">
+                    <div class="left">
+                        <label class="label-text">
+                            <input type="text" id="name" required="required">
+                            <span>Ваше имя</span>
+                            <i></i>
+                        </label>
+                        <label class="label-text">
+                            <input type="text" id="organization" required="required">
+                            <span>Организация</span>
+                            <i></i>
+                        </label>
+                        <label class="label-text">
+                            <input type="tel" id="phone" required="required">
+                            <span>Контактный телефон</span>
+                            <i></i>
+                        </label>
+                    </div>
+                    <div class="right">
+                        <label class="label-text">
+                            <input type="text" id="address" required="required">
+                            <span>Адрес подключения</span>
+                            <i></i>
+                        </label>
+                        <div class="label-checkbox">
+                            <h4>Услуги</h4>
+                            <label for="services1">
+                                <input type="checkbox" name="services" value="1" id="services1">
+                                <span>Интернет</span>
+                            </label>
+                            <label for="services2">
+                                <input type="checkbox" name="services" value="2" id="services2">
+                                <span>Телефон</span>
+                            </label>
+                            <label for="services3">
+                                <input type="checkbox" name="services" value="3" id="services3">
+                                <span>Канал передачи данных</span>
+                            </label>
+                            <label for="services4">
+                                <input type="checkbox" name="services" value="4" id="services4">
+                                <span>Виртуальная АТС</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button>Отправить</button>
+            </div>
+        </section>
+    {{ template "footer" }}
+    </body>
+    </html>
+{{end}}

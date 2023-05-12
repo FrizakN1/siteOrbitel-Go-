@@ -1,0 +1,44 @@
+{{define "tv"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Телевидение - Orbitel</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+        {{template "header"}}
+        <section class="tv-type">
+            <div class="card">
+                <div class="icon"><img src="/assets/img/analog_tv.svg" alt="Аналоговое ТВ"></div>
+                <h3>Аналоговое ТВ</h3>
+                <div class="description">
+                    <div><span>50</span> Аналоговых каналов</div>
+                </div>
+                <button class="list">Список каналов</button>
+                <div class="price-block">
+                    <div class="price">200 ₽/мес</div>
+                    <div></div>
+                </div>
+                <p class="note">*Стоимость подключения 100 руб</p>
+            </div>
+            <div class="card type2">
+                <div class="icon"><img src="/assets/img/interaktiv_tv.svg" alt="Аналоговое ТВ"></div>
+                <h3>Цифровое ТВ</h3>
+                <div class="description">
+                    <div><span>150</span> Цифровых каналов</div>
+                </div>
+                <button class="list">Список каналов</button>
+                <button class="params">Параметры настройки оборудования для цифрового телевидения</button>
+                <div class="price-block">
+                    <div class="price">200 ₽/мес</div>
+                    <div></div>
+                </div>
+                <p class="note">*Стоимость подключения 100 руб</p>
+            </div>
+        </section>
+        {{ template "footer" }}
+    </body>
+    </html>
+{{end}}
