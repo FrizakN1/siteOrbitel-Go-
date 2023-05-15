@@ -1,0 +1,58 @@
+{{define "adminUsersForm"}}
+{{template "adminAside" .Active}}
+<main>
+  {{template "adminHead" .}}
+  <div class="contain users-form">
+    <div class="form">
+      <label>
+        <div>ФИО</div>
+        <input type="text" id="name" {{if eq .Mode "edit"}} value="{{.Obj.Name}}" {{end}}>
+      </label>
+      <div class="select-block">
+        <span class="select-block-span">Роль</span>
+        <div class="select">
+          {{if eq .Mode "create"}}
+            <div id="role" class="select-button" value="3" style="color: #ffffff; background-color: #0177fd">
+              Default
+            </div>
+            <ul class="role">
+              <li value="1">Admin</li>
+              <li value="2">Moderator</li>
+              <li value="3">Default</li>
+            </ul>
+          {{else}}
+            <div id="role" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.Role.ID}}">
+              {{.Obj.Role.Name}}
+            </div>
+            <ul class="role">
+              <li value="1">Admin</li>
+              <li value="2">Moderator</li>
+              <li value="3">Default</li>
+            </ul>
+          {{end}}
+        </div>
+      </div>
+      <label>
+        <div>Номер телефона</div>
+        <input type="text" id="phone" {{if eq .Mode "edit"}} value="{{.Obj.Phone}}" {{else}}value="+7 (___) ___-__-__"{{end}}>
+      </label>
+      <label>
+        <div>Номер лицевого счета</div>
+        <input type="text" id="account_number" {{if eq .Mode "edit"}} value="{{.Obj.Name}}" {{end}}>
+      </label>
+      <label>
+        <div>Пароль</div>
+        <input type="password" id="password">
+      </label>
+      <label>
+        <div>Подтверждение пароля</div>
+        <input type="password" id="confirm_password">
+      </label>
+      <div class="control_buttons">
+        <button class="create" id="create_user">{{if eq .Mode "create"}}Создать{{else}}Сохранить{{end}}</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="/assets/js/admin.js"></script>
+{{end}}

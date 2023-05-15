@@ -1,0 +1,37 @@
+{{define "adminDepositsView"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Просмотр пополения: {{.Obj.ID}}</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/admin.css">
+    </head>
+    <body>
+    {{template "adminAside" .Active}}
+    <main>
+        {{template "adminHead" .}}
+        <div class="table view-table">
+            <div class="row">
+                <div class="col-view">ID</div>
+                <div class="col-view">{{.Obj.ID}}</div>
+            </div>
+            <div class="row">
+                <div class="col-view">Пользователь</div>
+                <div class="col-view">{{.Obj.User.Name}}</div>
+            </div>
+            <div class="row">
+                <div class="col-view">Сумма</div>
+                <div class="col-view">{{.Obj.Amount}}</div>
+            </div>
+            <div class="row">
+                <div class="col-view">Дата</div>
+                <div class="col-view">{{.Obj.Date}}</div>
+            </div>
+        </div>
+    </main>
+    <script src="/assets/js/admin.js"></script>
+    </body>
+    </html>
+{{end}}

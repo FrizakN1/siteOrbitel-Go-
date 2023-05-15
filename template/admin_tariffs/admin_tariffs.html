@@ -1,0 +1,70 @@
+{{define "adminTariffs"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Тарифы</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/admin.css">
+    </head>
+    <body>
+    {{template "adminAside" .Active}}
+    <main>
+        {{template "adminHead" .}}
+        <div class="control_buttons">
+            <a href="/admin/tariffs/create"><button class="create">Создать</button></a>
+        </div>
+        <div class="table tariffs-table">
+            <div class="row_h">
+                <div class="table_h col1">ID</div>
+                <div class="table_h col2">Тип тарифа</div>
+                <div class="table_h col3">Стоимость</div>
+                <div class="table_h col4">Наименование</div>
+                <div class="table_h col5">Описание</div>
+                <div class="table_h col6">Скорость</div>
+                <div class="table_h col7">Цифровые каналы</div>
+                <div class="table_h col8">Аналоговые каналы</div>
+                <div class="table_h col9">Изображение</div>
+                <div class="table_h col10">Цвет</div>
+                <div class="table_h col11"></div>
+            </div>
+            <div class="row inputs">
+                <div class="col1"><input type="text"></div>
+                <div class="col2"><input type="text"></div>
+                <div class="col3"><input type="text"></div>
+                <div class="col4"><input type="text"></div>
+                <div class="col5"><input type="text"></div>
+                <div class="col6"><input type="text"></div>
+                <div class="col7"><input type="text"></div>
+                <div class="col8"><input type="text"></div>
+                <div class="col9"><input type="text"></div>
+                <div class="col10"><input type="text"></div>
+                <div class="col11"></div>
+            </div>
+            {{range $vl := .Tariffs}}
+                <div class="row">
+                    <div class="col1">{{$vl.ID}}</div>
+                    <div class="col2">{{$vl.Type}}</div>
+                    <div class="col3">{{$vl.Price}}</div>
+                    <div class="col4">{{$vl.Name}}</div>
+                    <div class="col5">{{$vl.Description}}</div>
+                    <div class="col6">{{$vl.Speed}}</div>
+                    <div class="col7">{{$vl.DigitalChannel}}</div>
+                    <div class="col8">{{$vl.AnalogChannel}}</div>
+                    <div class="col9">{{$vl.Image}}</div>
+                    <div class="col10" style="color: #ffffff; background-color: {{$vl.Color}}">{{$vl.Color}}</div>
+                    <div class="col11">
+                        <a href="/admin/tariffs/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
+                        <a href="/admin/tariffs/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
+                        <a href="/admin/tariffs/delete-{{$vl.ID}}"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                </div>
+            {{end}}
+        </div>
+    </main>
+
+    <script src="/assets/js/admin.js"></script>
+    </body>
+    </html>
+{{end}}

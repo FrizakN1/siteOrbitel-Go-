@@ -25,7 +25,7 @@ func ConnectDB() {
 
 	errors := make([]string, 0)
 
-	//errors = append(errors, prepareRequest()...)
+	errors = append(errors, prepareRequest()...)
 	errors = append(errors, prepareUser()...)
 
 	if len(errors) > 0 {

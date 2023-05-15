@@ -1563,6 +1563,7 @@ footer .icon {
     display: flex;
     align-items: center;
     cursor: pointer;
+    color: #0177fd;
 }
 
 .profile .leave img{
@@ -1643,6 +1644,7 @@ footer .icon {
 .personal_account .left .deposits div {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .personal_account .left .deposits div:first-child {
     margin: 0 0 10px;
@@ -1703,6 +1705,7 @@ footer .icon {
     width: 770px;
     display: flex;
     flex-direction: column;
+    transition-duration: 500ms;
 }
 
 .personal_account .right .menu {
@@ -1735,7 +1738,7 @@ footer .icon {
     top: 0;
 }
 
-.personal_account .right .menu.t-1 .close {
+.personal_account .right .close {
     position: absolute;
     right: 15px;
     top: 15px;
@@ -1749,7 +1752,11 @@ footer .icon {
     transition-duration: 500ms;
 }
 
-.personal_account .right .menu.t-1 .close:before, .personal_account .right .menu.t-1 .close:after{
+.personal_account .right .menu.t-1 .close {
+    opacity: 0;
+}
+
+.personal_account .right .close:before, .personal_account .right .close:after{
     position: absolute;
     content: '';
     height: 25px;
@@ -1758,7 +1765,7 @@ footer .icon {
     transform: rotate(45deg);
 }
 
-.personal_account .right .menu.t-1 .close:after {
+.personal_account .right .close:after {
     transform: rotate(-45deg);
 }
 
@@ -1889,6 +1896,43 @@ footer .icon {
     opacity: 1;
 }
 
+.personal_account .right .deposits_history {
+    width: 770px;
+    height: 720px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(1,119,253,0.2);
+    padding: 45px 40px;
+    transform: scale(0);
+    transition-duration: 500ms;
+    position: absolute;
+}
+
+.personal_account .right .row_h {
+    margin: 0 0 10px;
+}
+
+.personal_account .right .row, .personal_account .right .row_h {
+    display: flex;
+}
+
+.personal_account .right .table_h{
+    font-size: 24px;
+    color: #0b3869;
+    width: 50%;
+    text-align: center;
+}
+
+.personal_account .right .row div {
+    width: 50%;
+    text-align: center;
+    padding: 40px 0 20px;
+    border-bottom: 2px solid #0177fd;
+}
+
+.personal_account .right .deposits_history .close {
+    opacity: 1;
+}
 
 
 

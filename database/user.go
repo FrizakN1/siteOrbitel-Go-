@@ -17,11 +17,11 @@ type Session struct {
 type User struct {
 	ID             int
 	Name           string
-	Phone          int64
+	Phone          string
 	AccountNumber  string
 	Password       string
 	CurrentBalance float64
-	CurrentTariff  *Tariff
+	CurrentTariff  Tariff
 	Role           Role
 }
 
@@ -30,12 +30,34 @@ type Role struct {
 	Name string
 }
 
-var request map[string]*sql.Stmt
+type Deposit struct {
+	ID     int
+	User   User
+	Amount float64
+	Date   string
+}
+
+type Expense struct {
+	ID      int
+	User    User
+	Amount  float64
+	Service Service
+	Date    string
+}
+
+type PersonalAccount struct {
+	User     User
+	Expenses []Expense
+	Deposits []Deposit
+}
+
 var sessionMap map[string]Session
 
 func prepareUser() []string {
 	sessionMap = make(map[string]Session)
-	request = make(map[string]*sql.Stmt)
+	if request == nil {
+		request = make(map[string]*sql.Stmt)
+	}
 	errors := make([]string, 0)
 	var e error
 
@@ -70,16 +92,219 @@ func prepareUser() []string {
 		errors = append(errors, e.Error())
 	}
 
+	request["CreateTestUser"], e = DB.Prepare(`INSERT INTO "User" ("name", "phone", "account_number", "password", "current_balance", "current_tariff", "role") VALUES ($1,$2,$3,$4,$5,$6,$7)`)
+
 	request["LoginCheck"], e = DB.Prepare(`
-		SELECT u."id", u."name", u."phone", u."account_number", u."current_balance", u."current_tariff", r."id", r."name"
+		SELECT u."id", u."name", u."phone", u."account_number", u."current_balance", t."id", t."name", r."id", r."name"
 		FROM "User" as u
 		JOIN "Role" as r ON u.role = r.id
+		JOIN "Tariff" as t ON u.current_tariff = t.id
 		WHERE u.account_number = $1 AND u.password = $2`)
 	if e != nil {
 		errors = append(errors, e.Error())
 	}
 
+	request["GetAllUsers"], e = DB.Prepare(`
+		SELECT u.id, u.name, u.phone, u.account_number, u.current_balance, t.id, t.name, r.id, r.name
+		FROM "User" as u
+		JOIN "Role" as r ON u.role = r.id
+		JOIN "Tariff" as t ON u.current_tariff = t.id
+		WHERE u.id != 1
+		ORDER BY u.id DESC`)
+	if e != nil {
+		errors = append(errors, e.Error())
+	}
+
+	request["GetUser"], e = DB.Prepare(`
+		SELECT u.id, u.name, u.phone, u.account_number, u.current_balance, t.id, t.name, r.id, r.name
+		FROM "User" as u
+		JOIN "Role" as r ON u.role = r.id
+		JOIN "Tariff" as t ON u.current_tariff = t.id
+		WHERE u.id = $1`)
+	if e != nil {
+		errors = append(errors, e.Error())
+	}
+
+	request["CreateUser"], e = DB.Prepare(`INSERT INTO "User" ("name","phone","account_number","password", "current_balance", "current_tariff", "role")
+		VALUES ($1,$2,$3,$4,$5,$6,$7)`)
+	if e != nil {
+		errors = append(errors, e.Error())
+	}
+
+	request["GetDepositsByID"], e = DB.Prepare(`SELECT d.id, u.id, u.name, d.amount, d.date FROM "Deposit" as d JOIN "User" as u ON d.user_id = u.id WHERE d.user_id = $1 ORDER BY d.id DESC`)
+	if e != nil {
+		errors = append(errors, e.Error())
+	}
+
+	request["GetExpensesByID"], e = DB.Prepare(`SELECT e.id, u.id, u.name, e.amount, s.id, s.name, e.date 
+		FROM "Expense" as e 
+		JOIN "User" as u ON e.user_id = u.id  
+		JOIN "Service" as s ON e.service_id = s.id
+		WHERE e.user_id = $1
+		ORDER BY e.id DESC`)
+	if e != nil {
+		errors = append(errors, e.Error())
+	}
+
+	request["GetDeposit"], e = DB.Prepare(`
+		SELECT d.id, u.id, u.name, d.amount, d.date
+		FROM "Deposit" as d
+		JOIN "User" as u ON d.user_id = u.id
+		WHERE d.id = $1`)
+	if e != nil {
+		errors = append(errors, e.Error())
+	}
+
+	request["GetExpense"], e = DB.Prepare(`
+		SELECT e.id, u.id, u.name, e.amount, s.id, s.name, e.date
+		FROM "Expense" as e
+		JOIN "User" as u ON e.user_id = u.id
+		JOIN "Service" as s ON e.service_id = s.id
+		WHERE e.id = $1`)
+	if e != nil {
+		errors = append(errors, e.Error())
+	}
+
 	return errors
+}
+
+func GetExpense(id string) (Expense, error) {
+	stmt, ok := request["GetDeposit"]
+	if !ok {
+		return Expense{}, errors.New("запрос не подотовлен")
+	}
+
+	var expense Expense
+	row := stmt.QueryRow(id)
+	e := row.Scan(&expense.ID, &expense.User.ID, &expense.User.Name, &expense.Amount, &expense.Service.ID, &expense.Service.Name, &expense.Date)
+	if e != nil {
+		return Expense{}, e
+	}
+
+	return expense, nil
+}
+
+func GetDeposit(id string) (Deposit, error) {
+	stmt, ok := request["GetDeposit"]
+	if !ok {
+		return Deposit{}, errors.New("запрос не подотовлен")
+	}
+
+	var deposit Deposit
+	row := stmt.QueryRow(id)
+	e := row.Scan(&deposit.ID, &deposit.User.ID, &deposit.User.Name, &deposit.Amount, &deposit.Date)
+	if e != nil {
+		return Deposit{}, e
+	}
+
+	return deposit, nil
+}
+
+func GetExpensesByID(userID string) ([]Expense, error) {
+	var expenses []Expense
+	stmt, ok := request["GetExpensesByID"]
+	if !ok {
+		return nil, errors.New("запрос не подотовлен")
+	}
+
+	rows, e := stmt.Query(userID)
+	if e != nil {
+		return nil, e
+	}
+
+	for rows.Next() {
+		var expense Expense
+		e = rows.Scan(&expense.ID, &expense.User.ID, &expense.User.Name, &expense.Amount, &expense.Service.ID, &expense.Service.Name, &expense.Date)
+		if e != nil {
+			return nil, e
+		}
+		expenses = append(expenses, expense)
+	}
+
+	return expenses, nil
+}
+
+func GetDepositsByID(userID string) ([]Deposit, error) {
+	var deposits []Deposit
+	stmt, ok := request["GetDepositsByID"]
+	if !ok {
+		return nil, errors.New("запрос не подотовлен")
+	}
+
+	rows, e := stmt.Query(userID)
+	if e != nil {
+		return nil, e
+	}
+
+	for rows.Next() {
+		var deposit Deposit
+		e = rows.Scan(&deposit.ID, &deposit.User.ID, &deposit.User.Name, &deposit.Amount, &deposit.Date)
+		if e != nil {
+			return nil, e
+		}
+		deposits = append(deposits, deposit)
+	}
+
+	return deposits, nil
+}
+
+func (user *User) CreateUser() error {
+	stmt, ok := request["CreateUser"]
+	if !ok {
+		return errors.New("запрос не подотовлен")
+	}
+
+	pass, e := utils.Encrypt(user.Password)
+	if e != nil {
+		return e
+	}
+
+	_, e = stmt.Exec(user.Name, user.Phone, user.AccountNumber, pass, 0, 1, user.Role.ID)
+	if e != nil {
+		return e
+	}
+
+	return nil
+}
+
+func GetUser(id string) (User, error) {
+	stmt, ok := request["GetUser"]
+	if !ok {
+		return User{}, errors.New("запрос не подготовлен")
+	}
+
+	var user User
+	row := stmt.QueryRow(id)
+	e := row.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &user.CurrentTariff.ID, &user.CurrentTariff.Name, &user.Role.ID, &user.Role.Name)
+	if e != nil {
+		return User{}, e
+	}
+
+	return user, nil
+}
+
+func GetAllUsers() ([]User, error) {
+	stmt, ok := request["GetAllUsers"]
+	if !ok {
+		return nil, errors.New("запрос не подготовлен")
+	}
+
+	rows, e := stmt.Query()
+	if e != nil {
+		return nil, e
+	}
+
+	var users []User
+	for rows.Next() {
+		var user User
+		e = rows.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &user.CurrentTariff.ID, &user.CurrentTariff.Name, &user.Role.ID, &user.Role.Name)
+		if e != nil {
+			return nil, e
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
 }
 
 func (user *User) UserAuthorizationCheck() bool {
@@ -89,7 +314,7 @@ func (user *User) UserAuthorizationCheck() bool {
 	}
 
 	row := stmt.QueryRow(user.AccountNumber, user.Password)
-	e := row.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &user.CurrentTariff, &user.Role.ID, &user.Role.Name)
+	e := row.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &user.CurrentTariff.ID, &user.CurrentTariff.Name, &user.Role.ID, &user.Role.Name)
 	if e != nil {
 		utils.Logger.Println(e)
 		return false
@@ -216,9 +441,31 @@ func CreateAdmin() error {
 	}
 	pass := "123"
 	pass, e := utils.Encrypt(pass)
-	_, e = stmt.Exec("Admin", "1", "Admin", pass, 0, 0, 1)
+	if e != nil {
+		return e
+	}
+	_, e = stmt.Exec("Admin", "1", "Admin", pass, 0, 1, 1)
 	if e != nil {
 		return e
 	}
 	return nil
+}
+
+func CreateTestUser() {
+	stmt, ok := request["CreateTestUser"]
+	if !ok {
+		utils.Logger.Println("запрос не подготовлен")
+		return
+	}
+	pass := "123"
+	pass, e := utils.Encrypt(pass)
+	if e != nil {
+		utils.Logger.Println(e)
+		return
+	}
+	_, e = stmt.Exec("Иванов Иван Иванович", "+79195978629", "77788869", pass, 628.20, 2, 3)
+	if e != nil {
+		utils.Logger.Println(e)
+		return
+	}
 }

@@ -1,14 +1,19 @@
-{{define "inettv"}}
-    <!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <title>Интернет + ТВ - Orbitel</title>
-        <link rel="stylesheet" href="/assets/css/all.min.css">
-        <link rel="stylesheet" href="/assets/css/style.css">
-    </head>
-    <body>
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная</title>
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
     {{template "header"}}
+    <section class="slider">
+        <img src="/assets/img/img.png" alt="" width="1100">
+        <div class="border-bottom"></div>
+    </section>
     <section class="tariffs">
         <h2>Выберите тариф для подключения</h2>
         <div class="contain">
@@ -52,9 +57,22 @@
                 <img src="/assets/img/smotr.png" alt="">
             </div>
         </div>
-
+        <div class="border-bottom"></div>
+    </section>
+    <section class="address-check">
+        <h2>Узнайте наличие подключения по вашему адресу!</h2>
+        <div class="contain">
+            <label for="address">Введите адрес:</label>
+            <div class="input">
+                <input id="address" type="text" placeholder="Улица, номер дома">
+                <button class="check">Проверить</button>
+            </div>
+{{/*            <p>Поздравляем! <span>Данный</span> адрес доступен для подключения!</p>*/}}
+{{/*            <button class="choose-tariff">Подобрать тариф</button>*/}}
+        </div>
     </section>
     {{ template "footer" }}
-    </body>
-    </html>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>
 {{end}}

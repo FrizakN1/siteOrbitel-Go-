@@ -1,0 +1,46 @@
+{{define "adminHead"}}
+    <div class="adminHead">
+        <h1>{{if ne .SubActive nil}} {{.SubTitle}} {{else}} {{.Title}}{{.Obj.ID}} {{end}}</h1>
+        <div>
+            <a href="/admin">Главная</a> → <a href="/admin/{{.Active}}">{{.MainActionTitle}}</a>
+            {{if ne .Mode nil}}
+                {{if eq .Mode "create"}}
+                    → <a href="/admin/{{.Active}}/{{.Mode}}">
+                        {{.Title}}
+                    </a>
+                {{else}}
+                    {{if ne .SubActive nil}}
+                        {{if eq .SubMode "index"}}
+                            → <a href="/admin/{{.Active}}/{{.Mode}}-{{.ByID}}">
+                                {{.Title}} {{.ByID}}
+                            </a>
+                            → <a href="/admin/{{.SubActive}}/user-{{.ByID}}">
+                                {{.SubTitle}}
+                            </a>
+                        {{end}}
+                        {{if eq .SubMode "view"}}
+                            → <a href="/admin/{{.Active}}/{{.Mode}}-{{.ByID}}">
+                                {{.Title}} {{.ByID}}
+                            </a>
+                            → <a href="/admin/{{.SubActive}}/user-{{.ByID}}">
+                                {{.SubTitle}}
+                            </a>
+                            → <a href="/admin/{{.SubActive}}/{{.SubMode}}-{{.Obj.ID}}">
+                                {{.SubTitle}} : {{.Obj.ID}}
+                            </a>
+                        {{end}}
+{{/*                        → <a href="/admin/{{.Active}}/{{.Mode}}-{{.Obj.User.ID}}">*/}}
+{{/*                            {{.Title}} {{.Obj.User.ID}}*/}}
+{{/*                        </a> → <a href="/admin/{{.SubActive}}/{{.Mode}}-{{.Obj.ID}}">*/}}
+{{/*                            {{.SubTitle}} {{.Obj.ID}}*/}}
+{{/*                        </a>*/}}
+                    {{else}}
+                        → <a href="/admin/{{.Active}}/{{.Mode}}-{{.Obj.ID}}">
+                            {{.Title}} {{.Obj.ID}}
+                        </a>
+                    {{end}}
+                {{end}}
+            {{end}}
+        </div>
+    </div>
+{{end}}

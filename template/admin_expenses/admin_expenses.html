@@ -1,0 +1,50 @@
+{{define "adminExpenses"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>История списания</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/admin.css">
+    </head>
+    <body>
+    {{template "adminAside" .Active}}
+    <main>
+        {{template "adminHead" .}}
+        <div class="table expenses-table">
+            <div class="row_h">
+                <div class="table_h col1">ID</div>
+                <div class="table_h col2">Пользовтель</div>
+                <div class="table_h col3">Сумма</div>
+                <div class="table_h col4">Услуга</div>
+                <div class="table_h col5">Дата</div>
+                <div class="table_h col6"></div>
+            </div>
+            <div class="row inputs">
+                <div class="col1"><input type="text"></div>
+                <div class="col2"><input type="text"></div>
+                <div class="col3"><input type="text"></div>
+                <div class="col4"><input type="text"></div>
+                <div class="col5"><input type="text"></div>
+                <div class="col6"></div>
+            </div>
+            {{range $vl := .Expenses}}
+                <div class="row">
+                    <div class="col1">{{$vl.ID}}</div>
+                    <div class="col2">{{$vl.User.Name}}</div>
+                    <div class="col3">{{$vl.Amount}}</div>
+                    <div class="col4">{{$vl.Service}}</div>
+                    <div class="col5">{{$vl.Date}}</div>
+                    <div class="col6">
+                        <a href="/admin/deposits/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
+                    </div>
+                </div>
+            {{end}}
+        </div>
+    </main>
+
+    <script src="/assets/js/admin.js"></script>
+    </body>
+    </html>
+{{end}}

@@ -1,0 +1,26 @@
+{{define "adminSettingsForm"}}
+    {{template "adminAside" .Active}}
+    <main>
+        {{template "adminHead" .}}
+        <div class="contain settings-form">
+            <div class="form">
+                <label>
+                    <div>Ключ</div>
+                    <input type="text" id="key" value="{{.Obj.Key}}">
+                </label>
+                <label>
+                    <div>Значение</div>
+                    <textarea id="value" cols="30" rows="6">{{.Obj.Value}}</textarea>
+                </label>
+                <label>
+                    <div>Описание</div>
+                    <textarea id="description" cols="30" rows="6">{{.Obj.Description}}</textarea>
+                </label>
+                <div class="control_buttons">
+                    <button class="create" id="create_setting">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/assets/js/admin.js"></script>
+{{end}}

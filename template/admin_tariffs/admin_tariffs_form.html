@@ -1,0 +1,92 @@
+{{define "adminTariffsForm"}}
+    {{template "adminAside" .Active}}
+    <main>
+        {{template "adminHead" .}}
+        <div class="contain tariffs-form">
+            <div class="form">
+               <div style="display: flex; justify-content: space-evenly">
+                   <div class="select-block">
+                       <span class="select-block-span">Тип тарифа</span>
+                       <div class="select">
+                           {{if eq .Mode "create"}}
+                               <div id="type" class="select-button">
+                                   <span class="select-button-span">Выбрать</span>
+                                   <i class="fa-solid fa-caret-down select-button-icon"></i>
+                               </div>
+                               <ul class="type">
+                                   <li value="1">Интернет+ТВ</li>
+                                   <li value="2">Интернет</li>
+                               </ul>
+                           {{else}}
+                               <div id="type" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.Type}}">
+                                   {{if eq .Obj.Type 1}}Интернет+ТВ{{end}}
+                                   {{if eq .Obj.Type 2}}Интернет{{end}}
+                               </div>
+                               <ul class="type">
+                                   <li value="1">Интернет+ТВ</li>
+                                   <li value="2">Интернет</li>
+                               </ul>
+                           {{end}}
+                       </div>
+                   </div>
+                   <div class="select-block">
+                       <span class="select-block-span">Цвет</span>
+                       <div class="select">
+                           {{if eq .Mode "create"}}
+                               <div id="color" class="select-button">
+                                   <span class="select-button-span">Выбрать</span>
+                                   <i class="fa-solid fa-caret-down select-button-icon"></i>
+                               </div>
+                               <ul class="color">
+                                   <li value="#0177fd" style="color: #ffffff;background-color: #0177fd">#0177fd</li>
+                                   <li value="#ee5037" style="color: #ffffff;background-color: #ee5037">#ee5037</li>
+                               </ul>
+                           {{else}}
+                               <div id="color" class="select-button" style="color: #ffffff; background-color: {{.Obj.Color}}; border: 1px solid {{.Obj.Color}}" value="{{.Obj.Color}}">
+                                   {{.Obj.Color}}
+                               </div>
+                               <ul class="color">
+                                   <li value="#0177fd" style="color: #ffffff;background-color: #0177fd">#0177fd</li>
+                                   <li value="#ee5037" style="color: #ffffff;background-color: #ee5037">#ee5037</li>
+                               </ul>
+                           {{end}}
+                       </div>
+                   </div>
+               </div>
+                <label>
+                    <div>Стоимость</div>
+                    <input type="text" id="price" {{if eq .Mode "edit"}} value="{{.Obj.Price}}"{{end}}>
+                </label>
+                <label>
+                    <div>Наименование</div>
+                    <input type="text" id="name" {{if eq .Mode "edit"}} value="{{.Obj.Name}}" {{end}}>
+                </label>
+                <label>
+                    <div>Описание</div>
+{{/*                    <textarea type="text" id="name" {{if eq .Mode "edit"}} value="{{.Obj.Name}}" {{end}}>*/}}
+                    <textarea id="description" cols="30" rows="6">{{if eq .Mode "edit"}} {{.Obj.Description}} {{end}}</textarea>
+                </label>
+                <label>
+                    <div>Скорость</div>
+                    <input type="number" min="0" id="speed" {{if eq .Mode "edit"}} value="{{.Obj.Speed}}" {{end}}>
+                </label>
+                <label>
+                    <div>Количество цифровых каналов</div>
+                    <input type="number" min="0" id="digital_channel" {{if eq .Mode "edit"}} value="{{.Obj.DigitalChannel}}" {{end}}>
+                </label>
+                <label>
+                    <div>Количество аналоговых каналов</div>
+                    <input type="number" min="0" id="analog_channel" {{if eq .Mode "edit"}} value="{{.Obj.AnalogChannel}}" {{end}}>
+                </label>
+                <label>
+                    <div>Изображение</div>
+                    <input type="file" id="image">
+                </label>
+                <div class="control_buttons">
+                    <button class="create" id="create_tariff">{{if eq .Mode "create"}}Создать{{else}}Сохранить{{end}}</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/assets/js/admin.js"></script>
+{{end}}

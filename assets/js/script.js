@@ -96,6 +96,96 @@ if (addressCheck) {
 
 let personalAccount = document.querySelector(".personal_account")
 if (personalAccount) {
+    Send("GET", "/user/personal_account/get_data", null, (res) => {
+        console.log(res)
+        let nextWriteOff = personalAccount.querySelector("#next_write-off");
+        let currentDate = new Date()
+        let generatedDate;
+        if(currentDate.getMonth() === 11) {
+            generatedDate = "01.01."+(currentDate.getFullYear()+1)
+        } else {
+            if (currentDate.getMonth() < 9) {
+                generatedDate = "01.0"+(currentDate.getMonth()+2)+"."+currentDate.getFullYear()
+            } else {
+                generatedDate = "01."+(currentDate.getMonth()+2)+"."+currentDate.getFullYear()
+            }
+        }
+        nextWriteOff.innerHTML = "Дата следующего списания: " + generatedDate
+
+        let currentMonth = personalAccount.querySelector("#current-month")
+        switch (currentDate.getMonth()) {
+            case 0: currentMonth.innerHTML = "январь"; break;
+            case 1: currentMonth.innerHTML = "февраль"; break;
+            case 2: currentMonth.innerHTML = "март"; break;
+            case 3: currentMonth.innerHTML = "апрель"; break;
+            case 4: currentMonth.innerHTML = "май"; break;
+            case 5: currentMonth.innerHTML = "июнь"; break;
+            case 6: currentMonth.innerHTML = "июль"; break;
+            case 7: currentMonth.innerHTML = "август"; break;
+            case 8: currentMonth.innerHTML = "сентябрь"; break;
+            case 9: currentMonth.innerHTML = "октябрь"; break;
+            case 10: currentMonth.innerHTML = "ноябрь"; break;
+            case 11: currentMonth.innerHTML = "декабрь"; break;
+        }
+
+        let currentTariff = personalAccount.querySelector("#current-tariff");
+        currentTariff.innerHTML = "<span>Текущий тариф: </span>"+res.User.CurrentTariff.Name
+
+        let balance = personalAccount.querySelector("#balance");
+        balance.innerHTML = res.User.CurrentBalance+" ₽";
+
+        let name = document.querySelector("#name");
+        name.innerHTML = res.User.Name
+
+        let accountNumber = document.querySelector("#account_number");
+        accountNumber.innerHTML = "Лицевой счет: " + res.User.AccountNumber.slice(0, 3) + " " + res.User.AccountNumber.slice(3, 6) + " " +res.User.AccountNumber.slice(6, 8);
+
+        let expensesTableMin = personalAccount.querySelector("#expenses-table-min");
+        if (res.Expenses){
+            for (let i = 0; i < 4; i++) {
+                if (res.Expenses[i]) {
+                    let div = document.createElement("div");
+                    div.className = "row";
+                    div.innerHTML = "<div>"+res.Expenses[i].Date+"</div><div>-"+res.Expenses[i].Amount+"₽</div><div>"+res.Expenses[i].Service.Name+"</div>"
+                    expensesTableMin.append(div)
+                }
+            }
+        } else {
+            expensesTableMin.innerHTML = "<div>Здесь пока пусто</div>"
+            expensesTableMin.style.display = "flex";
+            expensesTableMin.style.justifyContent = "center";
+            expensesTableMin.style.alignItems = "center";
+            expensesTableMin.style.fontSize = "28px";
+            expensesTableMin.style.height = "350px";
+        }
+
+        let depositsTableMin = personalAccount.querySelector("#deposits-table")
+        if (res.Deposits){
+            for (let item of res.Deposits) {
+                let div = document.createElement("div");
+                div.className = "row";
+                div.innerHTML = "<div>"+item.Date+"</div><div>"+item.Amount+"₽</div>"
+                depositsTableMin.append(div)
+            }
+        } else {
+            depositsTableMin.innerHTML = "<div>Здесь пока пусто</div>"
+            depositsTableMin.style.display = "flex";
+            depositsTableMin.style.justifyContent = "center";
+            depositsTableMin.style.alignItems = "center";
+            depositsTableMin.style.fontSize = "28px";
+            depositsTableMin.style.height = "100%";
+        }
+    })
+
+    let exit = document.querySelector(".leave");
+    exit.onclick = () => {
+        Send("POST", "/user/exit", null, (res) => {
+            if (res) {
+                window.location.href = "/"
+            }
+        })
+    }
+
     function createTable() {
         let table = document.createElement("div");
         table.className = "table";
@@ -297,6 +387,23 @@ if (personalAccount) {
                 },500)
             },1)
         }
+    }
+
+    let depositHistory = personalAccount.querySelector("#deposit_history");
+    let rightContain = personalAccount.querySelector(".right").querySelector(".contain");
+    let depositHistoryBlock = personalAccount.querySelector(".right").querySelector(".deposits_history")
+    let depositHistoryClose = depositHistoryBlock.querySelector(".close");
+    depositHistory.onclick = () => {
+        rightContain.style.transform = "scale(0)";
+        setTimeout(function (){
+            depositHistoryBlock.style.transform = "scale(1)";
+        },500)
+    }
+    depositHistoryClose.onclick = () => {
+        depositHistoryBlock.style.transform = "scale(0)";
+        setTimeout(function (){
+            rightContain.style.transform = "scale(1)";
+        },500)
     }
 }
 

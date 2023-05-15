@@ -1,0 +1,40 @@
+{{define "adminSettingsView"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Просмотр настроек: {{.Obj.Key}}</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/admin.css">
+    </head>
+    <body>
+    {{template "adminAside" .Active}}
+    <main>
+        {{template "adminHead" .}}
+        <div class="control_buttons">
+            <a href="/admin/settings/edit-{{.Obj.ID}}"><button class="edit">Изменить</button></a>
+        </div>
+        <div class="table view-table">
+            <div class="row">
+                <div class="col-view">ID</div>
+                <div class="col-view">{{.Obj.ID}}</div>
+            </div>
+            <div class="row">
+                <div class="col-view">Ключ</div>
+                <div class="col-view">{{.Obj.Key}}</div>
+            </div>
+            <div class="row">
+                <div class="col-view">Значение</div>
+                <div class="col-view">{{.Obj.Value}}</div>
+            </div>
+            <div class="row">
+                <div class="col-view">Описание</div>
+                <div class="col-view">{{.Obj.Description}}</div>
+            </div>
+        </div>
+    </main>
+    <script src="/assets/js/admin.js"></script>
+    </body>
+    </html>
+{{end}}

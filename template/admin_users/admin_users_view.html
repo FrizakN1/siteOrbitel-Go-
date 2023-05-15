@@ -1,0 +1,59 @@
+{{define "adminUsersView"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просмотр пользователя: {{.Obj.ID}}</title>
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body>
+{{template "adminAside" .Active}}
+<main>
+    {{template "adminHead" .}}
+    <div style="display: flex; justify-content: space-between">
+        <div class="control_buttons">
+            <a href="/admin/users/edit-{{.Obj.ID}}"><button class="edit">Изменить</button></a>
+            <a href="/admin/users/delete-{{.Obj.ID}}"><button class="delete">Удалить</button></a>
+        </div>
+        <div class="control_buttons">
+            <a href="/admin/deposits/user-{{.Obj.ID}}"><button class="edit">История пополнения</button></a>
+            <a href="/admin/expenses/user-{{.Obj.ID}}"><button class="edit">История списания</button></a>
+        </div>
+    </div>
+    <div class="table view-table">
+        <div class="row">
+            <div class="col-view">ID</div>
+            <div class="col-view">{{.Obj.ID}}</div>
+        </div>
+        <div class="row">
+            <div class="col-view">ФИО</div>
+            <div class="col-view">{{.Obj.Name}}</div>
+        </div>
+        <div class="row">
+            <div class="col-view">Номер телефона</div>
+            <div class="col-view">{{.Obj.Phone}}</div>
+        </div>
+        <div class="row">
+            <div class="col-view">Лицевой счет</div>
+            <div class="col-view">{{.Obj.AccountNumber}}</div>
+        </div>
+        <div class="row">
+            <div class="col-view">Баланс</div>
+            <div class="col-view">{{.Obj.CurrentBalance}}</div>
+        </div>
+        <div class="row">
+            <div class="col-view">Тариф</div>
+            <div class="col-view"><a href="/admin/tariffs/view-{{.Obj.CurrentTariff.ID}}">{{.Obj.CurrentTariff.Name}}</a></div>
+        </div>
+        <div class="row">
+            <div class="col-view">Роль</div>
+            <div class="col-view">{{.Obj.Role.Name}}</div>
+        </div>
+    </div>
+</main>
+<script src="/assets/js/admin.js"></script>
+</body>
+</html>
+{{end}}
