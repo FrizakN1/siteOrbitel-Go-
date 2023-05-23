@@ -135,7 +135,7 @@ aside button:after {
 }
 
 aside.active {
-    width: 250px;
+    width: 270px;
     border-right: 1px solid rgba(0,0,0,0.25);
 }
 
@@ -286,6 +286,13 @@ aside.active ul li.active a .text{
     justify-content: center;
 }
 
+.contain.services-form{
+    width: 100%;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+}
+
 .form {
     display: flex;
     flex-direction: column;
@@ -340,6 +347,18 @@ aside.active ul li.active a .text{
     user-select: none;
 }
 
+.select.type2 div {
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #0177fd;
+    padding: 10px 20px;
+    width: 395px;
+    transition: 0.5s;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+}
+
 .select div i{
     color: #4a525f;
     margin-left: 5px;
@@ -360,7 +379,8 @@ aside.active ul li.active a .text{
     position: absolute;
     height: 0;
     top: 39px;
-    width: 125px;
+    min-width: 125px;
+    max-width: max-content;
     transition: 0.2s;
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0,0,0,0.25);
@@ -377,7 +397,7 @@ aside.active ul li.active a .text{
 }
 
 .select.active ul.type {
-    height: 64px;
+    height: 96px;
     transition: 0.2s;
 }
 
@@ -538,6 +558,22 @@ aside.active ul li.active a .text{
 }.table.settings-table .col4 {
     width: 50%;
 }.table.settings-table .col5 {
+    width: 5%;
+}
+
+.table.services-table .col1 {
+    width: 5%;
+}.table.services-table .col2 {
+    width: 38%;
+}.table.services-table .col3 {
+    width: 30%;
+}.table.services-table .col4 {
+    width: 7%;
+}.table.services-table .col5 {
+    width: 5%;
+}.table.services-table .col6 {
+    width: 10%;
+}.table.services-table .col7 {
     width: 5%;
 }
  

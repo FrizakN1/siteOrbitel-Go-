@@ -1,0 +1,138 @@
+{{define "calculator"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Калькулятор тарифов</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+    {{template "header"}}
+    <section class="calculator">
+        <h2>Калькулятор тарифов</h2>
+        <div class="contain">
+            <div class="left">
+                <div class="card_preview">
+                    <div>+</div>
+                </div>
+{{/*                <div class="card">*/}}
+{{/*                    <div class="price">650 ₽/мес</div>*/}}
+{{/*                    <h3>Домашний - Ультра 2</h3>*/}}
+{{/*                    <p>Тариф расчитан на несколько устройств домашней сети</p>*/}}
+{{/*                    <div class="border-bottom"></div>*/}}
+{{/*                    <div class="speed">до <span>300</span> мб/с</div>*/}}
+{{/*                    <div class="description">*/}}
+{{/*                        <div class="d1"><span>150</span> Цифровых каналов</div>*/}}
+{{/*                        <div class="d2"><span>50</span> Аналоговых каналов</div>*/}}
+{{/*                    </div>*/}}
+{{/*                    <button>Подключить</button>*/}}
+{{/*                </div>*/}}
+                <button class="b1">Выбрать другой тариф</button>
+            </div>
+            <div class="right">
+                <div class="checkboxes">
+                    <div class="col1">
+                        <h3>WI-FI Роутер</h3>
+                        <div class="label-checkbox">
+                            <label>
+                                <input type="radio" value="Аренда" name="router">
+                                <span>Аренда</span>
+                            </label>
+                            <label>
+                                <input type="radio" value="Покупка" name="router">
+                                <span>Покупка</span>
+                            </label>
+                            <label>
+                                <input type="radio" value="0" name="router">
+                                <span>Без роутера</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col2">
+                        <h3>IP TV-приставка</h3>
+                        <div class="label-checkbox">
+                            <label>
+                                <input type="radio" value="Аренда" name="tv_box">
+                                <span>Аренда</span>
+                            </label>
+                            <label>
+                                <input type="radio" value="Покупка" name="tv_box">
+                                <span>Покупка</span>
+                            </label>
+                            <label>
+                                <input type="radio" value="Без приставки" name="tv_box">
+                                <span>Без приставки</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col3">
+                        <h3>Ресивер World Vision T62D</h3>
+                        <div class="label-checkbox">
+                            <label>
+                                <input type="radio" value="Аренда" name="receiver">
+                                <span>Аренда</span>
+                            </label>
+                            <label>
+                                <input type="radio" value="Покупка" name="receiver">
+                                <span>Покупка</span>
+                            </label>
+                            <label>
+                                <input type="radio" value="Без ресивера" name="receiver">
+                                <span>Без ресивера</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="selects">
+                    <h3>Настройка оборудования</h3>
+                    <div class="select-block">
+{{/*                        <span class="select-block-span">Выбирите наименование услуги</span>*/}}
+                        <div class="select">
+                                <div id="service" class="select-button" value="0">
+                                    <span class="select-button-span">Выбирите наименование услуги</span>
+                                    <i class="fa-solid fa-caret-down select-button-icon"></i>
+                                </div>
+                                <ul class="service">
+{{/*                                    <li value="1">Интернет+ТВ</li>*/}}
+{{/*                                    <li value="2">Интернет</li>*/}}
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="prices">
+                    <div>
+                        <h3>Первый месяц:</h3>
+                        <span></span>
+                    </div>
+                    <div>
+                        <h3>Следующие месяцы:</h3>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button id="calculate">Рассчитать</button>
+                    <button class="b2">Оставить заявку без рассчета</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="tariff-select">
+        <div class="contain">
+            <div class="card">
+                <div class="price">650 ₽/мес</div>
+                <h3>Домашний - Ультра 2</h3>
+                <p>Тариф расчитан на несколько устройств домашней сети</p>
+                <div class="border-bottom"></div>
+                <div class="speed">до <span>300</span> мб/с</div>
+                <img src="/assets/img/speed-meter1.svg" alt="" width="92">
+            </div>
+
+        </div>
+    </section>
+    {{ template "footer" }}
+    <script src="/assets/js/script.js"></script>
+    </body>
+    </html>
+{{end}}

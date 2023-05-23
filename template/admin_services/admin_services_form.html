@@ -1,0 +1,57 @@
+{{define "adminServicesForm"}}
+    {{template "adminAside" .Active}}
+    <main>
+        {{template "adminHead" .}}
+        <div class="contain services-form">
+            <div class="form">
+                <div class="select-block">
+                    <span class="select-block-span">Тип тарифа</span>
+                    <div class="select type2">
+                        {{if eq .Mode "create"}}
+                            <div id="type" class="select-button">
+                                <span class="select-button-span">Выбрать</span>
+                                <i class="fa-solid fa-caret-down select-button-icon"></i>
+                            </div>
+                            <ul class="type">
+                                <li value="1">Оборудование</li>
+                                <li value="2">Настройка роутера</li>
+                                <li value="3">Дополнительные услуги тарифного плана</li>
+                            </ul>
+                        {{else}}
+                            <div id="type" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.Type.ID}}">
+                                {{if eq .Obj.Type.ID 1}}Оборудование{{end}}
+                                {{if eq .Obj.Type.ID 2}}Настройка роутера{{end}}
+                                {{if eq .Obj.Type.ID 3}}Дополнительные услуги тарифного плана{{end}}
+                            </div>
+                            <ul class="type">
+                                <li value="1">Оборудование</li>
+                                <li value="2">Настройка роутера</li>
+                                <li value="3">Дополнительные услуги тарифного плана</li>
+                            </ul>
+                        {{end}}
+                    </div>
+                </div>
+                <label>
+                    <div>Наименование</div>
+                    <input type="text" id="name" {{if eq .Mode "edit"}} value="{{.Obj.Name}}"{{end}}>
+                </label>
+                <label>
+                    <div>Примечание</div>
+                    <textarea id="note" cols="30" rows="6">{{if eq .Mode "edit"}} {{.Obj.Note}} {{end}}</textarea>
+                </label>
+                <label>
+                    <div>Стоимость</div>
+                    <input type="number" min="0" id="full_price" {{if eq .Mode "edit"}} value="{{.Obj.FullPrice}}" {{end}}>
+                </label>
+                <label>
+                    <div>Аренда</div>
+                    <input type="number" min="0" id="rent_price" {{if eq .Mode "edit"}} value="{{.Obj.RentPrice}}" {{end}}>
+                </label>
+                <div class="control_buttons">
+                    {{if eq .Mode "create"}}<button class="create" id="create_service">Создать</button>{{else}}<button class="create" id="update_service">Сохранить</button>{{end}}
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/assets/js/admin.js"></script>
+{{end}}

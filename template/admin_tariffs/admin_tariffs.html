@@ -45,11 +45,15 @@
             {{range $vl := .Tariffs}}
                 <div class="row">
                     <div class="col1">{{$vl.ID}}</div>
-                    <div class="col2">{{$vl.Type}}</div>
+                    <div class="col2">{{$vl.Type.Name}}</div>
                     <div class="col3">{{$vl.Price}}</div>
                     <div class="col4">{{$vl.Name}}</div>
                     <div class="col5">{{$vl.Description}}</div>
-                    <div class="col6">{{$vl.Speed}}</div>
+                    {{if eq $vl.Speed 0}}
+                        <div class="col6"></div>
+                    {{else}}
+                        <div class="col6">{{$vl.Speed}}</div>
+                    {{end}}
                     <div class="col7">{{$vl.DigitalChannel}}</div>
                     <div class="col8">{{$vl.AnalogChannel}}</div>
                     <div class="col9">{{$vl.Image}}</div>

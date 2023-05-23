@@ -1,4 +1,4 @@
-{{define "adminTariffsView"}}
+{{define "adminServicesView"}}
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -26,36 +26,20 @@
                 <div class="col-view">{{.Obj.Type.Name}}</div>
             </div>
             <div class="row">
-                <div class="col-view">Стоимость</div>
-                <div class="col-view">{{.Obj.Price}}</div>
-            </div>
-            <div class="row">
                 <div class="col-view">Наименование</div>
                 <div class="col-view">{{.Obj.Name}}</div>
             </div>
             <div class="row">
-                <div class="col-view">Описание</div>
-                <div class="col-view">{{.Obj.Description}}</div>
+                <div class="col-view">Примечание</div>
+                <div class="col-view">{{.Obj.Note}}</div>
             </div>
             <div class="row">
-                <div class="col-view">Скорость</div>
-                <div class="col-view">{{.Obj.Speed}}</div>
+                <div class="col-view">Стоимость</div>
+                <div class="col-view">{{.Obj.FullPrice}}</div>
             </div>
             <div class="row">
-                <div class="col-view">Количество цифровых каналов</div>
-                <div class="col-view">{{.Obj.DigitalChannel}}</div>
-            </div>
-            <div class="row">
-                <div class="col-view">Количество аналоговых каналов</div>
-                <div class="col-view">{{.Obj.AnalogChannel}}</div>
-            </div>
-            <div class="row">
-                <div class="col-view">Изображение</div>
-                <div class="col-view">{{.Obj.Image}}</div>
-            </div>
-            <div class="row">
-                <div class="col-view">Цвет</div>
-                <div class="col-view" style="color: #ffffff;background-color: {{.Obj.Color}}">{{.Obj.Color}}</div>
+                <div class="col-view">Аренда</div>
+                <div class="col-view">{{.Obj.RentPrice}}</div>
             </div>
         </div>
     </main>

@@ -26,6 +26,10 @@ func main() {
 	router.GET("/business/inet-for-ul", inet_for_ul)
 	router.GET("/business/phone-for-ul", phone_for_ul)
 	router.GET("/business/vpn-for-ul", vpn_for_ul)
+	router.PUT("/upload", upload)
+	router.GET("/calculator", calculator)
+	router.GET("/get_tariffs/:type", getTariffs)
+	router.GET("/get_services", getServices)
 	routerUser := router.Group("/user")
 	routerUser.GET("/personal_account", userPersonalAccount)
 	routerUser.GET("/personal_account/get_data", userPersonalAccountGetData)
@@ -38,16 +42,130 @@ func main() {
 	routerAdmin.GET("/:obj/user-:id", adminObjsByID)
 	routerAdmin.GET("/:obj/view-:id", adminView)
 	routerAdmin.GET("/:obj/edit-:id", adminEdit)
+	routerAdmin.GET("/:obj/delete-:id", adminDelete)
 	routerAdmin.GET("/:obj/create", adminCreate)
 	routerAdmin.POST("/:obj/create", adminCreatePOST)
+	routerAdmin.POST("/:obj/update-:id", adminUpdatePOST)
 
 	_ = router.Run("192.168.0.105:8080")
+}
+
+func getServices(c *gin.Context) {
+	services, e := database.GetAllServices()
+	if e != nil {
+		utils.Logger.Println(e)
+		c.JSON(400, false)
+		return
+	}
+
+	c.JSON(200, services)
+}
+
+func getTariffs(c *gin.Context) {
+	tariffType := c.Param("type")
+	switch tariffType {
+	case "all":
+		tariffs, e := database.GetAllTariffs()
+		if e != nil {
+			utils.Logger.Println(e)
+			c.JSON(400, false)
+			return
+		}
+		c.JSON(200, tariffs)
+		break
+	}
+}
+
+func calculator(c *gin.Context) {
+	c.HTML(200, "calculator", nil)
+}
+
+func adminDelete(c *gin.Context) {
+	session := getSession(c)
+	if session.User.Role.ID != 1 {
+		c.Redirect(301, "/user/authorization")
+	} else {
+		obj := c.Param("obj")
+		objID := c.Param("id")
+		switch obj {
+		case "users":
+			if database.DeleteUser(objID) {
+				c.Redirect(301, "/admin/users")
+			}
+			break
+		case "tariffs":
+			if database.DeleteTariff(objID) {
+				c.Redirect(301, "/admin/tariffs")
+			}
+			break
+		}
+	}
+}
+
+func adminUpdatePOST(c *gin.Context) {
+	session := getSession(c)
+	if session.User.Role.ID != 1 {
+		c.Redirect(301, "/user/authorization")
+	} else {
+		obj := c.Param("obj")
+		objID := c.Param("id")
+		switch obj {
+		case "users":
+			var user database.User
+			e := c.BindJSON(&user)
+			if e != nil {
+				utils.Logger.Println(e)
+				c.JSON(400, false)
+				return
+			}
+			e = user.UpdateUser(objID)
+			if e != nil {
+				utils.Logger.Println(e)
+				c.JSON(400, false)
+				return
+			}
+			c.JSON(200, true)
+			break
+		case "tariffs":
+			var tariff database.Tariff
+			e := c.BindJSON(&tariff)
+			if e != nil {
+				utils.Logger.Println(e)
+				c.JSON(400, false)
+				return
+			}
+			e = tariff.UpdateTariff(objID)
+			if e != nil {
+				utils.Logger.Println(e)
+				c.JSON(400, false)
+				return
+			}
+			c.JSON(200, true)
+			break
+		case "settings":
+			var settings database.Setting
+			e := c.BindJSON(&settings)
+			if e != nil {
+				utils.Logger.Println(e)
+				c.JSON(400, false)
+				return
+			}
+			e = settings.UpdateSettings(objID)
+			if e != nil {
+				utils.Logger.Println(e)
+				c.JSON(400, false)
+				return
+			}
+			c.JSON(200, true)
+			break
+		}
+	}
 }
 
 func adminCreatePOST(c *gin.Context) {
 	session := getSession(c)
 	if session.User.Role.ID != 1 {
-		c.Redirect(301, "/admin/authorization")
+		c.Redirect(301, "/user/authorization")
 	} else {
 		obj := c.Param("obj")
 		switch obj {
@@ -56,32 +174,32 @@ func adminCreatePOST(c *gin.Context) {
 			e := c.BindJSON(&user)
 			if e != nil {
 				utils.Logger.Println(e)
-				c.Status(400)
+				c.JSON(400, false)
 				return
 			}
 			e = user.CreateUser()
 			if e != nil {
 				utils.Logger.Println(e)
-				c.Status(400)
+				c.JSON(400, false)
 				return
 			}
-			c.Status(200)
+			c.JSON(200, true)
 			break
 		case "tariffs":
 			var tariff database.Tariff
 			e := c.BindJSON(&tariff)
 			if e != nil {
 				utils.Logger.Println(e)
-				c.Status(400)
+				c.JSON(400, false)
 				return
 			}
 			e = tariff.CreateTariff()
 			if e != nil {
 				utils.Logger.Println(e)
-				c.Status(400)
+				c.JSON(400, false)
 				return
 			}
-			c.Status(200)
+			c.JSON(200, true)
 			break
 		}
 	}
@@ -90,7 +208,7 @@ func adminCreatePOST(c *gin.Context) {
 func adminEdit(c *gin.Context) {
 	session := getSession(c)
 	if session.User.Role.ID != 1 {
-		c.Redirect(301, "/admin/authorization")
+		c.Redirect(301, "/user/authorization")
 	} else {
 		obj := c.Param("obj")
 		objID := c.Param("id")
@@ -140,6 +258,21 @@ func adminEdit(c *gin.Context) {
 				"Mode":            "edit",
 			})
 			break
+		case "services":
+			service, e := database.GetService(objID)
+			if e != nil {
+				utils.Logger.Println(e)
+				return
+			}
+
+			c.HTML(200, "adminServicesEdit", gin.H{
+				"Title":           "Изменение услуг: ",
+				"MainActionTitle": "Услуги",
+				"Active":          "services",
+				"Obj":             service,
+				"Mode":            "edit",
+			})
+			break
 		}
 	}
 }
@@ -147,7 +280,7 @@ func adminEdit(c *gin.Context) {
 func adminCreate(c *gin.Context) {
 	session := getSession(c)
 	if session.User.Role.ID != 1 {
-		c.Redirect(301, "/admin/authorization")
+		c.Redirect(301, "/user/authorization")
 	} else {
 		obj := c.Param("obj")
 		switch obj {
@@ -167,6 +300,14 @@ func adminCreate(c *gin.Context) {
 				"Mode":            "create",
 			})
 			break
+		case "services":
+			c.HTML(200, "adminServicesCreate", gin.H{
+				"Title":           "Создание услуги",
+				"MainActionTitle": "Услуги",
+				"Active":          "services",
+				"Mode":            "create",
+			})
+			break
 		}
 	}
 }
@@ -174,7 +315,7 @@ func adminCreate(c *gin.Context) {
 func adminView(c *gin.Context) {
 	session := getSession(c)
 	if session.User.Role.ID != 1 {
-		c.Redirect(301, "/admin/authorization")
+		c.Redirect(301, "/user/authorization")
 	} else {
 		obj := c.Param("obj")
 		objID := c.Param("id")
@@ -258,6 +399,20 @@ func adminView(c *gin.Context) {
 				"Mode":            "view",
 			})
 			break
+		case "services":
+			service, e := database.GetService(objID)
+			if e != nil {
+				utils.Logger.Println(e)
+				return
+			}
+			c.HTML(200, "adminServicesView", gin.H{
+				"Title":           "Просмотр услуги: ",
+				"MainActionTitle": "Услуги",
+				"Active":          "services",
+				"Obj":             service,
+				"Mode":            "view",
+			})
+			break
 		}
 
 	}
@@ -266,7 +421,7 @@ func adminView(c *gin.Context) {
 func adminObjsByID(c *gin.Context) {
 	session := getSession(c)
 	if session.User.Role.ID != 1 {
-		c.Redirect(301, "/admin/authorization")
+		c.Redirect(301, "/user/authorization")
 	} else {
 		obj := c.Param("obj")
 		byID := c.Param("id")
@@ -314,7 +469,7 @@ func adminObjsByID(c *gin.Context) {
 func adminObjs(c *gin.Context) {
 	session := getSession(c)
 	if session.User.Role.ID != 1 {
-		c.Redirect(301, "/admin/authorization")
+		c.Redirect(301, "/user/authorization")
 	} else {
 		obj := c.Param("obj")
 		switch obj {
@@ -360,6 +515,20 @@ func adminObjs(c *gin.Context) {
 				"Mode":            nil,
 			})
 			break
+		case "services":
+			services, e := database.GetAllServices()
+			if e != nil {
+				utils.Logger.Println(e)
+			}
+
+			c.HTML(200, "adminServices", gin.H{
+				"Title":           "Услуги",
+				"MainActionTitle": "Услуги",
+				"Active":          "services",
+				"Services":        services,
+				"Mode":            nil,
+			})
+			break
 		}
 	}
 }
@@ -392,10 +561,10 @@ func userPersonalAccountGetData(c *gin.Context) {
 
 func userPersonalAccount(c *gin.Context) {
 	session := getSession(c)
-	if session.User.ID > 0 {
-		c.HTML(200, "personal_account", nil)
-	} else {
+	if session.User.ID == 0 {
 		c.Redirect(301, "/user/authorization")
+	} else {
+		c.HTML(200, "personal_account", nil)
 	}
 }
 
@@ -405,14 +574,14 @@ func userAuthorizationCheck(c *gin.Context) {
 	e := c.BindJSON(&user)
 	if e != nil {
 		utils.Logger.Println(e)
-		c.Status(400)
+		c.JSON(400, false)
 		return
 	}
 
 	user.Password, e = utils.Encrypt(user.Password)
 	if e != nil {
 		utils.Logger.Println(e)
-		c.Status(400)
+		c.JSON(400, false)
 		return
 	}
 
@@ -425,17 +594,24 @@ func userAuthorizationCheck(c *gin.Context) {
 			e = session.Save()
 			if e != nil {
 				utils.Logger.Println(e)
+				c.JSON(500, false)
 				return
 			}
 			c.JSON(200, true)
+			return
 		}
 	}
 
-	c.Status(400)
+	c.JSON(400, false)
 }
 
 func userAuthorization(c *gin.Context) {
-	c.HTML(200, "authorization", nil)
+	session := getSession(c)
+	if session.User.ID > 0 {
+		c.Redirect(301, "/user/personal_account")
+	} else {
+		c.HTML(200, "authorization", nil)
+	}
 }
 
 func tarif_for_home(c *gin.Context) {
@@ -506,4 +682,24 @@ func getSession(c *gin.Context) *database.Session {
 	return &database.Session{
 		Exists: false,
 	}
+}
+
+func upload(c *gin.Context) {
+	form, e := c.MultipartForm()
+	if e != nil {
+		utils.Logger.Println(e)
+		c.JSON(400, false)
+		return
+	}
+
+	files := form.File["Files"]
+
+	e = c.SaveUploadedFile(files[0], "assets/img/"+files[0].Filename)
+	if e != nil {
+		utils.Logger.Println(e)
+		c.JSON(400, false)
+		return
+	}
+
+	c.JSON(200, true)
 }

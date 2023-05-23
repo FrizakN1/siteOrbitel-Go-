@@ -38,7 +38,7 @@
       </label>
       <label>
         <div>Номер лицевого счета</div>
-        <input type="text" id="account_number" {{if eq .Mode "edit"}} value="{{.Obj.Name}}" {{end}}>
+        <input type="text" id="account_number" {{if eq .Mode "edit"}} value="{{.Obj.AccountNumber}}" {{end}}>
       </label>
       <label>
         <div>Пароль</div>
@@ -49,7 +49,7 @@
         <input type="password" id="confirm_password">
       </label>
       <div class="control_buttons">
-        <button class="create" id="create_user">{{if eq .Mode "create"}}Создать{{else}}Сохранить{{end}}</button>
+        {{if eq .Mode "create"}}<button class="create" id="create_user">Создать</button>{{else}}<button class="create" id="update_user">Сохранить</button>{{end}}
       </div>
     </div>
   </div>

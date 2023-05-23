@@ -67,7 +67,7 @@ func prepareUser() []string {
 		FROM "Session" as s
 		JOIN "User" as u ON s.user_id = u.id
 		JOIN "Role" as r ON u.role = r.id
-		JOIN "Tariff" as t ON u.current_tariff = t.id`)
+		LEFT JOIN "Tariff" as t ON u.current_tariff = t.id`)
 	if e != nil {
 		errors = append(errors, e.Error())
 	}
@@ -98,7 +98,7 @@ func prepareUser() []string {
 		SELECT u."id", u."name", u."phone", u."account_number", u."current_balance", t."id", t."name", r."id", r."name"
 		FROM "User" as u
 		JOIN "Role" as r ON u.role = r.id
-		JOIN "Tariff" as t ON u.current_tariff = t.id
+		LEFT JOIN "Tariff" as t ON u.current_tariff = t.id
 		WHERE u.account_number = $1 AND u.password = $2`)
 	if e != nil {
 		errors = append(errors, e.Error())
@@ -108,7 +108,7 @@ func prepareUser() []string {
 		SELECT u.id, u.name, u.phone, u.account_number, u.current_balance, t.id, t.name, r.id, r.name
 		FROM "User" as u
 		JOIN "Role" as r ON u.role = r.id
-		JOIN "Tariff" as t ON u.current_tariff = t.id
+		LEFT JOIN "Tariff" as t ON u.current_tariff = t.id
 		WHERE u.id != 1
 		ORDER BY u.id DESC`)
 	if e != nil {
@@ -119,7 +119,7 @@ func prepareUser() []string {
 		SELECT u.id, u.name, u.phone, u.account_number, u.current_balance, t.id, t.name, r.id, r.name
 		FROM "User" as u
 		JOIN "Role" as r ON u.role = r.id
-		JOIN "Tariff" as t ON u.current_tariff = t.id
+		LEFT JOIN "Tariff" as t ON u.current_tariff = t.id
 		WHERE u.id = $1`)
 	if e != nil {
 		errors = append(errors, e.Error())
@@ -127,6 +127,16 @@ func prepareUser() []string {
 
 	request["CreateUser"], e = DB.Prepare(`INSERT INTO "User" ("name","phone","account_number","password", "current_balance", "current_tariff", "role")
 		VALUES ($1,$2,$3,$4,$5,$6,$7)`)
+	if e != nil {
+		errors = append(errors, e.Error())
+	}
+
+	request["UpdateUser"], e = DB.Prepare(`UPDATE "User" SET "name"=$1,"phone"=$2,"account_number"=$3, "role"=$4 WHERE "id" = $5`)
+	if e != nil {
+		errors = append(errors, e.Error())
+	}
+
+	request["DeleteUser"], e = DB.Prepare(`DELETE FROM "User" WHERE "id" = $1`)
 	if e != nil {
 		errors = append(errors, e.Error())
 	}
@@ -248,6 +258,35 @@ func GetDepositsByID(userID string) ([]Deposit, error) {
 	return deposits, nil
 }
 
+func DeleteUser(id string) bool {
+	stmt, ok := request["DeleteUser"]
+	if !ok {
+		return false
+	}
+
+	_, e := stmt.Exec(id)
+	if e != nil {
+		utils.Logger.Println(e)
+		return false
+	}
+
+	return true
+}
+
+func (user *User) UpdateUser(id string) error {
+	stmt, ok := request["UpdateUser"]
+	if !ok {
+		return errors.New("запрос не подотовлен")
+	}
+
+	_, e := stmt.Exec(user.Name, user.Phone, user.AccountNumber, user.Role.ID, id)
+	if e != nil {
+		return e
+	}
+
+	return nil
+}
+
 func (user *User) CreateUser() error {
 	stmt, ok := request["CreateUser"]
 	if !ok {
@@ -259,7 +298,7 @@ func (user *User) CreateUser() error {
 		return e
 	}
 
-	_, e = stmt.Exec(user.Name, user.Phone, user.AccountNumber, pass, 0, 1, user.Role.ID)
+	_, e = stmt.Exec(user.Name, user.Phone, user.AccountNumber, pass, 0, nil, user.Role.ID)
 	if e != nil {
 		return e
 	}
@@ -274,10 +313,17 @@ func GetUser(id string) (User, error) {
 	}
 
 	var user User
+	var tariffID *int
+	var tariffName *string
 	row := stmt.QueryRow(id)
-	e := row.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &user.CurrentTariff.ID, &user.CurrentTariff.Name, &user.Role.ID, &user.Role.Name)
+	e := row.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &tariffID, &tariffName, &user.Role.ID, &user.Role.Name)
 	if e != nil {
 		return User{}, e
+	}
+
+	if tariffID != nil {
+		user.CurrentTariff.ID = *tariffID
+		user.CurrentTariff.Name = *tariffName
 	}
 
 	return user, nil
@@ -297,10 +343,18 @@ func GetAllUsers() ([]User, error) {
 	var users []User
 	for rows.Next() {
 		var user User
-		e = rows.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &user.CurrentTariff.ID, &user.CurrentTariff.Name, &user.Role.ID, &user.Role.Name)
+		var tariffID *int
+		var tariffName *string
+		e = rows.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &tariffID, &tariffName, &user.Role.ID, &user.Role.Name)
 		if e != nil {
 			return nil, e
 		}
+
+		if tariffID != nil {
+			user.CurrentTariff.ID = *tariffID
+			user.CurrentTariff.Name = *tariffName
+		}
+
 		users = append(users, user)
 	}
 
@@ -314,10 +368,17 @@ func (user *User) UserAuthorizationCheck() bool {
 	}
 
 	row := stmt.QueryRow(user.AccountNumber, user.Password)
-	e := row.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &user.CurrentTariff.ID, &user.CurrentTariff.Name, &user.Role.ID, &user.Role.Name)
+	var tariffID *int
+	var tariffName *string
+	e := row.Scan(&user.ID, &user.Name, &user.Phone, &user.AccountNumber, &user.CurrentBalance, &tariffID, &tariffName, &user.Role.ID, &user.Role.Name)
 	if e != nil {
 		utils.Logger.Println(e)
 		return false
+	}
+
+	if tariffID != nil {
+		user.CurrentTariff.ID = *tariffID
+		user.CurrentTariff.Name = *tariffName
 	}
 
 	return true
@@ -400,10 +461,17 @@ func LoadSession(m map[string]Session) {
 
 	for rows.Next() {
 		var session Session
-		e = rows.Scan(&session.Hash, &session.User.ID, &session.User.Name, &session.User.Phone, &session.User.AccountNumber, &session.User.CurrentBalance, &session.User.CurrentTariff.ID, &session.User.CurrentTariff.Name, &session.User.Role.ID, &session.User.Role.Name, &session.Date)
+		var tariffID *int
+		var tariffName *string
+		e = rows.Scan(&session.Hash, &session.User.ID, &session.User.Name, &session.User.Phone, &session.User.AccountNumber, &session.User.CurrentBalance, &tariffID, &tariffName, &session.User.Role.ID, &session.User.Role.Name, &session.Date)
 		if e != nil {
 			utils.Logger.Println(e)
 			return
+		}
+
+		if tariffID != nil {
+			session.User.CurrentTariff.ID = *tariffID
+			session.User.CurrentTariff.Name = *tariffName
 		}
 
 		m[session.Hash] = session
@@ -444,7 +512,7 @@ func CreateAdmin() error {
 	if e != nil {
 		return e
 	}
-	_, e = stmt.Exec("Admin", "1", "Admin", pass, 0, 1, 1)
+	_, e = stmt.Exec("Admin", "1", "Admin", pass, 0, nil, 1)
 	if e != nil {
 		return e
 	}

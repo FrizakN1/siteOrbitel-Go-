@@ -1,0 +1,58 @@
+{{define "adminServices"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Тарифы</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/admin.css">
+    </head>
+    <body>
+    {{template "adminAside" .Active}}
+    <main>
+        {{template "adminHead" .}}
+        <div class="control_buttons">
+            <a href="/admin/services/create"><button class="create">Создать</button></a>
+        </div>
+        <div class="table services-table">
+            <div class="row_h">
+                <div class="table_h col1">ID</div>
+                <div class="table_h col6">Тип</div>
+                <div class="table_h col2">Наименование</div>
+                <div class="table_h col3">Примечание</div>
+                <div class="table_h col4">Стоимость</div>
+                <div class="table_h col5">Аренда</div>
+                <div class="table_h col7"></div>
+            </div>
+            <div class="row inputs">
+                <div class="col1"><input type="text"></div>
+                <div class="col6"><input type="text"></div>
+                <div class="col2"><input type="text"></div>
+                <div class="col3"><input type="text"></div>
+                <div class="col4"><input type="text"></div>
+                <div class="col5"><input type="text"></div>
+                <div class="col7"></div>
+            </div>
+            {{range $vl := .Services}}
+                <div class="row">
+                    <div class="col1">{{$vl.ID}}</div>
+                    <div class="col6">{{$vl.Type.Name}}</div>
+                    <div class="col2">{{$vl.Name}}</div>
+                    <div class="col3">{{$vl.Note}}</div>
+                    <div class="col4">{{$vl.FullPrice}}</div>
+                    <div class="col5">{{$vl.RentPrice}}</div>
+                    <div class="col7">
+                        <a href="/admin/services/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
+                        <a href="/admin/services/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
+                        <a href="/admin/services/delete-{{$vl.ID}}"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                </div>
+            {{end}}
+        </div>
+    </main>
+
+    <script src="/assets/js/admin.js"></script>
+    </body>
+    </html>
+{{end}}

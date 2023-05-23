@@ -16,15 +16,18 @@
                                <ul class="type">
                                    <li value="1">Интернет+ТВ</li>
                                    <li value="2">Интернет</li>
+                                   <li value="3">ТВ</li>
                                </ul>
                            {{else}}
-                               <div id="type" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.Type}}">
-                                   {{if eq .Obj.Type 1}}Интернет+ТВ{{end}}
-                                   {{if eq .Obj.Type 2}}Интернет{{end}}
+                               <div id="type" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.Type.ID}}">
+                                   {{if eq .Obj.Type.ID 1}}Интернет+ТВ{{end}}
+                                   {{if eq .Obj.Type.ID 2}}Интернет{{end}}
+                                   {{if eq .Obj.Type.ID 3}}ТВ{{end}}
                                </div>
                                <ul class="type">
                                    <li value="1">Интернет+ТВ</li>
                                    <li value="2">Интернет</li>
+                                   <li value="3">ТВ</li>
                                </ul>
                            {{end}}
                        </div>
@@ -55,7 +58,7 @@
                </div>
                 <label>
                     <div>Стоимость</div>
-                    <input type="text" id="price" {{if eq .Mode "edit"}} value="{{.Obj.Price}}"{{end}}>
+                    <input type="number" id="price" {{if eq .Mode "edit"}} value="{{.Obj.Price}}"{{end}}>
                 </label>
                 <label>
                     <div>Наименование</div>
@@ -68,22 +71,23 @@
                 </label>
                 <label>
                     <div>Скорость</div>
-                    <input type="number" min="0" id="speed" {{if eq .Mode "edit"}} value="{{.Obj.Speed}}" {{end}}>
+                    <input disabled type="number" min="0" id="speed" {{if eq .Mode "edit"}} value="{{.Obj.Speed}}" {{end}}>
                 </label>
                 <label>
                     <div>Количество цифровых каналов</div>
-                    <input type="number" min="0" id="digital_channel" {{if eq .Mode "edit"}} value="{{.Obj.DigitalChannel}}" {{end}}>
+                    <input disabled type="number" min="0" id="digital_channel" {{if eq .Mode "edit"}} value="{{.Obj.DigitalChannel}}" {{end}}>
                 </label>
                 <label>
                     <div>Количество аналоговых каналов</div>
-                    <input type="number" min="0" id="analog_channel" {{if eq .Mode "edit"}} value="{{.Obj.AnalogChannel}}" {{end}}>
+                    <input disabled type="number" min="0" id="analog_channel" {{if eq .Mode "edit"}} value="{{.Obj.AnalogChannel}}" {{end}}>
                 </label>
                 <label>
                     <div>Изображение</div>
-                    <input type="file" id="image">
+                    <input type="file" id="image" accept=".svg, .png, .jpeg, .jpg" disabled>
+                    <img src="" id="image-preview" style="margin: 10px 0">
                 </label>
                 <div class="control_buttons">
-                    <button class="create" id="create_tariff">{{if eq .Mode "create"}}Создать{{else}}Сохранить{{end}}</button>
+                    {{if eq .Mode "create"}}<button class="create" id="create_tariff">Создать</button>{{else}}<button class="create" id="update_tariff">Сохранить</button>{{end}}
                 </div>
             </div>
         </div>

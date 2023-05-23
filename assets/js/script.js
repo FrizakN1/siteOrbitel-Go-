@@ -97,7 +97,6 @@ if (addressCheck) {
 let personalAccount = document.querySelector(".personal_account")
 if (personalAccount) {
     Send("GET", "/user/personal_account/get_data", null, (res) => {
-        console.log(res)
         let nextWriteOff = personalAccount.querySelector("#next_write-off");
         let currentDate = new Date()
         let generatedDate;
@@ -423,4 +422,217 @@ if (login) {
             }
         })
     }
+}
+
+let select = document.querySelector(".select")
+if (select) {
+    let selectButton = select.querySelector("div")
+    select.onclick = () => {
+        select.classList.toggle("active")
+        for (let i = 1; i <= select.querySelector("ul").childNodes.length-1; i++) {
+            let item = select.querySelector("ul").childNodes[i]
+            item.onclick = () => {
+                selectButton.innerHTML = item.innerHTML;
+                selectButton.setAttribute("value", item.getAttribute("value"));
+                if (!selectButton.innerHTML.includes("Выбрать")) {
+                    selectButton.style.backgroundColor = '#0177fd';
+                    selectButton.style.color = "#ffffff"
+                }
+            }
+        }
+    }
+    window.onclick = (event) => {
+        if (select) {
+            if (!select.className.includes("active")) {
+                select.classList.remove("active");
+            }
+        }
+    }
+}
+
+let calculator = document.querySelector(".calculator")
+if (calculator) {
+    let calculate = calculator.querySelector("#calculate");
+    calculate.onclick = () => {
+        let prices = calculator.querySelector(".prices");
+        let fields = prices.querySelectorAll("span")
+        let tariff = calculator.querySelector(".left")
+        let tariffPrice = tariff.querySelector(".price")
+        if (tariffPrice) {
+            let firstMonthSum = 0;
+            let nextMonthSum = 0;
+            let routerInputs = calculator.querySelectorAll("[name = 'router']");
+            if (routerInputs[0].checked) {
+                nextMonthSum = nextMonthSum + Number(routerInputs[0].value);
+                firstMonthSum = firstMonthSum + Number(routerInputs[0].value);
+            } else if (routerInputs[1].checked){
+                firstMonthSum = firstMonthSum + Number(routerInputs[1].value);
+            }
+            let tvInputs = calculator.querySelectorAll("[name = 'tv_box']");
+            if (tvInputs[0].checked) {
+                nextMonthSum = nextMonthSum + Number(tvInputs[0].value);
+                firstMonthSum = firstMonthSum + Number(tvInputs[0].value);
+            } else if (tvInputs[1].checked){
+                firstMonthSum = firstMonthSum + Number(tvInputs[1].value);
+            }
+            let receiverInputs = calculator.querySelectorAll("[name = 'receiver']");
+            if (receiverInputs[0].checked) {
+                nextMonthSum = nextMonthSum + Number(receiverInputs[0].value);
+                firstMonthSum = firstMonthSum + Number(receiverInputs[0].value);
+            } else if (receiverInputs[1].checked){
+                firstMonthSum = firstMonthSum + Number(receiverInputs[1].value);
+            }
+
+            firstMonthSum = firstMonthSum + Number(tariffPrice.getAttribute("value"))
+            nextMonthSum = nextMonthSum + Number(tariffPrice.getAttribute("value"))
+            firstMonthSum = firstMonthSum + Number(calculator.querySelector("#service").getAttribute("value"))
+
+            prices.style.display = "flex"
+            fields[0].innerHTML = firstMonthSum + " ₽";
+            fields[1].innerHTML = nextMonthSum + " ₽";
+        } else {
+            tariff.querySelector(".card_preview").style.boxShadow = "0 0 25px rgba(255, 0, 0, 0.2)"
+        }
+    }
+
+    function createCard(tariff) {
+        let card = document.createElement("div");
+        let price = document.createElement("div");
+        let h3 = document.createElement("h3");
+        let p = document.createElement("p");
+        let border = document.createElement("div");
+        let speed = document.createElement("div");
+        let channels = document.createElement("div");
+        card.setAttribute("data-card-id", tariff.ID)
+        switch (tariff.Type.ID) {
+            case 1:
+                card.className = "card";
+                if (tariff.Color === "#ee5037") {
+                    card.classList.add("type2")
+                }
+                price.className = "price";
+                price.innerHTML = tariff.Price + " ₽/мес";
+                price.setAttribute("value", tariff.Price)
+                h3.innerHTML = tariff.Name;
+                p.innerHTML = tariff.Description;
+                border.className = "border-bottom";
+                speed.className = "speed";
+                speed.innerHTML = "до <span>" + tariff.Speed + "</span> мб/c";
+                channels.className = "description";
+                if (tariff.DigitalChannel) {
+                    channels.innerHTML = "<div class=\"d1\"><span>" + tariff.DigitalChannel + "</span> Цифровых каналов</div>"
+                }
+                if (tariff.AnalogChannel) {
+                    channels.innerHTML = channels.innerHTML + "<div class=\"d2\"><span>" + tariff.AnalogChannel + "</span> Аналоговых каналов</div>"
+                }
+                card.append(price, h3, p, border, speed, channels)
+                break;
+            case 2:
+                let image = document.createElement("img");
+                card.className = "card";
+                if (tariff.Color === "#ee5037") {
+                    card.classList.add("type2")
+                }
+                price.className = "price";
+                price.innerHTML = tariff.Price + " ₽/мес";
+                price.setAttribute("value", tariff.Price)
+                h3.innerHTML = tariff.Name;
+                p.innerHTML = tariff.Description;
+                border.className = "border-bottom";
+                speed.className = "speed";
+                speed.innerHTML = "до <span>" + tariff.Speed + "</span> мб/c";
+                image.src = "/assets/img/"+tariff.Image;
+                image.setAttribute("width", "92")
+                card.append(price, h3, p, border, speed, image)
+                break
+            case 3:
+                let icon = document.createElement("div");
+                let button = document.createElement("button");
+                let button2 = document.createElement("button")
+                card.className = "card_tv";
+                icon.className = "icon"
+                h3.innerHTML = tariff.Name;
+                button.className = "list";
+                button.innerHTML = "Список каналов";
+                price.className = "price-block";
+                price.innerHTML = "<div class='price' value="+tariff.Price+">"+tariff.Price+" ₽/мес</div><div></div>"
+                p.className = "note";
+                p.innerHTML = "*Стоимость подключения 100 руб";
+                channels.className = "description";
+                channels.innerHTML = "";
+                if (tariff.DigitalChannel) {
+                    icon.innerHTML = "<img src='/assets/img/interaktiv_tv.svg' alt='Цифровое ТВ'>"
+                    button2.className = "params";
+                    button2.innerHTML = "Параметры настройки оборудования для цифрового телевидения";
+                    channels.innerHTML = channels.innerHTML + "<div><span>"+tariff.DigitalChannel+"</span> Цифровых каналов</div>";
+                    card.classList.add("type2")
+                    if (tariff.AnalogChannel) {
+                        channels.innerHTML = channels.innerHTML + "<div><span>"+tariff.AnalogChannel+"</span> Аналоговых каналов</div>";
+                    }
+                } else {
+                    icon.innerHTML = "<img src='/assets/img/analog_tv.svg' alt='Аналоговое ТВ'>"
+                    channels.innerHTML = channels.innerHTML + "<div><span>"+tariff.AnalogChannel+"</span> Аналоговых каналов</div>";
+                }
+                card.append(icon,h3,channels,button,button2,price,p)
+                break
+        }
+        return card
+    }
+
+    let tariffSelect = calculator.querySelector(".left")
+    let tariffSelectBlock = document.querySelector(".tariff-select")
+    let tariffs = []
+
+    Send("GET", "/get_services", null, (res) => {
+        console.log(res)
+        let routerInputs = calculator.querySelector(".right").querySelectorAll("[name='router']");
+        routerInputs[0].value = (res.filter(item => item.ID === 1)[0].RentPrice)
+        routerInputs[1].value = (res.filter(item => item.ID === 1)[0].FullPrice)
+        let tvBoxInputs = calculator.querySelector(".right").querySelectorAll("[name='tv_box']");
+        tvBoxInputs[0].value = (res.filter(item => item.ID === 3)[0].RentPrice)
+        tvBoxInputs[1].value = (res.filter(item => item.ID === 3)[0].FullPrice)
+        let receiverInputs = calculator.querySelector(".right").querySelectorAll("[name='receiver']");
+        receiverInputs[0].value = (res.filter(item => item.ID === 2)[0].RentPrice)
+        receiverInputs[1].value = (res.filter(item => item.ID === 2)[0].FullPrice)
+
+        let equipment = res.filter(item => item.Type.ID === 2);
+        let serviceList = calculator.querySelector(".service");
+
+        for (let item of equipment) {
+            let li = document.createElement("li");
+            li.value = item.FullPrice;
+            li.innerHTML = item.Name;
+            serviceList.append(li)
+        }
+    })
+
+    Send("GET", "/get_tariffs/all", null, (res) => {
+        tariffs = res
+        for (let tariff of res) {
+            let card = createCard(tariff)
+            card.onclick = () => {
+                let selectedCard = createCard(tariffs.filter(tariff => tariff.ID === Number(card.getAttribute("data-card-id")))[0])
+                let leftSide = calculator.querySelector(".left");
+                let button = document.createElement("button");
+                button.className = "b1";
+                button.innerHTML = "Выбрать другой тариф";
+                leftSide.innerHTML = "";
+                leftSide.append(selectedCard, button)
+                tariffSelectBlock.classList.remove("active")
+            }
+
+            tariffSelectBlock.querySelector('.contain').append(card)
+        }
+    })
+
+    tariffSelect.onclick = () => {
+        tariffSelectBlock.classList.add("active")
+    }
+
+    window.onclick = (event) => {
+        if (event.target.className.includes("tariff-select")) {
+            tariffSelectBlock.classList.remove("active")
+        }
+    }
+
 }

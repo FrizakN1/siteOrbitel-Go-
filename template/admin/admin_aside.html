@@ -18,6 +18,14 @@
                 <div class="text">Тарифы</div>
             </a>
         </li>
+        {{if eq "services" .}}<li class="active">{{else}}<li>{{end}}
+            <a href="/admin/services">
+                <div class="icon">
+                    <i class="fa-solid fa-folder"></i>
+                </div>
+                <div class="text">Услуги</div>
+            </a>
+        </li>
         {{if eq "settings" .}}<li class="active">{{else}}<li>{{end}}
             <a href="/admin/settings">
                 <div class="icon">
