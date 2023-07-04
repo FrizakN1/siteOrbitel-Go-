@@ -1,6 +1,11 @@
 {{define "adminTariffsForm"}}
     {{template "adminAside" .Active}}
     <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
         {{template "adminHead" .}}
         <div class="contain tariffs-form">
             <div class="form">
@@ -9,7 +14,7 @@
                        <span class="select-block-span">Тип тарифа</span>
                        <div class="select">
                            {{if eq .Mode "create"}}
-                               <div id="type" class="select-button">
+                               <div id="type" class="select-button" value="">
                                    <span class="select-button-span">Выбрать</span>
                                    <i class="fa-solid fa-caret-down select-button-icon"></i>
                                </div>
@@ -36,7 +41,7 @@
                        <span class="select-block-span">Цвет</span>
                        <div class="select">
                            {{if eq .Mode "create"}}
-                               <div id="color" class="select-button">
+                               <div id="color" class="select-button" value="">
                                    <span class="select-button-span">Выбрать</span>
                                    <i class="fa-solid fa-caret-down select-button-icon"></i>
                                </div>
@@ -71,20 +76,28 @@
                 </label>
                 <label>
                     <div>Скорость</div>
-                    <input disabled type="number" min="0" id="speed" {{if eq .Mode "edit"}} value="{{.Obj.Speed}}" {{end}}>
+                    <input type="number" min="0" id="speed" {{if eq .Mode "edit"}} value="{{.Obj.Speed}}" {{if eq .Obj.Type.ID 3}}disabled{{end}} {{else}} disabled {{end}}>
                 </label>
                 <label>
                     <div>Количество цифровых каналов</div>
-                    <input disabled type="number" min="0" id="digital_channel" {{if eq .Mode "edit"}} value="{{.Obj.DigitalChannel}}" {{end}}>
+                    <input type="number" min="0" id="digital_channel" {{if eq .Mode "edit"}} value="{{.Obj.DigitalChannel}}" {{if eq .Obj.Type.ID 2}}disabled{{end}} {{else}} disabled {{end}}>
                 </label>
                 <label>
                     <div>Количество аналоговых каналов</div>
-                    <input disabled type="number" min="0" id="analog_channel" {{if eq .Mode "edit"}} value="{{.Obj.AnalogChannel}}" {{end}}>
+                    <input type="number" min="0" id="analog_channel" {{if eq .Mode "edit"}} value="{{.Obj.AnalogChannel}}" {{if eq .Obj.Type.ID 2}}disabled{{end}} {{else}} disabled {{end}}>
                 </label>
+{{/*                <label>*/}}
+{{/*                    <div>Изображение</div>*/}}
+{{/*                    <input type="file" id="image" accept=".svg, .png, .jpeg, .jpg" {{if ne .Obj.Type.ID 2}}disabled{{end}}>*/}}
+{{/*                    <img src="" id="image-preview" style="margin: 10px 0">*/}}
+{{/*                </label> */}}
                 <label>
                     <div>Изображение</div>
-                    <input type="file" id="image" accept=".svg, .png, .jpeg, .jpg" disabled>
-                    <img src="" id="image-preview" style="margin: 10px 0">
+                    <div id="image" {{if eq .Mode "edit"}}value="{{.Obj.Image}}" {{else}} value="" {{end}}>
+                        <div class="disabled" {{if eq .Mode "edit"}} {{if ne .Obj.Type.ID 2}}style="display: block" {{else}}style="display: none" {{end}} {{else}} style="display: block" {{end}}></div>
+                        <img src="/assets/img/speed-meter1.svg" alt="" width="120" {{if eq .Mode "edit"}} {{if eq .Obj.Image "speed-meter1.svg"}} style="border: 2px solid #0177fd" {{end}} {{end}}>
+                        <img src="/assets/img/speed-meter2.svg" alt="" width="120" {{if eq .Mode "edit"}} {{if eq .Obj.Image "speed-meter2.svg"}} style="border: 2px solid #0177fd" {{end}} {{end}}>
+                    </div>
                 </label>
                 <div class="control_buttons">
                     {{if eq .Mode "create"}}<button class="create" id="create_tariff">Создать</button>{{else}}<button class="create" id="update_tariff">Сохранить</button>{{end}}

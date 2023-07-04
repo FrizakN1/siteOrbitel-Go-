@@ -1,0 +1,45 @@
+{{ define "tv_manual"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+    {{template "header"}}
+    <section class="tv_manual">
+        <h2>{{ index .Settings "section_tv-manual_title" }}</h2>
+        <div class="contain">
+            <span>{{ index .Settings "label_tv-manual_window" }}</span>
+            <div class="tv_list">
+                <a href="https://orbitel.ru/wp-content/uploads/2016/10/tv_samsung.pdf">
+                    <img src="/assets/img/samsung.png" alt="">
+                </a>
+                <a href="https://orbitel.ru/wp-content/uploads/2016/10/tv_toshiba.pdf">
+                    <img src="/assets/img/TV-Toshiba.png" alt="">
+                </a>
+                <a href="https://orbitel.ru/wp-content/uploads/2016/10/tv_panasonic.pdf">
+                    <img src="/assets/img/TXL47E5B-large.png" alt="">
+                </a>
+                <a href="https://orbitel.ru/wp-content/uploads/2016/10/tv_philips.pdf">
+                    <img src="/assets/img/Phillips.png" alt="">
+                </a>
+                <a href="https://orbitel.ru/wp-content/uploads/2016/10/tv_lg.pdf">
+                    <img src="/assets/img/LGTV.png" alt="">
+                </a>
+                <a href="https://orbitel.ru/wp-content/uploads/2016/10/tv_sony.pdf">
+                    <img src="/assets/img/sony.png" alt="">
+                </a>
+            </div>
+        </div>
+    </section>
+    {{ template "footer" }}
+    <script src="/assets/js/script.js"></script>
+    </body>
+    </html>
+{{end}}

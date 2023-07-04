@@ -11,11 +11,16 @@
 <body>
 {{template "adminAside" .Active}}
 <main>
+    <div class="alert">
+        <div class="close"></div>
+        <div class="text">Заявка успешно отправлена</div>
+        <div class="timer"></div>
+    </div>
     {{template "adminHead" .}}
     <div style="display: flex; justify-content: space-between">
         <div class="control_buttons">
             <a href="/admin/users/edit-{{.Obj.ID}}"><button class="edit">Изменить</button></a>
-            <a href="/admin/users/delete-{{.Obj.ID}}"><button class="delete">Удалить</button></a>
+            {{if eq .Obj.Baned 0}} <button onclick="blockUser({{.Obj.Name}}, {{.Obj.ID}}, this)" class="delete">Заблокировать</button> {{else}} <button onclick="unblockUser({{.Obj.Name}}, {{.Obj.ID}}, this)" class="create">Разблокировать</button> {{end}}
         </div>
         <div class="control_buttons">
             <a href="/admin/deposits/user-{{.Obj.ID}}"><button class="edit">История пополнения</button></a>
@@ -36,6 +41,10 @@
             <div class="col-view">{{.Obj.Phone}}</div>
         </div>
         <div class="row">
+            <div class="col-view">Адрес</div>
+            <div class="col-view">{{.Obj.Address.Street}} {{.Obj.Address.House}}{{if ne .Obj.Flat 0}}-{{.Obj.Flat}}{{end}}</div>
+        </div>
+        <div class="row">
             <div class="col-view">Лицевой счет</div>
             <div class="col-view">{{.Obj.AccountNumber}}</div>
         </div>
@@ -50,6 +59,10 @@
         <div class="row">
             <div class="col-view">Роль</div>
             <div class="col-view">{{.Obj.Role.Name}}</div>
+        </div>
+    </div>
+    <div class="massage">
+        <div class="contain">
         </div>
     </div>
 </main>

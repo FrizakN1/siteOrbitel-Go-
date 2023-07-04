@@ -1,0 +1,72 @@
+{{ define "about"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+    {{template "header"}}
+    <section class="about">
+        <div class="contain">
+            <img src="/assets/img/about-background1.jpg" alt="">
+            <div class="contain">
+                <p><span>Мы</span> компания ООО «Орбител» — оператор связи, оказывающий широкий спектр качественных услуг физическим и юридическим лицам г.Кургана. Компания имеет собственную волоконно-оптическую сеть, в опорных узлах которой установлено высокопроизводительное и надежное оборудование фирмы Cisco. «Городская сеть передачи данных» ООО «Орбител» построена по технологии «оптика до дома» (FTTB), что обеспечивает отличные показатели и высокую надежность оказываемых услуг.</p>
+            </div>
+        </div>
+    </section>
+    <section class="about">
+        <h2>Режим работы</h2>
+        <div class="contain">
+            <div>
+                <ul>
+                    <li>пн 09:00 — 19:00</li>
+                    <li>вт 09:00 — 19:00</li>
+                    <li>ср 09:00 — 19:00</li>
+                    <li>чт 09:00 — 19:00</li>
+                    <li>пт 09:00 — 19:00</li>
+                    <li style="color: #0177fd">сб 10:00 — 16:00</li>
+                    <li style="color: #0177fd">вс 10:00 — 16:00</li>
+
+                </ul>
+            </div>
+            <img src="/assets/img/about-background2.jpg" alt="">
+        </div>
+    </section>
+    <section class="yandex-map">
+        <h2>Мы на карты</h2>
+        <div id="map" class="map"></div>
+    </section>
+    <section class="about-actions">
+        <a href="https://orbitel.ru/wp-content/uploads/2018/06/Obrabotka_person_dannyh.pdf">Положение об обработке персональных данных абонента</a>
+        <a href="https://orbitel.ru/wp-content/uploads/2018/07/Smotreshka_oferta.pdf">Публичная оферта на предоставление услуг связи IPTV</a>
+        <a href="#">Лицензии</a>
+    </section>
+    {{ template "footer" }}
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=9c90c767-9a31-4a30-be6b-d5bda2b3cd5e&lang=ru_RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        function init(){
+            let myMap = new ymaps.Map("map", {
+                center: [55.439254, 65.352753],
+                zoom: 18,
+                controls: ['zoomControl', 'fullscreenControl','geolocationControl', 'routeButtonControl']
+            });
+
+            let myPlacemark = new ymaps.Placemark([55.439254, 65.352753], {
+                hintContent: 'Офис Orbitel',
+            }, {
+                preset: 'islands#redIcon',
+            });
+
+            myMap.geoObjects.add(myPlacemark);
+        }
+    </script>
+    </body>
+    </html>
+{{end}}

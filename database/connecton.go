@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
-	"newSite/utils"
+	"newSite/additional"
 )
 
 var DB *sql.DB
@@ -19,7 +19,7 @@ func ConnectDB() {
 
 	e = DB.Ping()
 	if e != nil {
-		utils.Logger.Println(e)
+		additional.Logger.Println(e)
 		return
 	}
 
@@ -30,9 +30,11 @@ func ConnectDB() {
 
 	if len(errors) > 0 {
 		for _, i := range errors {
-			utils.Logger.Println(i)
+			additional.Logger.Println(i)
 		}
 	}
 
 	LoadSession(sessionMap)
+	LoadSettings(&SettingsMap)
+	LoadSEO(&SeoMap)
 }

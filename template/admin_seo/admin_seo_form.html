@@ -1,0 +1,35 @@
+{{define "adminSEOForm"}}
+{{template "adminAside" .Active}}
+<main>
+  <div class="alert">
+    <div class="close"></div>
+    <div class="text">Заявка успешно отправлена</div>
+    <div class="timer"></div>
+  </div>
+  {{template "adminHead" .}}
+  <div class="contain seo-form">
+    <div class="form">
+      <label>
+        <div>Заголовок</div>
+        <input type="text" id="title" {{if eq .Mode "edit"}}value="{{.Obj.Title}}"{{end}}>
+      </label>
+      <label>
+        <div>Ссылка</div>
+        <input disabled type="text" id="uri" {{if eq .Mode "edit"}}value="{{.Obj.Uri}}"{{end}}>
+      </label>
+      <label>
+        <div>Ключевые слова</div>
+        <textarea id="keywords" cols="30" rows="6">{{if eq .Mode "edit"}}{{.Obj.Keywords}}{{end}}</textarea>
+      </label>
+      <label>
+        <div>Описание</div>
+        <textarea id="description" cols="30" rows="6">{{if eq .Mode "edit"}}{{.Obj.Description}}{{end}}</textarea>
+      </label>
+      <div class="control_buttons">
+        {{if eq .Mode "create"}}<button class="create" id="create_seo">Создать</button>{{else}}<button class="create" id="update_seo">Сохранить</button>{{end}}
+      </div>
+    </div>
+  </div>
+</main>
+<script src="/assets/js/admin.js"></script>
+{{end}}

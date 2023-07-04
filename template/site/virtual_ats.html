@@ -1,0 +1,59 @@
+{{ define "virtual_ats"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+    {{template "header"}}
+    <section class="virtual_ats-info">
+        <img src="/assets/img/ats_background1.svg" alt="">
+        <div class="contain">
+            <h2>{{ index .Settings "section_virtual-ats_title" }}</h2>
+            <p>
+                {{ index .Settings "section_virtual-ats_text" }}
+            </p>
+            <button onclick="scrollToBusinessApplication()">{{ index .Settings "sections_button-connect_text" }}</button>
+        </div>
+    </section>
+    <section class="virtual_ats-advantages">
+        <h2>{{ index .Settings "sections_advantages_title" }}</h2>
+        <div class="contain">
+            <div class="block main">
+                <img src="/assets/img/virtual_ats-advantages1.svg" alt="">
+                <p>{{ index .Settings "section_advantage_virtual-ats_elements" }}</p>
+            </div>
+            <div class="block">
+                <img src="/assets/img/virtual_ats-advantages2.svg" alt="">
+                <p>Многоканальный номер – до Вас легко дозвонятся все клиенты и партнеры.</p>
+            </div>
+            <div class="block">
+                <img src="/assets/img/virtual_ats-advantages3.svg" alt="">
+                <p>Голосовое меню</p>
+            </div>
+            <div class="block">
+                <img src="/assets/img/virtual_ats-advantages4.svg" alt="">
+                <p>Конференц-связь</p>
+            </div>
+            <div class="block">
+                <img src="/assets/img/virtual_ats-advantages5.svg" alt="">
+                <p>Интеграция с любой CRM</p>
+            </div>
+            <div class="block">
+                <img src="/assets/img/virtual_ats-advantages6.svg" alt="">
+                <p>Запись и хранение разговоров</p>
+            </div>
+        </div>
+    </section>
+        {{template "applicationForm" .}}
+    {{ template "footer" }}
+    <script src="/assets/js/script.js"></script>
+    </body>
+    </html>
+{{end}}

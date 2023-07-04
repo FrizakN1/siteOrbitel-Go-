@@ -1,0 +1,19 @@
+{{define "cases"}}
+<div class="cases" id="cases">
+  <a href="/about">
+    <div class="case">
+      <img src="/assets/img/map.svg" alt="" width="74">
+      <span>{{ index .Settings "case_text1" }}</span>
+  </div>
+  </a>
+  <a href="/oplata">
+    <div class="case">
+      <img src="/assets/img/wallet.svg" alt="" width="74">
+      <span>{{ index .Settings "case_text2" }}</span>
+    </div>
+  </a>
+</div>
+<div class="case-img" id="case-img">
+  <a href="https://orbitel.ru/smotr/"> <img src="/assets/img/smotr.png" alt=""></a>
+</div>
+{{end}}

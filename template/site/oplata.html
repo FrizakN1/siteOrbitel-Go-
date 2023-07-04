@@ -1,0 +1,44 @@
+{{ define "oplata"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+    {{template "header"}}
+    <section class="oplata">
+        <h2>{{ index .Settings "section_oplata_title" }}</h2>
+        <div class="contain">
+            <div class="block">
+                <div class="imgs">
+                    <img src="/assets/img/mastercard.svg" alt="" width="140" class="img1">
+                    <img src="/assets/img/visa.svg" alt="" width="140" class="img2">
+                    <img src="/assets/img/mir-logo.svg" alt="" width="140" class="img3">
+                </div>
+                <p>Оплата в личном кабинете</p>
+            </div>
+            <div class="block">
+                <img src="/assets/img/wallet.svg" alt="" width="180">
+                <p>Оплата в офисе</p>
+            </div>
+            <div class="block">
+                <img src="/assets/img/sber.svg" alt="" width="400">
+                <p>Оплата в личном кабинете сбер</p>
+            </div>
+            <div class="block">
+                <img src="/assets/img/wallet.svg" alt="" width="180">
+                <p>Оплата в банкоматах города</p>
+            </div>
+        </div>
+    </section>
+    {{ template "footer" }}
+    <script src="/assets/js/script.js"></script>
+    </body>
+    </html>
+{{end}}

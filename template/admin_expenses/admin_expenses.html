@@ -12,6 +12,9 @@
     {{template "adminAside" .Active}}
     <main>
         {{template "adminHead" .}}
+        <div class="control_buttons">
+            <a href="/admin/expenses/create/user-{{.ByID}}"><button class="create">Добавить списание</button></a>
+        </div>
         <div class="table expenses-table">
             <div class="row_h">
                 <div class="table_h col1">ID</div>
@@ -22,25 +25,32 @@
                 <div class="table_h col6"></div>
             </div>
             <div class="row inputs">
-                <div class="col1"><input type="text"></div>
-                <div class="col2"><input type="text"></div>
-                <div class="col3"><input type="text"></div>
-                <div class="col4"><input type="text"></div>
-                <div class="col5"><input type="text"></div>
+                <div class="col1"><input type="text" id="col1"></div>
+                <div class="col2"><input type="text" id="col2"></div>
+                <div class="col3"><input type="text" id="col3"></div>
+                <div class="col4"><input type="text" id="col4"></div>
+                <div class="col5"><input type="text" id="col5"></div>
                 <div class="col6"></div>
             </div>
-            {{range $vl := .Expenses}}
-                <div class="row">
-                    <div class="col1">{{$vl.ID}}</div>
-                    <div class="col2">{{$vl.User.Name}}</div>
-                    <div class="col3">{{$vl.Amount}}</div>
-                    <div class="col4">{{$vl.Service}}</div>
-                    <div class="col5">{{$vl.Date}}</div>
-                    <div class="col6">
-                        <a href="/admin/deposits/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
+            <div class="records">
+                {{range $vl := .Expanses}}
+                    <div class="row">
+                        <div class="col1">{{$vl.ID}}</div>
+                        <div class="col2">{{$vl.User.Name}}</div>
+                        <div class="col3">{{$vl.Amount}}</div>
+                        <div class="col4">{{$vl.Service}}</div>
+                        <div class="col5">{{$vl.Date}}</div>
+                        <div class="col6">
+                            <a href="/admin/expenses/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
+                            <i class="fa-solid fa-trash" title="Удалить" style="color: #0177fd; cursor: pointer" onclick="deleteExpense({{$vl.ID}},{{$vl.ID}},'списание', '{{$vl.User.ID}}', this)"></i>
+                        </div>
                     </div>
-                </div>
-            {{end}}
+                {{end}}
+            </div>
+        </div>
+        <div class="massage">
+            <div class="contain">
+            </div>
         </div>
     </main>
 

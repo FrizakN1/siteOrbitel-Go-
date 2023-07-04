@@ -4,13 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Аворизация - Orbitel</title>
+    <title>{{.SEO.Title}}</title>
+    <meta name="keywords" content="{{.SEO.Keywords }}">
+    <meta name="description" content="{{.SEO.Description }}">
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
+<div class="alert">
+    <div class="close"></div>
+    <div class="text">Заявка успешно отправлена</div>
+    <div class="timer"></div>
+</div>
     <section class="authorization">
         <div class="contain">
-            <img src="/assets/img/Logo.svg" alt="" width="130">
+            <img src="/assets/img/logo2.svg" alt="" width="130">
             <h2>Авторизация</h2>
             <label for="account_number">Номер лицевого счета</label>
             <input type="text" id="account_number">

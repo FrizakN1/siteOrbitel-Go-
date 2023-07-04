@@ -29,6 +29,17 @@
                                 {{.SubTitle}} : {{.Obj.ID}}
                             </a>
                         {{end}}
+                        {{if eq .SubMode "create"}}
+                            → <a href="/admin/{{.Active}}/{{.Mode}}-{{.ByID}}">
+                                {{.Title}} {{.ByID}}
+                            </a>
+                            → <a href="/admin/{{.SubActive}}/user-{{.ByID}}">
+                                {{.SubTitle}}
+                            </a>
+                            → <a href="/admin/{{.SubActive}}/{{.SubMode}}/user-{{.ByID}}">
+                                Создание списания
+                            </a>
+                        {{end}}
 {{/*                        → <a href="/admin/{{.Active}}/{{.Mode}}-{{.Obj.User.ID}}">*/}}
 {{/*                            {{.Title}} {{.Obj.User.ID}}*/}}
 {{/*                        </a> → <a href="/admin/{{.SubActive}}/{{.Mode}}-{{.Obj.ID}}">*/}}

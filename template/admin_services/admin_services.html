@@ -11,6 +11,11 @@
     <body>
     {{template "adminAside" .Active}}
     <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
         {{template "adminHead" .}}
         <div class="control_buttons">
             <a href="/admin/services/create"><button class="create">Создать</button></a>
@@ -26,29 +31,35 @@
                 <div class="table_h col7"></div>
             </div>
             <div class="row inputs">
-                <div class="col1"><input type="text"></div>
-                <div class="col6"><input type="text"></div>
-                <div class="col2"><input type="text"></div>
-                <div class="col3"><input type="text"></div>
-                <div class="col4"><input type="text"></div>
-                <div class="col5"><input type="text"></div>
+                <div class="col1"><input type="text" id="col1"></div>
+                <div class="col6"><input type="text" id="col2"></div>
+                <div class="col2"><input type="text" id="col3"></div>
+                <div class="col3"><input type="text" id="col4"></div>
+                <div class="col4"><input type="text" id="col5"></div>
+                <div class="col5"><input type="text" id="col6"></div>
                 <div class="col7"></div>
             </div>
-            {{range $vl := .Services}}
-                <div class="row">
-                    <div class="col1">{{$vl.ID}}</div>
-                    <div class="col6">{{$vl.Type.Name}}</div>
-                    <div class="col2">{{$vl.Name}}</div>
-                    <div class="col3">{{$vl.Note}}</div>
-                    <div class="col4">{{$vl.FullPrice}}</div>
-                    <div class="col5">{{$vl.RentPrice}}</div>
-                    <div class="col7">
-                        <a href="/admin/services/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
-                        <a href="/admin/services/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
-                        <a href="/admin/services/delete-{{$vl.ID}}"><i class="fa-solid fa-trash"></i></a>
+            <div class="records">
+                {{range $vl := .Services}}
+                    <div class="row">
+                        <div class="col1">{{$vl.ID}}</div>
+                        <div class="col6">{{$vl.Type.Name}}</div>
+                        <div class="col2">{{$vl.Name}}</div>
+                        <div class="col3">{{$vl.Note}}</div>
+                        <div class="col4">{{$vl.FullPrice}}</div>
+                        <div class="col5">{{$vl.RentPrice}}</div>
+                        <div class="col7">
+                            <a href="/admin/services/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
+                            <a href="/admin/services/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
+                            <i class="fa-solid fa-trash" title="Удалить" style="color: #0177fd; cursor: pointer" onclick="deleteRecord({{$vl.ID}},{{$vl.ID}},'услугу', 'services')"></i>
+                        </div>
                     </div>
-                </div>
-            {{end}}
+                {{end}}
+            </div>
+        </div>
+        <div class="massage">
+            <div class="contain">
+            </div>
         </div>
     </main>
 

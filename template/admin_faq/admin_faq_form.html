@@ -1,0 +1,27 @@
+{{define "adminFaqForm"}}
+    {{template "adminAside" .Active}}
+    <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
+        {{template "adminHead" .}}
+        <div class="contain faq-form">
+            <div class="form">
+                <label>
+                    <div>Вопрос</div>
+                    <textarea id="question" cols="30" rows="6">{{if eq .Mode "edit"}}{{.Obj.Question}}{{end}}</textarea>
+                </label>
+                <label>
+                    <div>Ответ</div>
+                    <textarea id="answer" cols="30" rows="6">{{if eq .Mode "edit"}}{{.Obj.Answer}}{{end}}</textarea>
+                </label>
+                <div class="control_buttons">
+                    {{if eq .Mode "create"}}<button class="create" id="create_faq">Создать</button>{{else}}<button class="create" id="update_faq">Сохранить</button>{{end}}
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/assets/js/admin.js"></script>
+{{end}}

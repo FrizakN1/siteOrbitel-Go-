@@ -11,6 +11,11 @@
     <body>
     {{template "adminAside" .Active}}
     <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
         {{template "adminHead" .}}
         <div class="control_buttons">
             <a href="/admin/tariffs/create"><button class="create">Создать</button></a>
@@ -30,41 +35,47 @@
                 <div class="table_h col11"></div>
             </div>
             <div class="row inputs">
-                <div class="col1"><input type="text"></div>
-                <div class="col2"><input type="text"></div>
-                <div class="col3"><input type="text"></div>
-                <div class="col4"><input type="text"></div>
-                <div class="col5"><input type="text"></div>
-                <div class="col6"><input type="text"></div>
-                <div class="col7"><input type="text"></div>
-                <div class="col8"><input type="text"></div>
-                <div class="col9"><input type="text"></div>
-                <div class="col10"><input type="text"></div>
+                <div class="col1"><input type="text" id="col1"></div>
+                <div class="col2"><input type="text" id="col2"></div>
+                <div class="col3"><input type="text" id="col3"></div>
+                <div class="col4"><input type="text" id="col4"></div>
+                <div class="col5"><input type="text" id="col5"></div>
+                <div class="col6"><input type="text" id="col6"></div>
+                <div class="col7"><input type="text" id="col7"></div>
+                <div class="col8"><input type="text" id="col8"></div>
+                <div class="col9"><input type="text" id="col9"></div>
+                <div class="col10"><input type="text" id="col10"></div>
                 <div class="col11"></div>
             </div>
-            {{range $vl := .Tariffs}}
-                <div class="row">
-                    <div class="col1">{{$vl.ID}}</div>
-                    <div class="col2">{{$vl.Type.Name}}</div>
-                    <div class="col3">{{$vl.Price}}</div>
-                    <div class="col4">{{$vl.Name}}</div>
-                    <div class="col5">{{$vl.Description}}</div>
-                    {{if eq $vl.Speed 0}}
-                        <div class="col6"></div>
-                    {{else}}
-                        <div class="col6">{{$vl.Speed}}</div>
-                    {{end}}
-                    <div class="col7">{{$vl.DigitalChannel}}</div>
-                    <div class="col8">{{$vl.AnalogChannel}}</div>
-                    <div class="col9">{{$vl.Image}}</div>
-                    <div class="col10" style="color: #ffffff; background-color: {{$vl.Color}}">{{$vl.Color}}</div>
-                    <div class="col11">
-                        <a href="/admin/tariffs/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
-                        <a href="/admin/tariffs/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
-                        <a href="/admin/tariffs/delete-{{$vl.ID}}"><i class="fa-solid fa-trash"></i></a>
+            <div class="records">
+                {{range $vl := .Tariffs}}
+                    <div class="row">
+                        <div class="col1">{{$vl.ID}}</div>
+                        <div class="col2">{{$vl.Type.Name}}</div>
+                        <div class="col3">{{$vl.Price}}</div>
+                        <div class="col4">{{$vl.Name}}</div>
+                        <div class="col5">{{$vl.Description}}</div>
+                        {{if eq $vl.Speed 0}}
+                            <div class="col6"></div>
+                        {{else}}
+                            <div class="col6">{{$vl.Speed}}</div>
+                        {{end}}
+                        <div class="col7">{{$vl.DigitalChannel}}</div>
+                        <div class="col8">{{$vl.AnalogChannel}}</div>
+                        <div class="col9">{{$vl.Image}}</div>
+                        <div class="col10" style="color: #ffffff; background-color: {{$vl.Color}}">{{$vl.Color}}</div>
+                        <div class="col11">
+                            <a href="/admin/tariffs/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
+                            <a href="/admin/tariffs/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
+                            <i class="fa-solid fa-trash" title="Удалить" style="color: #0177fd; cursor: pointer" onclick="deleteRecord({{$vl.Name}},{{$vl.ID}},'тариф', 'tariffs')"></i>
+                        </div>
                     </div>
-                </div>
-            {{end}}
+                {{end}}
+            </div>
+        </div>
+        <div class="massage">
+            <div class="contain">
+            </div>
         </div>
     </main>
 

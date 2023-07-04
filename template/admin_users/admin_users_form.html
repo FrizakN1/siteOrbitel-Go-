@@ -1,6 +1,11 @@
 {{define "adminUsersForm"}}
 {{template "adminAside" .Active}}
 <main>
+    <div class="alert">
+        <div class="close"></div>
+        <div class="text">Заявка успешно отправлена</div>
+        <div class="timer"></div>
+    </div>
   {{template "adminHead" .}}
   <div class="contain users-form">
     <div class="form">
@@ -8,46 +13,93 @@
         <div>ФИО</div>
         <input type="text" id="name" {{if eq .Mode "edit"}} value="{{.Obj.Name}}" {{end}}>
       </label>
-      <div class="select-block">
-        <span class="select-block-span">Роль</span>
-        <div class="select">
-          {{if eq .Mode "create"}}
-            <div id="role" class="select-button" value="3" style="color: #ffffff; background-color: #0177fd">
-              Default
-            </div>
-            <ul class="role">
-              <li value="1">Admin</li>
-              <li value="2">Moderator</li>
-              <li value="3">Default</li>
-            </ul>
-          {{else}}
-            <div id="role" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.Role.ID}}">
-              {{.Obj.Role.Name}}
-            </div>
-            <ul class="role">
-              <li value="1">Admin</li>
-              <li value="2">Moderator</li>
-              <li value="3">Default</li>
-            </ul>
-          {{end}}
+      <div style="display: flex; justify-content: space-between">
+        <div class="select-block">
+          <span class="select-block-span">Роль</span>
+          <div class="select">
+            {{if eq .Mode "create"}}
+              <div id="role" class="select-button" value="3" style="color: #ffffff; background-color: #0177fd">
+                Default
+              </div>
+              <ul class="role">
+                <li value="1">Admin</li>
+                <li value="3">Default</li>
+              </ul>
+            {{else}}
+              <div id="role" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.Role.ID}}">
+                {{.Obj.Role.Name}}
+              </div>
+              <ul class="role">
+                <li value="1">Admin</li>
+                <li value="2">Moderator</li>
+                <li value="3">Default</li>
+              </ul>
+            {{end}}
+          </div>
+        </div>
+        <div class="select-block">
+          <span class="select-block-span">Тариф</span>
+          <div class="select type3">
+            {{if eq .Mode "create"}}
+              <div id="current_tariff" class="select-button" value="0">
+                <span class="select-button-span">Выбрать</span>
+                <i class="fa-solid fa-caret-down select-button-icon"></i>
+              </div>
+              <ul class="tariffs-select">
+              </ul>
+            {{else}}
+              {{if ne .Obj.CurrentTariff.ID 0}}
+              <div id="current_tariff" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.CurrentTariff.ID}}">
+                      {{.Obj.CurrentTariff.Name}}
+                  {{else}}
+                  <div id="current_tariff" class="select-button" value="0">
+                  <span class="select-button-span">Выбрать</span>
+                  <i class="fa-solid fa-caret-down select-button-icon"></i>
+                  {{end}}
+              </div>
+              <ul class="tariffs-select">
+              </ul>
+            {{end}}
+          </div>
         </div>
       </div>
       <label>
         <div>Номер телефона</div>
         <input type="text" id="phone" {{if eq .Mode "edit"}} value="{{.Obj.Phone}}" {{else}}value="+7 (___) ___-__-__"{{end}}>
       </label>
+      <label id="address">
+        <div>Адрес</div>
+        <div>
+          <input type="text" id="street" placeholder="Улица" {{if eq .Mode "edit"}} value="{{.Obj.Address.Street}}" {{end}}>
+          <div class="streets-list">
+          </div>
+          <input type="text" id="house" placeholder="Дом" {{if eq .Mode "edit"}} value="{{.Obj.Address.House}}" {{end}}>
+          <input type="number" min="0" id="flat" placeholder="Квартира" {{if eq .Mode "edit"}} value="{{.Obj.Flat}}" {{end}}>
+        </div>
+      </label>
       <label>
         <div>Номер лицевого счета</div>
         <input type="text" id="account_number" {{if eq .Mode "edit"}} value="{{.Obj.AccountNumber}}" {{end}}>
       </label>
-      <label>
-        <div>Пароль</div>
-        <input type="password" id="password">
-      </label>
-      <label>
-        <div>Подтверждение пароля</div>
-        <input type="password" id="confirm_password">
-      </label>
+          {{if eq .Mode "edit"}}
+              <label>
+                  <div>Новый пароль</div>
+                  <input type="password" id="password">
+              </label>
+              <label>
+                  <div>Подтверждение пароля</div>
+                  <input type="password" id="confirm_password">
+              </label>
+          {{else}}
+              <label>
+                  <div>Пароль</div>
+                  <input type="password" id="password">
+              </label>
+              <label>
+                  <div>Подтверждение пароля</div>
+                  <input type="password" id="confirm_password">
+              </label>
+          {{end}}
       <div class="control_buttons">
         {{if eq .Mode "create"}}<button class="create" id="create_user">Создать</button>{{else}}<button class="create" id="update_user">Сохранить</button>{{end}}
       </div>

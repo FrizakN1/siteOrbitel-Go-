@@ -4,51 +4,53 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Интернет + ТВ - Orbitel</title>
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
         <link rel="stylesheet" href="/assets/css/all.min.css">
         <link rel="stylesheet" href="/assets/css/style.css">
     </head>
     <body>
     {{template "header"}}
     <section class="tariffs">
-        <h2>Выберите тариф для подключения</h2>
+        <h2>{{ index .Settings "sections_tariffs_title" }}</h2>
         <div class="contain">
-            <div class="cases">
-                <div class="case">
-                    <img src="/assets/img/map.svg" alt="" width="74">
-                    <span>Как нас найти?</span>
-                </div>
-                <div class="case">
-                    <img src="/assets/img/wallet.svg" alt="" width="74">
-                    <span>Способы оплаты</span>
-                </div>
-            </div>
             <div class="cards">
-                <div class="card">
-                    <div class="price">650 ₽/мес</div>
-                    <h3>Домашний - Ультра 2</h3>
-                    <p>Тариф расчитан на несколько устройств домашней сети</p>
-                    <div class="border-bottom"></div>
-                    <div class="speed">до <span>300</span> мб/с</div>
-                    <img src="/assets/img/speed-meter1.svg" alt="" width="92">
-                    <button>Подключить</button>
-                </div>
-                <div class="card type2">
-                    <div class="price">650 ₽/мес</div>
-                    <h3>Домашний - Ультра 2</h3>
-                    <p>Тариф расчитан на несколько устройств домашней сети</p>
-                    <div class="border-bottom"></div>
-                    <div class="speed">до <span>300</span> мб/с</div>
-                    <img src="/assets/img/speed-meter2.svg" alt="" width="92">
-                    <button>Подключить</button>
-                </div>
-            </div>
-            <div>
-                <img src="/assets/img/smotr.png" alt="">
+                {{range $vl := .Tariffs}}
+                    <div class="card {{if eq $vl.Color "#ee5037"}}type2{{end}}">
+                        <div class="price">{{$vl.Price}} ₽/мес</div>
+                        <h3>{{$vl.Name}}</h3>
+                        <p>{{$vl.Description}}</p>
+                        <div class="border-bottom"></div>
+                        <div class="speed">до <span>{{$vl.Speed}}</span> мб/с</div>
+                        <img src="/assets/img/{{$vl.Image}}" alt="" width="92">
+                        <a href="/abonent_application-{{$vl.ID}}"><button>Подключить</button></a>
+                    </div>
+                {{end}}
+{{/*                <div class="card">*/}}
+{{/*                    <div class="price">650 ₽/мес</div>*/}}
+{{/*                    <h3>Домашний - Ультра 2</h3>*/}}
+{{/*                    <p>Тариф расчитан на несколько устройств домашней сети</p>*/}}
+{{/*                    <div class="border-bottom"></div>*/}}
+{{/*                    <div class="speed">до <span>300</span> мб/с</div>*/}}
+{{/*                    <img src="/assets/img/speed-meter1.svg" alt="" width="92">*/}}
+{{/*                    <button>Подключить</button>*/}}
+{{/*                </div>*/}}
+{{/*                <div class="card type2">*/}}
+{{/*                    <div class="price">650 ₽/мес</div>*/}}
+{{/*                    <h3>Домашний - Ультра 2</h3>*/}}
+{{/*                    <p>Тариф расчитан на несколько устройств домашней сети</p>*/}}
+{{/*                    <div class="border-bottom"></div>*/}}
+{{/*                    <div class="speed">до <span>300</span> мб/с</div>*/}}
+{{/*                    <img src="/assets/img/speed-meter2.svg" alt="" width="92">*/}}
+{{/*                    <button>Подключить</button>*/}}
+{{/*                </div>*/}}
             </div>
         </div>
+        {{template "cases" .}}
     </section>
     {{ template "footer" }}
+    <script src="/assets/js/script.js"></script>
     </body>
     </html>
 {{end}}

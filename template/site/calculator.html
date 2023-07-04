@@ -4,7 +4,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Калькулятор тарифов</title>
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
         <link rel="stylesheet" href="/assets/css/all.min.css">
         <link rel="stylesheet" href="/assets/css/style.css">
     </head>
@@ -85,48 +87,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="selects">
-                    <h3>Настройка оборудования</h3>
-                    <div class="select-block">
-{{/*                        <span class="select-block-span">Выбирите наименование услуги</span>*/}}
-                        <div class="select">
-                                <div id="service" class="select-button" value="0">
-                                    <span class="select-button-span">Выбирите наименование услуги</span>
-                                    <i class="fa-solid fa-caret-down select-button-icon"></i>
-                                </div>
-                                <ul class="service">
-{{/*                                    <li value="1">Интернет+ТВ</li>*/}}
-{{/*                                    <li value="2">Интернет</li>*/}}
-                                </ul>
-                        </div>
-                    </div>
-                </div>
                 <div class="prices">
                     <div>
                         <h3>Первый месяц:</h3>
-                        <span></span>
+                        <span>0 ₽</span>
                     </div>
                     <div>
                         <h3>Следующие месяцы:</h3>
-                        <span></span>
+                        <span>0 ₽</span>
                     </div>
                 </div>
                 <div class="buttons">
                     <button id="calculate">Рассчитать</button>
-                    <button class="b2">Оставить заявку без рассчета</button>
+                    <a href="/abonent_application-0"><button class="b2">Оставить заявку</button></a>
                 </div>
             </div>
         </div>
     </section>
     <section class="tariff-select">
         <div class="contain">
-            <div class="card">
-                <div class="price">650 ₽/мес</div>
-                <h3>Домашний - Ультра 2</h3>
-                <p>Тариф расчитан на несколько устройств домашней сети</p>
-                <div class="border-bottom"></div>
-                <div class="speed">до <span>300</span> мб/с</div>
-                <img src="/assets/img/speed-meter1.svg" alt="" width="92">
+            <div class="type-tariff" id="type1">
+                <h2>Тарифы "Интернет+ТВ"</h2>
+                <div></div>
+            </div>
+            <div class="type-tariff" id="type2">
+                <h2>Тарифы "Интернет"</h2>
+                <div></div>
+            </div>
+            <div class="type-tariff" id="type3">
+                <h2>Тарифы "ТВ"</h2>
+                <div></div>
             </div>
 
         </div>

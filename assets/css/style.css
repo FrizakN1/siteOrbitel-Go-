@@ -72,6 +72,12 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 body {
     min-height: 100vh;
     height: max-content;
@@ -91,21 +97,22 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 0 30px;
-    height: 130px;
+    height: 100px;
 }
 
 .logo {
-    /*top: 0;*/
-    /*left: 45%;*/
-    /*right: 45%;*/
-    /*position: absolute;*/
     cursor: pointer;
     height: 100px;
     width: 100px;
-    /*box-shadow: 0 0 10px #0177fd;*/
     border-radius: 50%;
 }
 
+.logo-mobile {
+    cursor: pointer;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
 
 header .buttons, header .buttons-round, header .buttons-main, nav ul {
     display: flex;
@@ -115,17 +122,8 @@ header .buttons{
     align-items: center;
 }
 
-header .buttons-round div{
-    border-radius: 50%;
-    background-color: #0177fd;
-    width: 35px;
-    height: 35px;
+header .buttons-round img{
     margin: 0 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    cursor: pointer;
 }
 
 header .buttons-main div{
@@ -159,22 +157,15 @@ header .buttons-main .b2:hover {
     transition-duration: 200ms;
 }
 
-nav ul{
+header nav ul{
     height: 70px;
 }
 
-nav ul li{
+header nav ul li{
     display: flex;
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*height: 100%;*/
-    /*padding: 0 18px;*/
-    /*cursor: pointer;*/
-    /*border-bottom: 1px solid #ffffff;*/
-    /*transition-duration: 200ms;*/
 }
 
-nav ul li span {
+header nav ul li span {
     display: flex;
     align-items: center;
     height: 100%;
@@ -182,12 +173,13 @@ nav ul li span {
     cursor: pointer;
     border-bottom: 1px solid #ffffff;
     transition-duration: 200ms;
+    color: #505050;
 }
 
-nav ul li .action-content {
+header nav ul li .action-content {
     display: none;
     position: absolute;
-    width: 100vw;
+    width: 100%;
     bottom: -50px;
     left: 0;
     padding: 25px;
@@ -197,7 +189,7 @@ nav ul li .action-content {
     background-color: #ffffff;
 }
 
-nav ul li .action-content div {
+header nav ul li .action-content div {
     background-color: #ffffff;
     border-bottom: 1px solid #ffffff;
     color: #000000;
@@ -207,14 +199,129 @@ nav ul li .action-content div {
     font-weight: bold;
 }
 
-nav ul li .action-content div:hover {
+header nav ul li .action-content div:hover {
     border-bottom: 1px solid #0177fd;
     color: #0177fd;
 }
 
-nav ul li:hover .action-content {display: flex;}
+header nav ul li:hover .action-content {display: flex;}
 
-nav ul li:hover span { color: #0177fd;}
+header nav ul li:hover span { color: #0177fd;}
+
+aside {
+    background-color: #fff;
+    width: 100%;
+    height: 60px;
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    transition-duration: 500ms;
+    position: relative;
+    left: 0;
+}
+
+aside .menuBtn{
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 60px;
+    background-color: #ffffff;
+    z-index: 100000001;
+}
+
+aside .menuBtn:before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 2px;
+    background-color: #000;
+    transform: translateY(-10px);
+    transition-duration: 500ms;
+}
+
+aside .menuBtn:after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 2px;
+    background-color: #000;
+    box-shadow: 0 -10px 0 #000;
+    transform: translateY(10px);
+    transition-duration: 500ms;
+}
+
+aside.active button:before {
+    transform: rotate(45deg);
+}
+
+aside.active button:after {
+    transform: rotate(-45deg);
+    box-shadow: unset;
+}
+
+aside nav {
+    position: absolute;
+    height: 100vh;
+    width: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 0 10px;
+    left: 0;
+    top: 0;
+    /*overflow: hidden;*/
+    overflow-y: scroll;
+    background-color: #ffffff;
+    z-index: 100000000;
+    transition-duration: 300ms;
+}
+
+aside.active nav {
+    padding: 60px 20px 10px;
+    position: absolute;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    box-shadow: 0 0 45px rgba(0,0,0,0.2);
+}
+
+aside .action h4, aside nav ul{
+    opacity: 0;
+    transition-duration: 500ms;
+    white-space: nowrap;
+}
+
+aside.active .action h4, aside.active nav ul{
+    opacity: 1;
+}
+
+
+aside .action h4 {
+    font-size: 20px;
+    margin: 5px 0 10px 0;
+    font-weight: bolder;
+    color: #333333;
+}
+
+aside nav ul{
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+}
+
+aside nav ul li {
+    color: #505050;
+    white-space: nowrap;
+    padding: 5px 0 ;
+    font-size: 18px;
+}
+/*aside.active nav {*/
+
+/*}*/
 
 footer {
     height: 365px;
@@ -277,18 +384,50 @@ footer .icon {
     align-items: center;
     justify-content: space-between;
     padding: 50px 80px 0;
-    height: 490px
+    position: relative;
 }
 
+#slider {
+    max-width: 1200px !important;
+}
+
+.slider-btn {
+    position: absolute;
+    font-size: 1.5em;
+    cursor: pointer;
+    z-index: 10000000;
+    bottom: 200px;
+}
+
+.slider-btn-left, .slider-btn-right {
+    color: #505050;
+    font-size: 3em;
+    transition-duration: 0.5s;
+    opacity: 0.2;
+}
+
+.slider-btn-left {
+    left: -50px;
+}
+
+.slider-btn-right {
+    right: -50px;
+}
+
+.slider-btn-right:hover, .slider-btn-left:hover {
+    transition-duration: 0.5s;
+    opacity: 1;
+}
 
 .slider .border-bottom {
+    margin-top: 50px;
     border-radius: 50%;
     width: 700px;
     height: 1px;
     background: linear-gradient(90deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.15) 100%);
 }
 
-.tariffs h2 {
+.tariffs h2, .tv-type h2 {
     font-size: 30px;
     margin: 0 0 150px 0;
     font-weight: bold;
@@ -299,8 +438,9 @@ footer .icon {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 30px 30px 0;
-    margin: 0 0 50px;
+    position: relative;
 }
 
 .tariffs .contain {
@@ -308,11 +448,23 @@ footer .icon {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 0 50px;
-    margin: 0 0 100px;
+    padding: 0 150px;
 }
 
-.tariffs .case {
+.tariffs .cases, .tariffs .case-img, .tv-type .cases, .tv-type .case-img {
+    position: fixed;
+    top: 400px;
+}
+.tariffs .cases, .tv-type .cases {
+    left: 2%;
+}
+
+.tariffs .case-img, .tv-type .case-img {
+    right: 1%;
+    top: 460px;
+}
+
+.tariffs .case, .tv-type .case {
     cursor: pointer;
     width: 145px;
     height: 145px;
@@ -326,13 +478,14 @@ footer .icon {
     transition-duration: 300ms;
     font-size: 14px;
     padding: 10px;
+    color: #505050;
 }
 
-.tariffs .case:hover {
+.tariffs .case:hover, .tv-type .case:hover{
     transform: scale(105%);
 }
 
-.tariffs .case img {
+.tariffs .case img, .tv-type .case img{
     margin: 0 0 10px;
 }
 
@@ -346,7 +499,7 @@ footer .icon {
     border-bottom-right-radius: 40px;
     position: relative;
     padding: 110px 0 0;
-    margin: 0 100px;
+    margin: 0 50px 100px;
     background-color: #ffffff;
 }
 
@@ -446,6 +599,13 @@ footer .icon {
 
 .tariffs .cards {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.tariffs .card.type2 {
+    box-shadow: 0 0 25px rgba(238,80,55,0.2);
 }
 
 .tariffs .card.type2 .price, .tariffs .card.type2 h3 {
@@ -478,8 +638,7 @@ footer .icon {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 30px;
-    margin: 0 0 50px;
+    padding: 30px 30px 100px;
 }
 
 .address-check h2 {
@@ -542,8 +701,7 @@ footer .icon {
     border: 1px solid #000000;
     padding: 20px;
     border-radius: 10px;
-    width: 70%;
-    margin: 0 50px 0 0;
+    width: 100%;
 }
 
 .address-check .check {
@@ -564,18 +722,58 @@ footer .icon {
 
 .address-check .input {
     margin: 0 0 50px;
+    display: flex;
+}
+
+.address-check .input div{
+    width: 100%;
+    position: relative;
+    margin: 0 50px 0 0;
+}
+
+.address-check .input .streets-list {
+    position: absolute;
+    margin: unset !important;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 25px rgba(1,119,253,0.2);
+}
+
+.address-check .input .streets-list span {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.address-check .input .streets-list span:hover {
+    background-color: #f3f3f3;
 }
 
 .tv-type {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    padding: 30px 30px 0;
+    height: 100%;
     justify-content: center;
-    padding: 200px 0 0;
+}
+
+.tv-type .contain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 150px;
+}
+
+.tv-type .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .tv-type .card {
-    /*box-shadow: 0 0 10px rgba(0,0,0,0.25);*/
-    border: 1px solid #000000;
+    box-shadow: 0 0 25px rgba(1,119,253,0.2);
     border-radius: 30px;
     position: relative;
     display: flex;
@@ -583,7 +781,11 @@ footer .icon {
     justify-content: space-between;
     width: 320px;
     padding: 100px 0 0;
-    margin: 0 100px;
+    margin: 45px 50px 150px;
+}
+
+.tv-type .card.color_type2 {
+    box-shadow: 0 0 25px rgba(238,80,55,0.2);
 }
 
 .tv-type .card .icon {
@@ -600,6 +802,10 @@ footer .icon {
     right: 20px;
 }
 
+.tv-type .card.color_type2 h3,.tv-type .card.color_type2 .price-block .price {
+    background-color: #ee5037;
+}
+
 .tv-type .card h3 {
     background-color: #0177fd;
     color: #ffffff;
@@ -611,8 +817,13 @@ footer .icon {
 .tv-type .card .description {
     font-size: 20px;
     display: flex;
-    justify-content: center;
     margin: 0 0 35px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tv-type .card .description div:first-child{
+    margin: 0 0 15px;
 }
 
 .tv-type .card.type2 .description {
@@ -621,6 +832,10 @@ footer .icon {
 
 .tv-type .card .description span {
     color: #0177fd;
+}
+
+.tv-type .card.color_type2 .description span {
+    color: #ee5037;
 }
 
 .tv-type .card .list {
@@ -925,7 +1140,8 @@ footer .icon {
 }
 
 .inet_for_ul-info img{
-    width: 100%;
+    /*width: 100%;*/
+    height: 762px;
     position: absolute;
     right: 0;
     top: 0;
@@ -970,8 +1186,8 @@ footer .icon {
 
 .inet_for_ul-info .fusion {
     position: absolute;
-    width: 100vw;
-    bottom: 55px;
+    width: 100%;
+    bottom: -10px;
     height: 20px;
     z-index: 10000;
     right: 0;
@@ -1112,7 +1328,7 @@ footer .icon {
     left: 0;
     padding: 10px 10px 10px;
     pointer-events: none;
-    transition: 500ms;
+    transition-duration: 500ms;
 }
 
 .application .label-text input{
@@ -1143,7 +1359,7 @@ footer .icon {
     background-color: #0177fd;
     width: 100%;
     border-radius: 4px;
-    transition: 500ms;
+    transition-duration: 500ms;
     pointer-events: none;
 }
 
@@ -1274,7 +1490,7 @@ footer .icon {
     position: absolute;
     left: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .phone_for_ul-info .img2{
@@ -1486,7 +1702,7 @@ footer .icon {
     top: 20px;
 }
 
-.authorization {
+.authorization, .replenishment_balance {
     height: 100vh;
     width: 100%;
     display: flex;
@@ -1494,7 +1710,7 @@ footer .icon {
     justify-content: center;
 }
 
-.authorization .contain {
+.authorization .contain, .replenishment_balance .contain {
     background-color: #ffffff;
     border-radius: 20px;
     border: 1px solid #0177fd;
@@ -1508,17 +1724,21 @@ footer .icon {
     height: 690px;
 }
 
-.authorization img {
+.replenishment_balance .contain {
+    width: 527px;
+}
+
+.authorization img, .replenishment_balance img {
     position: absolute;
     top: -80px;
 }
 
-.authorization h2 {
+.authorization h2, .replenishment_balance h2 {
     color: #0177fd;
     font-size: 32px;
 }
 
-.authorization button {
+.authorization button, .replenishment_balance button {
     background-color: #0177fd;
     color: #ffffff;
     width: 100%;
@@ -1526,11 +1746,11 @@ footer .icon {
     border-radius: 10px;
 }
 
-.authorization label {
+.authorization label, .replenishment_balance label {
     font-size: 24px;
 }
 
-.authorization input {
+.authorization input, .replenishment_balance input {
     border-bottom: 1px solid #0177fd;
     border-radius: 10px;
     width: 100%;
@@ -1545,6 +1765,21 @@ footer .icon {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+.profile .control_site {
+    color: #ffffff;
+    background-color: #56b36b;
+    border-radius: 10px;
+    font-size: 18px;
+    margin: 0 15px 0 0;
+    padding: 8px 15px;
+    transition-duration: 300ms;
+}
+
+
+.profile .control_site:hover {
+    background-color: #4b9b5d;
 }
 
 .profile .contain {
@@ -1906,6 +2141,7 @@ footer .icon {
     transform: scale(0);
     transition-duration: 500ms;
     position: absolute;
+    overflow-y: scroll;
 }
 
 .personal_account .right .row_h {
@@ -1930,34 +2166,42 @@ footer .icon {
     border-bottom: 2px solid #0177fd;
 }
 
+.personal_account .right .expenses-table .table_h{
+    width: 33%;
+}
+
+.personal_account .right .expenses-table .row div {
+    width: 33%;
+}
+
 .personal_account .right .deposits_history .close {
     opacity: 1;
 }
 
-.calculator h2 {
+.calculator h2, .abonent_application h2 {
     font-size: 30px;
     margin: 0 0 50px 0;
     font-weight: bold;
     color: #0177fd;
 }
 
-.calculator {
+.calculator, .abonent_application {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 30px 30px 50px;
 }
 
-.calculator .contain {
+.calculator .contain, .abonent_application .contain {
     display: flex;
     background-color: #ffffff;
     box-shadow: 0 0 25px rgba(1,119,253,0.2);
-    padding: 100px 70px 30px;
+    padding: 80px 70px 80px;
     width: 1100px;
     border-radius: 20px;
 }
 
-.calculator .left {
+.calculator .left, .abonent_application .left {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1965,14 +2209,18 @@ footer .icon {
     cursor: pointer;
 }
 
-.calculator .left .b1{
+.abonent_application .left {
+    padding: unset;
+}
+
+.calculator .left .b1, .abonent_application .left button{
     background-color: #edeef0;
     padding: 10px 40px;
     color: #767272;
     border-radius: 10px;
 }
 
-.calculator .card, .tariff-select .card {
+.calculator .card, .tariff-select .card, .abonent_application .card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1996,7 +2244,7 @@ footer .icon {
     box-shadow: 0 0 25px rgba(1,119,253,0.5);
 }
 
-.calculator .card .price, .tariff-select .card .price {
+.calculator .card .price, .tariff-select .card .price, .abonent_application .card .price {
     background-color: #0177fd;
     color: #ffffff;
     font-size: 24px;
@@ -2012,7 +2260,7 @@ footer .icon {
     right: 75px;
 }
 
-.calculator .card h3, .tariff-select .card h3 {
+.calculator .card h3, .tariff-select .card h3, .abonent_application .card h3 {
     background-color: #0177fd;
     color: #ffffff;
     display: flex;
@@ -2024,7 +2272,7 @@ footer .icon {
     width: 100%;
 }
 
-.calculator .card p, .tariff-select .card p {
+.calculator .card p, .tariff-select .card p, .abonent_application .card p {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2034,7 +2282,7 @@ footer .icon {
     line-height: 20px;
 }
 
-.calculator .card .border-bottom, .tariff-select .card .border-bottom {
+.calculator .card .border-bottom, .tariff-select .card .border-bottom, .abonent_application .card .border-bottom {
     border-radius: 50%;
     width: 220px;
     height: 1px;
@@ -2042,18 +2290,18 @@ footer .icon {
     background-color: #0177fd;
 }
 
-.calculator .card .speed, .tariff-select .card .speed {
+.calculator .card .speed, .tariff-select .card .speed, .abonent_application .card .speed {
     font-size: 30px;
     margin: 0 0 25px;
 }
 
-.calculator .card .speed span, .tariff-select .card .speed span {
+.calculator .card .speed span, .tariff-select .card .speed span, .abonent_application .card .speed span {
     color: #0177fd;
     font-size: 30px;
     font-weight: bold;
 }
 
-.calculator .card .description, .tariff-select .card .description {
+.calculator .card .description, .tariff-select .card .description, .abonent_application .card .description {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -2061,19 +2309,19 @@ footer .icon {
     margin: 0 0 30px;
 }
 
-.calculator .card img, .tariff-select .card img {
+.calculator .card img, .tariff-select .card img, .abonent_application .card img {
     margin: 0 0 15px;
 }
 
-.calculator .card .description div span, .tariff-select .card .description div span {
+.calculator .card .description div span, .tariff-select .card .description div span, .abonent_application .card .description div span {
     color: #0177fd;
 }
 
-.calculator .card .description .d1, .tariff-select .card .description .d1 {
+.calculator .card .description .d1, .tariff-select .card .description .d1, .abonent_application .card .description .d1 {
     margin: 0 0 20px;
 }
 
-.calculator .card button, .tariff-select .card button {
+.calculator .card button, .tariff-select .card button, .abonent_application .card button {
     border-radius: 20px;
     border: 3px solid #0177fd;
     background-color: #ffffff;
@@ -2084,30 +2332,30 @@ footer .icon {
     transition-duration: 200ms;
 }
 
-.calculator .card button:hover, .tariff-select .card button:hover {
+.calculator .card button:hover, .tariff-select .card button:hover, .abonent_application .card button:hover {
     background-color: #0177fd;
     color: #ffffff;
     transition-duration: 200ms;
 }
 
-.calculator .cards, .tariff-select .cards {
+.calculator .cards, .tariff-select .cards, .abonent_application .cards {
     display: flex;
 }
 
-.calculator .card.type2 .price, .tariff-select .card.type2 .price, .calculator .card.type2 h3, .tariff-select .card.type2 h3 {
+.calculator .card.type2 .price, .tariff-select .card.type2 .price, .calculator .card.type2 h3, .tariff-select .card.type2 h3, .abonent_application .card.type2 .price, .abonent_application .card.type2 h3 {
     background-color: #ee5037;
 }
 
-.calculator .card.type2 span, .tariff-select .card.type2 span, .calculator .card.type2 .description span, .tariff-select .card.type2 .description span{
+.calculator .card.type2 span, .tariff-select .card.type2 span, .calculator .card.type2 .description span, .tariff-select .card.type2 .description span, .abonent_application .card.type2 span, .abonent_application .card.type2 .description span{
     color: #ee5037;
 }
 
-.calculator .card.type2 button, .tariff-select .card.type2 button {
+.calculator .card.type2 button, .tariff-select .card.type2 button, .abonent_application .card.type2 button {
     border: 3px solid #ee5037;
     color: #ee5037;
 }
 
-.calculator .card.type2 button:hover, .tariff-select .card.type2 button:hover {
+.calculator .card.type2 button:hover, .tariff-select .card.type2 button:hover, .abonent_application .card.type2 button:hover {
     background-color: #ee5037;
     color: #ffffff;
 }
@@ -2189,7 +2437,7 @@ footer .icon {
     justify-content: space-between;
     padding: 0 150px 0 0;
     margin: 0 0 50px;
-    display: none;
+    display: flex;
 }
 
 .calculator .right .prices span {
@@ -2226,7 +2474,7 @@ footer .icon {
     padding: 10px 20px;
     min-width: 335px;
     max-width: 100%;
-    transition: 0.5s;
+    transition-duration: 0.5s;
     display: flex;
     justify-content: center;
     user-select: none;
@@ -2235,7 +2483,7 @@ footer .icon {
 .select div i{
     color: #4a525f;
     margin-left: 5px;
-    transition: 0.5s;
+    transition-duration: 0.5s;
 }
 
 .select.active div {
@@ -2253,7 +2501,7 @@ footer .icon {
     height: 0;
     top: 39px;
     width: 330px;
-    transition: 0.2s;
+    transition-duration: 0.2s;
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0,0,0,0.25);
     z-index: 10;
@@ -2265,17 +2513,17 @@ footer .icon {
 
 .select.active ul.color {
     height: 64px;
-    transition: 0.2s;
+    transition-duration: 0.2s;
 }
 
 .select.active ul.type {
     height: 64px;
-    transition: 0.2s;
+    transition-duration: 0.2s;
 }
 
 .select.active ul.role {
     height: 96px;
-    transition: 0.2s;
+    transition-duration: 0.2s;
 }
 
 .select ul li{
@@ -2283,7 +2531,7 @@ footer .icon {
     opacity: 0;
     color: #0177fd;
     background-color: #ffffff;
-    transition: 0.3s;
+    transition-duration: 0.3s;
     cursor: pointer;
     padding: 8px;
     text-align: center;
@@ -2292,7 +2540,7 @@ footer .icon {
 .select.active ul li{
     visibility: visible;
     opacity: 1;
-    transition: 0.3s;
+    transition-duration: 0.3s;
 }
 
 .select.active ul li:hover{
@@ -2310,27 +2558,17 @@ footer .icon {
     margin-bottom: 10px;
 }
 
-.calculator .card_preview {
+.calculator .card_preview, .abonent_application .card_preview{
     height: 410px;
     width: 300px;
     box-shadow: 0 0 25px rgba(1,119,253,0.2);
-    font-size: 40px;
+    font-size: 150px;
     display: flex;
+    color: #0177fd;
     justify-content: center;
     align-items: center;
     border-radius: 20px;
     margin-bottom: 20px;
-}
-
-.calculator .card_preview div{
-    border-radius: 50%;
-    background-color: #0177fd;
-    color: #ffffff;
-    height: 80px;
-    width: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .tariff-select {
@@ -2356,16 +2594,34 @@ footer .icon {
     box-shadow: 0 0 25px rgba(1,119,253,0.2);
     padding: 100px 50px 0;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    max-width: 1600px;
-    max-height: 800px;
+    width: 1600px;
+    height: 800px;
     overflow-y: scroll;
-    flex-wrap: wrap;
 }
 
 .tariff-select .contain::-webkit-scrollbar{
     width: 10px;
+}
+
+.tariff-select .contain .type-tariff {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tariff-select .contain .type-tariff h2 {
+    font-size: 36px;
+    color: #0177fd;
+    font-weight: bold;
+    margin: 0 0 100px;
+}
+
+.tariff-select .contain .type-tariff div{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .tariff-select .contain::-webkit-scrollbar-thumb{
@@ -2374,7 +2630,7 @@ footer .icon {
     border: 2px solid #ffffff;
 }
 
-.tariff-select .card_tv, .calculator .card_tv {
+.tariff-select .card_tv, .calculator .card_tv, .abonent_application .card_tv {
     box-shadow: 0 0 25px rgba(1,119,253,0.2);
     border-radius: 30px;
     position: relative;
@@ -2388,11 +2644,11 @@ footer .icon {
     transition-duration: 300ms;
 }
 
-.calculator .card_tv {
+.calculator .card_tv, .abonent_application .card_tv {
     margin: 20px 0 ;
 }
 
-.tariff-select .card_tv .icon, .calculator .card_tv .icon {
+.tariff-select .card_tv .icon, .calculator .card_tv .icon, .abonent_application .card_tv .icon {
     position: absolute;
     height: 250px;
     width: 250px;
@@ -2401,12 +2657,12 @@ footer .icon {
     top: -120px;
 }
 
-.tariff-select .card_tv.type2 .icon, .calculator .card_tv.type2 .icon {
+.tariff-select .card_tv.type2 .icon, .calculator .card_tv.type2 .icon, .abonent_application .card_tv.type2 .icon {
     left: 50px;
     right: 20px;
 }
 
-.tariff-select .card_tv h3, .calculator .card_tv h3 {
+.tariff-select .card_tv h3, .calculator .card_tv h3, .abonent_application .card_tv h3 {
     background-color: #0177fd;
     color: #ffffff;
     text-align: center;
@@ -2414,7 +2670,7 @@ footer .icon {
     margin: 0 0 35px;
 }
 
-.tariff-select .card_tv .description, .calculator .card_tv .description{
+.tariff-select .card_tv .description, .calculator .card_tv .description, .abonent_application .card_tv .description{
     font-size: 20px;
     display: flex;
     flex-direction: column;
@@ -2422,30 +2678,30 @@ footer .icon {
     margin: 0 0 35px;
 }
 
-.tariff-select .card_tv .description div:first-child, .calculator .card_tv .description div:first-child {
+.tariff-select .card_tv .description div:first-child, .calculator .card_tv .description div:first-child, .abonent_application .card_tv .description div:first-child {
     margin: 0 0 15px;
 }
 
-.tariff-select .card_tv.type2 .description, .calculator .card_tv.type2 .description {
+.tariff-select .card_tv.type2 .description, .calculator .card_tv.type2 .description, .abonent_application .card_tv.type2 .description {
     margin: 0 0 15px;
 }
 
-.tariff-select .card_tv .description span, .calculator .card_tv .description span {
+.tariff-select .card_tv .description span, .calculator .card_tv .description span, .abonent_application .card_tv .description span {
     color: #0177fd;
 }
 
-.tariff-select .card_tv .list, .calculator .card_tv .list {
+.tariff-select .card_tv .list, .calculator .card_tv .list, .abonent_application .card_tv .list {
     background-color: unset;
     width: max-content;
     padding: 3px;
     margin: 0 0 30px 30px;
 }
 
-.tariff-select .card_tv.type2 .list, .calculator .card_tv.type2 .list {
+.tariff-select .card_tv.type2 .list, .calculator .card_tv.type2 .list, .abonent_application .card_tv.type2 .list  {
     margin: 0 0 10px 30px;
 }
 
-.tariff-select .card_tv.type2 .params, .calculator .card_tv.type2 .params {
+.tariff-select .card_tv.type2 .params, .calculator .card_tv.type2 .params, .abonent_application .card_tv.type2 .params {
     background-color: unset;
     width: max-content;
     max-width: 270px;
@@ -2455,14 +2711,14 @@ footer .icon {
     display: flex;
 }
 
-.tariff-select .card_tv .price-block, .calculator .card_tv .price-block {
+.tariff-select .card_tv .price-block, .calculator .card_tv .price-block, .abonent_application .card_tv .price-block {
     width: 230px;
     display: flex;
     position: relative;
     margin: 0 0 35px;
 }
 
-.tariff-select .card_tv .price-block .price, .calculator .card_tv .price-block .price {
+.tariff-select .card_tv .price-block .price, .calculator .card_tv .price-block .price, .abonent_application .card_tv .price-block .price {
     width: 230px;
     background-color: #0177fd;
     color: #ffffff;
@@ -2470,7 +2726,7 @@ footer .icon {
     padding: 15px 50px;
 }
 
-.tariff-select .card_tv .price-block div:last-child, .calculator .card_tv .price-block div:last-child {
+.tariff-select .card_tv .price-block div:last-child, .calculator .card_tv .price-block div:last-child,  .abonent_application .card_tv .price-block div:last-child {
     position: absolute;
     right: 0;
     width: 0;
@@ -2481,8 +2737,980 @@ footer .icon {
 }
 
 
-.tariff-select .card_tv .note, .calculator .card_tv .note {
+.tariff-select .card_tv .note, .calculator .card_tv .note, .abonent_application .card_tv .note {
     text-align: center;
     margin: 0 0 20px;
     font-size: 14px;
+}
+
+.about {
+    margin: 0 0 50px;
+}
+
+.about .contain{
+    display: flex;
+    align-items: center;
+}
+
+.about img {
+    margin: -30px 0 0;
+}
+
+.about p {
+    font-size: 32px;
+    line-height: 40px;
+}
+
+.about p span {
+    color: #0177fd;
+}
+
+.about .contain div {
+    padding:0  150px 0 100px;
+    width: 50%;
+}
+
+.about .contain ul {
+    font-size: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about .contain ul li {
+    margin: 15px 0;
+}
+
+.about h2, .yandex-map h2 {
+    font-weight: bold;
+    color: #0177fd;
+    font-size: 36px;
+    text-align: center;
+    position: relative;
+}
+.yandex-map h2 {
+    margin: 0 0 40px;
+}
+
+
+.yandex-map {
+    padding: 0 200px 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.yandex-map .map{
+    width: 100%;
+    height: 700px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(1,119,253,0.2);
+}
+
+.about-actions {
+    padding: 0 150px 100px;
+}
+
+.about-actions a{
+    color: #0177fd;
+    display: flex;
+    font-size: 36px;
+    margin: 0 0 40px;
+}
+
+.error-page {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #0177fd;
+}
+
+
+.error-page span{
+    font-size: 90px;
+    padding: 0 20px 0 0;
+    border-right: 1px solid #0177fd;
+}
+
+.error-page div{
+    font-size: 50px;
+    padding: 0 0 0 20px;
+    max-width: 800px;
+}
+
+.virtual_ats-info {
+    display: flex;
+    padding: 50px 150px;
+    align-items: center;
+}
+
+.virtual_ats-info .contain{
+    padding: 0 100px;
+}
+
+.virtual_ats-info .contain h2{
+    font-size: 36px;
+    color: #0177fd;
+    font-weight: bold;
+    margin: 0 0 50px;
+}
+
+
+.virtual_ats-info .contain p{
+    font-size: 24px;
+    line-height: 37px;
+    margin: 0 0 50px;
+}
+
+.virtual_ats-info .contain button{
+    font-size: 24px;
+    line-height: 37px;
+    margin: 0 0 50px;
+    padding: 15px 70px;
+    background-color: #0177fd;
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+
+.virtual_ats-info button:hover {
+    background-color: #005dd0;
+}
+
+.virtual_ats-info button:active {
+    background-color: #0051b9;
+}
+
+.virtual_ats-advantages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.virtual_ats-advantages h2{
+    font-size: 36px;
+    color: #0177fd;
+    font-weight: bold;
+    margin: 0 0 80px;
+}
+
+.virtual_ats-advantages .contain .block{
+    width: 420px;
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 25px rgba(1,119,253,0.2);
+    font-size: 20px;
+    margin: 0 80px 80px;
+    border-radius: 20px;
+    padding: 30px;
+    justify-content: space-between;
+}
+
+
+.virtual_ats-advantages .contain .block p{
+    text-align: center;
+}
+
+.virtual_ats-advantages .contain {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.routers, .tv_manual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 150px;
+}
+
+.routers h2, .tv_manual h2, .oplata h2{
+    font-size: 36px;
+    color: #0177fd;
+    font-weight: bold;
+    margin: 0 0 120px;
+}
+
+.routers .contain, .tv_manual .contain {
+    width: 100%;
+}
+
+.routers .contain span, .tv_manual .contain span{
+    font-size: 30px;
+    margin: 0 0 50px;
+    display: block;
+}
+
+.routers .router_list{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.routers .router_list .block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #505050;
+    margin: 0 10px 40px;
+}
+
+.routers .router_list img{
+    margin: 0 0 20px;
+}
+
+.tv_manual .contain .tv_list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    width: 100%;
+    padding: 0 200px;
+}
+
+.tv_manual .contain a {
+    margin: 0 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.oplata {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.oplata .contain {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.oplata .contain .block{
+    box-shadow: 0 0 25px rgba(1,119,253,0.2);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 50px 50px;
+    padding: 0 20px 30px;
+}
+
+.oplata .contain .block .imgs {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 180px;
+    width: 100%;
+}
+
+.oplata .contain .block .imgs .img1{
+    position: absolute;
+    left: 40px;
+    top: 0;
+}
+
+.oplata .contain .block .imgs .img2{
+    position: absolute;
+    left: 40px;
+    bottom: -50px;
+}
+
+.oplata .contain .block .imgs .img3{
+    position: absolute;
+    top: 90px;
+    right: 30px;
+}
+
+.faq {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 350px;
+}
+
+.faq h2 {
+    font-size: 36px;
+    color: #0177fd;
+    font-weight: bold;
+    margin: 0 0 100px;
+}
+
+.faq .contain {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.faq .bar {
+    width: 100%;
+    box-shadow: 0 0 25px rgba(1,119,253,0.2);
+    cursor: pointer;
+    margin: 0 0 40px;
+    transition: margin 400ms;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.faq .bar .question{
+    display: flex;
+    align-items: center;
+}
+
+.faq .bar .question .text{
+    padding: 0 30px;
+    font-size: 24px;
+    position: relative;
+    width: 100%;
+}
+
+.faq .bar .arrow{
+    height: 80px;
+    width: 80px;
+    padding: 10px;
+    background-color: #0177fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+
+.faq .bar .arrow i{
+    color: #ffffff;
+    font-size: 60px;
+    transition-duration: 400ms;
+}
+
+.faq .bar .question .text .answer{
+    position: absolute;
+    right: 0;
+    top: 50px;
+    width: 100%;
+    padding: 0 20px;
+    background-color: #ffffff;
+    border-top: 1px solid #0177fd;
+    border-bottom: 1px solid #0177fd;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 400ms;
+}
+
+.faq .bar .question .text .answer p{
+    padding: 20px 0;
+    line-height: 39px;
+}
+
+.faq .bar.open .arrow i{
+    transform: rotate(90deg);
+}
+
+.abonent_application .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 0 0 100px;
+}
+
+.abonent_application .form label{
+    margin: 0 0 20px;
+}
+
+.abonent_application .form div{
+    font-size: 20px;
+    margin: 0 0 10px;
+}
+
+.abonent_application .form input{
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #0177fd;
+    font-size: 20px;
+    padding: 7px 10px;
+}
+
+.abonent_application .form textarea{
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #0177fd;
+    font-size: 20px;
+    padding: 7px 10px;
+}
+
+.abonent_application .form button{
+    font-size: 20px;
+    background-color: #0177fd;
+    opacity: 0.6;
+    border-radius: 10px;
+    padding: 10px 35px;
+    color: #ffffff;
+    width: max-content;
+}
+
+.abonent_application .form a{
+    color: #0177fd;
+    margin: 0 0 0 5px;
+}
+
+.abonent_application input[type="checkbox"] {
+    display: none;
+}
+
+.abonent_application label span {
+    position: relative;
+    margin: 0 0 0 25px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.abonent_application label span:before {
+    content: "";
+    left: -22px;
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    border-radius: 3px;
+    border: 1px solid #0177fd;
+    transform: translateY(-1px);
+}
+
+.abonent_application label span:after {
+    content: "";
+    left: -19px;
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    border-radius: 3px;
+    background-color: #0177fd;
+    opacity: 0;
+    transform: translateY(-1px);
+}
+
+.abonent_application input[type="checkbox"]:checked + span:after{
+    opacity: 1;
+}
+
+.alert {
+    display: none;
+    align-items: center;
+    padding: 0 50px;
+    font-size: 20px;
+    color: #ffffff;
+    position: fixed;
+    top: 50px;
+    left: 150px;
+    right: 150px;
+    height: 70px;
+    z-index: 100000000;
+}
+
+.alert.success {
+    background-color:rgba(86,179,107,0.7);
+    display: flex;
+}
+
+.alert.warning {
+    background-color:rgba(215,91,90,0.7);
+    display: flex;
+}
+
+.alert .close{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.alert .close:before, .alert .close:after{
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 2px;
+    background-color: #ffffff;
+    transform: rotate(45deg);
+}
+
+.alert .close:after {
+    transform: rotate(-45deg);
+}
+
+.alert.success .timer {
+    background-color: #479659;
+}
+
+.alert.warning .timer {
+    background-color: #ad4948;
+}
+
+.alert .timer {
+    right: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    transition-property: right;
+    transition-duration: 3s;
+    transition-timing-function: linear;
+}
+
+.alert .timer.start {
+    right: 100%;
+}
+
+.bg-img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 762px;
+}
+
+@media (max-width: 1600px) {
+    .cases, .case-img {
+        position: absolute !important;
+        top: unset !important;
+    }
+
+    .bg-img {
+        display: none;
+    }
+
+    .phone_for_ul-info .img2 {
+        right: -100px !important;
+    }
+    .personal_account {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .personal_account .left {
+        margin-bottom: 50px;
+    }
+}
+
+@media (max-width: 1360px) {
+    .advantages .round-type3 {
+        display: none;
+    }
+
+    .advantages .round-main div {
+        width: 240px;
+    }
+
+    .phone_for_ul-info .img1 {
+        left: -100px;
+    }
+
+    .phone_for_ul-info .img2 {
+        right: -200px !important;
+    }
+
+    .vpn_for_ul-info {
+        padding: 0 40px !important;
+    }
+
+    .about img{
+        height: 762px;
+    }
+
+    .yandex-map {
+        padding: 0 50px;
+    }
+
+    .about-actions {
+        padding: 50px;
+    }
+
+    .faq {
+       padding: 50px 150px
+    }
+
+    .address-check .contain{
+      width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        display: none;
+    }
+
+    aside {
+        display: flex;
+    }
+
+    .slider-btn-left, .slider-btn-right  {
+        display: none;
+    }
+
+    .slider {
+        padding-left: unset;
+        padding-right: unset;
+    }
+
+    .slider .border-bottom, .tariffs .border-bottom {
+        width: 90%;
+        margin-top: 20px;
+    }
+
+    .abonent_application h2, .calculator h2, .faq h2, .oplata h2, .tv_manual h2, .routers h2, .tariffs h2, .address-check h2, .tv-type h2, .phone .description h2, .inet_for_ul-info h2, .advantages h2, .phone_for_ul-info h2, .vpn_for_ul-info h2,  .virtual_ats-info .contain h2, .virtual_ats-advantages h2 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .phone .description h2 {
+        width: 100%;
+    }
+
+    .address-check h2 {
+        margin: 0 0 40px;
+    }
+
+    .tariffs .contain {
+        padding: 0;
+    }
+
+    .tariffs .card {
+        margin-left: unset;
+        margin-right: unset;
+    }
+
+    .tariffs .cases, .tv-type .cases {
+        display: flex;
+        position: unset !important;
+    }
+
+    .tariffs .cases .case, .tv-type .cases .case {
+        margin: 0 10px 15px;
+    }
+
+    .tariffs .case-img, .tv-type .case-img {
+        position: unset !important;
+    }
+
+    .address-check {
+        padding-bottom: 50px;
+    }
+
+    .address-check .contain {
+        padding: 20px;
+    }
+
+    .address-check .input {
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+    .address-check .input .streets-list {
+        margin-top: -15px !important;
+    }
+
+    .address-check .input input {
+        margin: 0 0 15px 0;
+    }
+
+    .address-check p {
+        font-size: 20px;
+    }
+
+    footer .top {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        height: max-content;
+        padding: 50px 35px;
+    }
+
+    footer .top .column {
+        margin: 0 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    footer .top .column ul {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    footer .bottom {
+        padding: 15px 0;
+    }
+
+    .phone {
+        flex-direction: column;
+        padding: 50px 15px 40px;
+        align-items: center;
+    }
+
+    .phone .description {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 80px;
+        margin-right: unset;
+    }
+
+    .phone .card {
+        margin: unset;
+    }
+
+    .inet_for_ul-info {
+        padding: 50px 15px 50px;
+        height: max-content;
+    }
+
+    .inet_for_ul-info .contain {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .inet_for_ul-info .contain p {
+        margin-right: unset;
+        width: 100%;
+        font-size: 20px;
+        line-height: 35px;
+    }
+
+    .inet_for_ul-info .contain button {
+        font-size: 20px;
+    }
+
+    .advantages {
+        padding: 0 0 50px;
+    }
+
+    .advantages h2 {
+        margin: 0 0 50px;
+    }
+
+    .advantages .bar {
+        flex-direction: column;
+        margin-right: 50%;
+    }
+
+    .advantages .bar div {
+        margin: 3px 0;
+    }
+
+    .advantages .round1-round2 {
+        background: linear-gradient(to bottom, #009d84, #ec4f37);
+    }
+    .advantages .round2-round3 {
+        background: linear-gradient(to bottom, #ec4f37, #f79900);
+    }
+    .advantages .round3-round4 {
+        background: linear-gradient(to bottom, #f79900, #0176fb);
+    }
+
+    .advantages .round-main div {
+        position: absolute;
+        bottom: 35%;
+        right: -200px;
+        max-width: 120%;
+    }
+
+    .phone_for_ul-info {
+        padding: 50px 0;
+    }
+
+    .phone_for_ul-info .images, .phone_for_ul-info .fusion-bottom, .phone_for_ul-info .fusion-top{
+        display: none;
+    }
+
+    .phone_for_ul-info button {
+        font-size: 20px;
+    }
+
+    .vpn_for_ul-info {
+        padding: 50px 15px 0!important;
+        height: max-content;
+    }
+
+    .vpn_for_ul-info .contain1 h2{
+        margin-bottom: 50px;
+    }
+
+    .vpn_for_ul-info p {
+        margin: unset;
+        font-size: 20px;
+    }
+
+    .vpn_for_ul-info img, .vpn_for_ul-info .border-connect {
+        display: none;
+    }
+
+    .vpn_for_ul-info.s3 {
+        padding: 50px 15px 50px 45px !important;
+    }
+
+    .virtual_ats-info {
+        padding: 50px 15px;
+    }
+
+    .virtual_ats-info img {
+        display: none;
+    }
+
+    .virtual_ats-info .contain {
+        padding: unset;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .virtual_ats-info .contain p, .virtual_ats-info .contain button {
+        font-size: 20px;
+    }
+
+    .virtual_ats-advantages h2 {
+        margin: 0 0 50px;
+    }
+
+    .virtual_ats-advantages .contain {
+        display: flex;
+        flex-direction: column;
+        padding: 0 15px;
+    }
+
+    .virtual_ats-advantages .contain .block {
+        width: 100%;
+        margin: 0 0 25px;
+    }
+
+    .routers {
+        padding: 50px 15px;
+    }
+
+    .routers span {
+        text-align: center;
+        font-size: 20px !important;
+    }
+
+    .routers .router_list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .routers h2 {
+        margin-bottom: 50px;
+    }
+
+    .tv_manual {
+        padding: 50px 15px;
+    }
+
+    .tv_manual h2 {
+        margin-bottom: 50px;
+    }
+
+    .tv_manual .contain span{
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .tv_manual .contain .tv_list {
+        padding: unset;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .oplata {
+        padding: 50px 15px;
+    }
+
+    .oplata h2 {
+        margin-bottom: 50px;
+    }
+
+    .oplata .contain {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .oplata .contain .block {
+        margin: 0 0 25px;
+        width: 100%;
+    }
+
+    .oplata .contain .block p{
+        margin: 10px 0 0;
+    }
+
+    .oplata .contain .block .imgs .img1{
+        left: 0;
+        top: -10px;
+    }.oplata .contain .block .imgs .img2{
+        left: 0;
+        bottom: -30px;
+    }.oplata .contain .block .imgs .img3{
+        right: 0;
+    }
+
+     .faq {
+         padding: 50px 15px;
+     }
+
+    .faq h2{
+        margin-bottom: 50px;
+    }
+
+    .faq .question {
+        height: 80px;
+    }
+
+    .faq .text{
+        font-size: 18px !important;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .faq .answer {
+        top: 78px !important;
+    }
+
+    nav .b1, nav .b2{
+        cursor: pointer;
+        border: 3px solid #0177fd;
+        padding: 10px 15px;
+        border-radius: 20px;
+        margin: 10px 0;
+        white-space: nowrap;
+    }
+
+    nav .b1 {
+        background-color: #0177fd;
+        color: #ffffff;
+        transition-duration: 200ms;
+    }
+
+    nav .b2 {
+        color: #0177fd;
+        transition-duration: 200ms;
+    }
+
 }

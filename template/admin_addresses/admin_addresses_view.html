@@ -1,0 +1,46 @@
+{{define "adminAddressesView"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просмотр адреса: {{.Obj.ID}}</title>
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body>
+{{template "adminAside" .Active}}
+<main>
+    <div class="alert">
+        <div class="close"></div>
+        <div class="text">Заявка успешно отправлена</div>
+        <div class="timer"></div>
+    </div>
+    {{template "adminHead" .}}
+    <div class="control_buttons">
+        <a href="/admin/addresses/edit-{{.Obj.ID}}"><button class="edit">Изменить</button></a>
+       <button class="delete" onclick="deleteRecord('{{.Obj.Street}} {{.Obj.House}}',{{.Obj.ID}},'адрес','addresses')">Удалить</button>
+    </div>
+    <div class="table view-table">
+        <div class="row">
+            <div class="col-view">ID</div>
+            <div class="col-view">{{.Obj.ID}}</div>
+        </div>
+        <div class="row">
+            <div class="col-view">Улица</div>
+            <div class="col-view">{{.Obj.Street}}</div>
+        </div>
+        <div class="row">
+            <div class="col-view">Номер дома</div>
+            <div class="col-view">{{.Obj.House}}</div>
+        </div>
+    </div>
+    <div class="massage">
+        <div class="contain">
+        </div>
+    </div>
+</main>
+<script src="/assets/js/admin.js"></script>
+</body>
+</html>
+{{end}}

@@ -4,42 +4,91 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Телевидение - Orbitel</title>
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
         <link rel="stylesheet" href="/assets/css/all.min.css">
         <link rel="stylesheet" href="/assets/css/style.css">
     </head>
     <body>
         {{template "header"}}
         <section class="tv-type">
-            <div class="card">
-                <div class="icon"><img src="/assets/img/analog_tv.svg" alt="Аналоговое ТВ"></div>
-                <h3>Аналоговое ТВ</h3>
-                <div class="description">
-                    <div><span>50</span> Аналоговых каналов</div>
+            <h2>{{ index .Settings "sections_tariffs_title" }}</h2>
+            <div class="contain">
+                <div class="cards">
+                    {{range $vl := .Tariffs}}
+                        <div class="card {{if ne $vl.DigitalChannel 0}}type2{{end}} {{if eq $vl.Color "#ee5037"}}type_color2{{end}}">
+                            <div class="icon">
+                                {{if ne $vl.DigitalChannel 0}}
+                                    <img src="/assets/img/interaktiv_tv.svg" alt="Аналоговое ТВ">
+                                        {{else}}
+                                    <img src="/assets/img/analog_tv.svg" alt="Аналоговое ТВ">
+                                {{end}}
+                            </div>
+                            <h3>{{$vl.Name}}</h3>
+                            <div class="description">
+                            {{if ne $vl.DigitalChannel 0}}<div><span>{{$vl.DigitalChannel}}</span> Цифровых каналов</div>{{end}}
+                            {{if ne $vl.AnalogChannel 0}}<div><span>{{$vl.AnalogChannel}}</span> Аналоговых каналов</div>{{end}}
+                            </div>
+                            <button class="list">Список каналов</button>
+                            {{if ne $vl.DigitalChannel 0}}<button class="params">Параметры настройки оборудования для цифрового телевидения</button>{{end}}
+                            <a href="/abonent_application-{{$vl.ID}}">
+                                <div class="price-block">
+                                    <div class="price">{{$vl.Price}} ₽/мес</div>
+                                    <div></div>
+                                </div>
+                            </a>
+                            <p class="note">*Стоимость подключения 100 руб</p>
+                        </div>
+                    {{end}}
+{{/*                    <div class="card">*/}}
+{{/*                        <div class="icon"><img src="/assets/img/analog_tv.svg" alt="Аналоговое ТВ"></div>*/}}
+{{/*                        <h3>Аналоговое ТВ</h3>*/}}
+{{/*                        <div class="description">*/}}
+
+{{/*                            <div><span>50</span> Аналоговых каналов</div>*/}}
+{{/*                        </div>*/}}
+{{/*                        <button class="list">Список каналов</button>*/}}
+{{/*                        <div class="price-block">*/}}
+{{/*                            <div class="price">200 ₽/мес</div>*/}}
+{{/*                            <div></div>*/}}
+{{/*                        </div>*/}}
+{{/*                        <p class="note">*Стоимость подключения 100 руб</p>*/}}
+{{/*                    </div>*/}}
+{{/*                    <div class="card type2 color_type2">*/}}
+{{/*                        <div class="icon"><img src="/assets/img/interaktiv_tv.svg" alt="Аналоговое ТВ"></div>*/}}
+{{/*                        <h3>Цифровое ТВ</h3>*/}}
+{{/*                        <div class="description">*/}}
+{{/*                            <div><span>150</span> Цифровых каналов</div>*/}}
+{{/*                        </div>*/}}
+{{/*                        <button class="list">Список каналов</button>*/}}
+{{/*                        <button class="params">Параметры настройки оборудования для цифрового телевидения</button>*/}}
+{{/*                        <div class="price-block">*/}}
+{{/*                            <div class="price">200 ₽/мес</div>*/}}
+{{/*                            <div></div>*/}}
+{{/*                        </div>*/}}
+{{/*                        <p class="note">*Стоимость подключения 100 руб</p>*/}}
+{{/*                    </div>*/}}
+{{/*                    <div class="card type2 color_type2">*/}}
+{{/*                        <div class="icon"><img src="/assets/img/interaktiv_tv.svg" alt="Аналоговое ТВ"></div>*/}}
+{{/*                        <h3>Цифровое ТВ</h3>*/}}
+{{/*                        <div class="description">*/}}
+{{/*                            <div><span>150</span> Цифровых каналов</div>*/}}
+{{/*                        </div>*/}}
+{{/*                        <button class="list">Список каналов</button>*/}}
+{{/*                        <button class="params">Параметры настройки оборудования для цифрового телевидения</button>*/}}
+{{/*                        <div class="price-block">*/}}
+{{/*                            <div class="price">200 ₽/мес</div>*/}}
+{{/*                            <div></div>*/}}
+{{/*                        </div>*/}}
+{{/*                        <p class="note">*Стоимость подключения 100 руб</p>*/}}
+{{/*                    </div>*/}}
                 </div>
-                <button class="list">Список каналов</button>
-                <div class="price-block">
-                    <div class="price">200 ₽/мес</div>
-                    <div></div>
-                </div>
-                <p class="note">*Стоимость подключения 100 руб</p>
             </div>
-            <div class="card type2">
-                <div class="icon"><img src="/assets/img/interaktiv_tv.svg" alt="Аналоговое ТВ"></div>
-                <h3>Цифровое ТВ</h3>
-                <div class="description">
-                    <div><span>150</span> Цифровых каналов</div>
-                </div>
-                <button class="list">Список каналов</button>
-                <button class="params">Параметры настройки оборудования для цифрового телевидения</button>
-                <div class="price-block">
-                    <div class="price">200 ₽/мес</div>
-                    <div></div>
-                </div>
-                <p class="note">*Стоимость подключения 100 руб</p>
-            </div>
+            {{template "cases" .}}
         </section>
         {{ template "footer" }}
+        <script src="/assets/js/script.js"></script>
     </body>
     </html>
 {{end}}

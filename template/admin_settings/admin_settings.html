@@ -21,24 +21,26 @@
                 <div class="table_h col5"></div>
             </div>
             <div class="row inputs">
-                <div class="col1"><input type="text"></div>
-                <div class="col2"><input type="text"></div>
-                <div class="col3"><input type="text"></div>
-                <div class="col4"><input type="text"></div>
+                <div class="col1"><input type="text" id="col1"></div>
+                <div class="col2"><input type="text" id="col2"></div>
+                <div class="col3"><input type="text" id="col3"></div>
+                <div class="col4"><input type="text" id="col4"></div>
                 <div class="col5"></div>
             </div>
-            {{range $vl := .Settings}}
-                <div class="row">
-                    <div class="col1">{{$vl.ID}}</div>
-                    <div class="col2">{{$vl.Key}}</div>
-                    <div class="col3">{{$vl.Value}}</div>
-                    <div class="col4">{{$vl.Description}}</div>
-                    <div class="col5">
-                        <a href="/admin/settings/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
-                        <a href="/admin/settings/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
+            <div class="records">
+                {{range $vl := .Settings}}
+                    <div class="row">
+                        <div class="col1">{{$vl.ID}}</div>
+                        <div class="col2">{{$vl.Key}}</div>
+                        <div class="col3">{{$vl.Value}}</div>
+                        <div class="col4">{{$vl.Description}}</div>
+                        <div class="col5">
+                            <a href="/admin/settings/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
+                            <a href="/admin/settings/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
+                        </div>
                     </div>
-                </div>
-            {{end}}
+                {{end}}
+            </div>
         </div>
     </main>
 

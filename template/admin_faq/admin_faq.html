@@ -1,0 +1,60 @@
+{{define "adminFaq"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Тарифы</title>
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/admin.css">
+    </head>
+    <body>
+    {{template "adminAside" .Active}}
+    <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
+        {{template "adminHead" .}}
+        <div class="control_buttons">
+            <a href="/admin/faq/create"><button class="create">Создать</button></a>
+        </div>
+        <div class="table faq-table">
+            <div class="row_h">
+                <div class="table_h col1">ID</div>
+                <div class="table_h col2">Вопрос</div>
+                <div class="table_h col3">Ответ</div>
+                <div class="table_h col4"></div>
+            </div>
+            <div class="row inputs">
+                <div class="col1"><input type="text" id="col1"></div>
+                <div class="col2"><input type="text" id="col2"></div>
+                <div class="col3"><input type="text" id="col3"></div>
+                <div class="col4"></div>
+            </div>
+            <div class="records">
+                {{range $vl := .Faq}}
+                    <div class="row">
+                        <div class="col1">{{$vl.ID}}</div>
+                        <div class="col2">{{$vl.Question}}</div>
+                        <div class="col3">{{$vl.Answer}}</div>
+                        <div class="col4">
+                            <a href="/admin/faq/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
+                            <a href="/admin/faq/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
+                            <i class="fa-solid fa-trash" title="Удалить" style="color: #0177fd; cursor: pointer" onclick="deleteRecord({{$vl.ID}},{{$vl.ID}},'FAQ', 'faq')"></i>
+                        </div>
+                    </div>
+                {{end}}
+            </div>
+        </div>
+        <div class="massage">
+            <div class="contain">
+            </div>
+        </div>
+    </main>
+
+    <script src="/assets/js/admin.js"></script>
+    </body>
+    </html>
+{{end}}

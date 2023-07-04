@@ -1,7 +1,11 @@
 {{define "adminAside"}}
 <aside>
     <button id="menu"></button>
+
     <ul>
+        <li>
+            <a href="/"><img src="/assets/img/logo2.svg" alt=""></a>
+        </li>
         {{if eq "users" .}}<li class="active">{{else}}<li>{{end}}
             <a href="/admin/users">
                 <div class="icon">
@@ -21,9 +25,33 @@
         {{if eq "services" .}}<li class="active">{{else}}<li>{{end}}
             <a href="/admin/services">
                 <div class="icon">
-                    <i class="fa-solid fa-folder"></i>
+                    <i class="fa-solid fa-wrench"></i>
                 </div>
                 <div class="text">Услуги</div>
+            </a>
+        </li>
+        {{if eq "addresses" .}}<li class="active">{{else}}<li>{{end}}
+            <a href="/admin/addresses">
+                <div class="icon">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <div class="text">Адреса</div>
+            </a>
+        </li>
+        {{if eq "faq" .}}<li class="active">{{else}}<li>{{end}}
+            <a href="/admin/faq">
+                <div class="icon">
+                    <i class="fa-solid fa-circle-question"></i>
+                </div>
+                <div class="text">FAQ</div>
+            </a>
+        </li>
+        {{if eq "seo" .}}<li class="active">{{else}}<li>{{end}}
+            <a href="/admin/seo">
+                <div class="icon">
+                    <i class="fa-solid fa-cloud"></i>
+                </div>
+                <div class="text">SEO-настройки</div>
             </a>
         </li>
         {{if eq "settings" .}}<li class="active">{{else}}<li>{{end}}

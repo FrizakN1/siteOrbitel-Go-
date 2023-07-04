@@ -1,12 +1,17 @@
 {{define "adminSettingsForm"}}
     {{template "adminAside" .Active}}
     <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
         {{template "adminHead" .}}
         <div class="contain settings-form">
             <div class="form">
                 <label>
                     <div>Ключ</div>
-                    <input type="text" id="key" value="{{.Obj.Key}}">
+                    <input type="text" id="key" value="{{.Obj.Key}}" disabled>
                 </label>
                 <label>
                     <div>Значение</div>

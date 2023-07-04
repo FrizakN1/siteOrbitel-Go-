@@ -1,0 +1,31 @@
+{{define "adminAddressesForm"}}
+{{template "adminAside" .Active}}
+<main>
+  <div class="alert">
+    <div class="close"></div>
+    <div class="text">Заявка успешно отправлена</div>
+    <div class="timer"></div>
+  </div>
+  {{template "adminHead" .}}
+  <div class="contain addresses-form">
+    <div class="form">
+      <label>
+        <div>Улица</div>
+        <div>
+          <input type="text" id="street" {{if eq .Mode "edit"}} value="{{.Obj.Street}}" {{end}}>
+          <div class="streets-list">
+          </div>
+        </div>
+      </label>
+      <label>
+        <div>Номер дома</div>
+        <input type="text" id="house" {{if eq .Mode "edit"}} value="{{.Obj.House}}" {{end}}>
+      </label>
+      <div class="control_buttons">
+        {{if eq .Mode "create"}}<button class="create" id="create_address">Создать</button>{{else}}<button class="create" id="update_address">Сохранить</button>{{end}}
+      </div>
+    </div>
+  </div>
+</main>
+<script src="/assets/js/admin.js"></script>
+{{end}}

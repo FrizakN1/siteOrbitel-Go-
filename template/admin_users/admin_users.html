@@ -11,6 +11,11 @@
 <body>
     {{template "adminAside" .Active}}
     <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
         {{template "adminHead" .}}
         <div class="control_buttons">
             <a href="/admin/users/create"><button class="create">Создать</button></a>
@@ -20,38 +25,49 @@
                 <div class="table_h col1">ID</div>
                 <div class="table_h col2">ФИО</div>
                 <div class="table_h col3">Номер телефона</div>
-                <div class="table_h col4">Лицевой счет</div>
-                <div class="table_h col5">Текущий баланс</div>
-                <div class="table_h col6">Текущий тариф</div>
-                <div class="table_h col7">Роль</div>
-                <div class="table_h col8"></div>
+                <div class="table_h col4">Адрес</div>
+                <div class="table_h col5">Лицевой счет</div>
+                <div class="table_h col6">Текущий баланс</div>
+                <div class="table_h col7">Текущий тариф</div>
+                <div class="table_h col8">Роль</div>
+                <div class="table_h col9">Блокировка</div>
+                <div class="table_h col10"></div>
             </div>
             <div class="row inputs">
-                <div class="col1"><input type="text"></div>
-                <div class="col2"><input type="text"></div>
-                <div class="col3"><input type="text"></div>
-                <div class="col4"><input type="text"></div>
-                <div class="col5"><input type="text"></div>
-                <div class="col6"><input type="text"></div>
-                <div class="col7"><input type="text"></div>
-                <div class="col8"></div>
+                <div class="col1"><input type="text" id="col1"></div>
+                <div class="col2"><input type="text" id="col2"></div>
+                <div class="col3"><input type="text" id="col3"></div>
+                <div class="col4"><input type="text" id="col4"></div>
+                <div class="col5"><input type="text" id="col5"></div>
+                <div class="col6"><input type="text" id="col6"></div>
+                <div class="col7"><input type="text" id="col7"></div>
+                <div class="col8"><input type="text" id="col8"></div>
+                <div class="col9"><input type="text" id="col9"></div>
+                <div class="col10"></div>
             </div>
-            {{range $vl := .Users}}
-            <div class="row">
-                <div class="col1">{{$vl.ID}}</div>
-                <div class="col2">{{$vl.Name}}</div>
-                <div class="col3">{{$vl.Phone}}</div>
-                <div class="col4">{{$vl.AccountNumber}}</div>
-                <div class="col5">{{$vl.CurrentBalance}}</div>
-                <div class="col6">{{$vl.CurrentTariff.Name}}</div>
-                <div class="col7">{{$vl.Role.Name}}</div>
-                <div class="col8">
-                    <a href="/admin/users/view-{{$vl.ID}}"><i class="fa-solid fa-eye"></i></a>
-                    <a href="/admin/users/edit-{{$vl.ID}}"><i class="fa-solid fa-pen"></i></a>
-                    <a href="/admin/users/delete-{{$vl.ID}}"><i class="fa-solid fa-trash"></i></a>
-                </div>
+            <div class="records">
+                {{range $vl := .Users}}
+                    <div class="row">
+                        <div class="col1">{{$vl.ID}}</div>
+                        <div class="col2">{{$vl.Name}}</div>
+                        <div class="col3">{{$vl.Phone}}</div>
+                        <div class="col4">{{$vl.Address.Street}} {{$vl.Address.House}}{{if ne $vl.Flat 0}}-{{$vl.Flat}}{{end}}</div>
+                        <div class="col5">{{$vl.AccountNumber}}</div>
+                        <div class="col6">{{$vl.CurrentBalance}}</div>
+                        <div class="col7">{{$vl.CurrentTariff.Name}}</div>
+                        <div class="col8">{{$vl.Role.Name}}</div>
+                        <div class="col9" style="padding: 5px !important;">{{if eq $vl.Baned 0}} <button onclick="blockUser({{$vl.Name}}, {{$vl.ID}}, this)" class="delete">Заблокировать</button> {{else}} <button onclick="unblockUser({{$vl.Name}}, {{$vl.ID}}, this)" class="create">Разблокировать</button> {{end}}</div>
+                        <div class="col10">
+                            <a href="/admin/users/view-{{$vl.ID}}" title="Изменить"><i class="fa-solid fa-eye"></i></a>
+                            <a href="/admin/users/edit-{{$vl.ID}}" title="Редактировать"><i class="fa-solid fa-pen"></i></a>
+                        </div>
+                    </div>
+                {{end}}
             </div>
-            {{end}}
+        </div>
+        <div class="massage">
+            <div class="contain">
+            </div>
         </div>
     </main>
 

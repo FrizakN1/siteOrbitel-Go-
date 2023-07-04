@@ -1,0 +1,65 @@
+{{define "adminSEO"}}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO-настройки</title>
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body>
+    {{template "adminAside" .Active}}
+    <main>
+        {{template "adminHead" .}}
+{{/*        <div class="control_buttons">*/}}
+{{/*            <a href="/admin/seo/create"><button class="create">Создать</button></a>*/}}
+{{/*        </div>*/}}
+        <div class="table seo-table">
+            <div class="row_h">
+                <div class="table_h col1">ID</div>
+                <div class="table_h col2">Заголовок</div>
+                <div class="table_h col3">Ключевые слова</div>
+                <div class="table_h col4">Описание</div>
+                <div class="table_h col5">Ссылка</div>
+                <div class="table_h col6"></div>
+            </div>
+            <div class="row inputs">
+                <div class="col1"><input type="text" id="col1"></div>
+                <div class="col2"><input type="text" id="col2"></div>
+                <div class="col3"><input type="text" id="col3"></div>
+                <div class="col4"><input type="text" id="col4"></div>
+                <div class="col5"><input type="text" id="col5"></div>
+                <div class="col6"></div>
+            </div>
+            <div class="records">
+                {{range $vl := .SEO}}
+                    <div class="row">
+                        <div class="col1">{{$vl.ID}}</div>
+                        <div class="col2">{{$vl.Title}}</div>
+                        <div class="col3">{{$vl.Keywords}}</div>
+                        <div class="col4">{{$vl.Description}}</div>
+                        <div class="col5"><a href="{{$vl.Uri}}" style="color: #0177fd">{{$vl.Uri}}</a></div>
+                        <div class="col6">
+                            <a href="/admin/seo/view-{{$vl.ID}}" title="Изменить"><i class="fa-solid fa-eye"></i></a>
+                            <a href="/admin/seo/edit-{{$vl.ID}}" title="Редактировать"><i class="fa-solid fa-pen"></i></a>
+                        </div>
+                    </div>
+                {{end}}
+            </div>
+        </div>
+{{/*        <div class="massage">*/}}
+{{/*            <div class="contain">*/}}
+{{/*                <h2>Вы уверены, что хотите заблокировать пользователя: Иванов Иван Иванович</h2>*/}}
+{{/*                <div class="control_buttons">*/}}
+{{/*                    <button class="create" style="width: 100px">Да</button>*/}}
+{{/*                    <button class="delete" style="width: 100px">Нет</button>*/}}
+{{/*                </div>*/}}
+{{/*            </div>*/}}
+{{/*        </div>*/}}
+    </main>
+
+    <script src="/assets/js/admin.js"></script>
+</body>
+</html>
+{{end}}

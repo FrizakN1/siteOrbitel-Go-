@@ -1,6 +1,11 @@
 {{define "adminServicesForm"}}
     {{template "adminAside" .Active}}
     <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
         {{template "adminHead" .}}
         <div class="contain services-form">
             <div class="form">
@@ -8,7 +13,7 @@
                     <span class="select-block-span">Тип тарифа</span>
                     <div class="select type2">
                         {{if eq .Mode "create"}}
-                            <div id="type" class="select-button">
+                            <div id="type-service" class="select-button" value="">
                                 <span class="select-button-span">Выбрать</span>
                                 <i class="fa-solid fa-caret-down select-button-icon"></i>
                             </div>
@@ -18,7 +23,7 @@
                                 <li value="3">Дополнительные услуги тарифного плана</li>
                             </ul>
                         {{else}}
-                            <div id="type" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.Type.ID}}">
+                            <div id="type-service" class="select-button" style="color: #ffffff; background-color: #0177fd" value="{{.Obj.Type.ID}}">
                                 {{if eq .Obj.Type.ID 1}}Оборудование{{end}}
                                 {{if eq .Obj.Type.ID 2}}Настройка роутера{{end}}
                                 {{if eq .Obj.Type.ID 3}}Дополнительные услуги тарифного плана{{end}}

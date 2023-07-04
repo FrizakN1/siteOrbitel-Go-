@@ -4,75 +4,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная</title>
+    <title>{{.SEO.Title}}</title>
+    <meta name="keywords" content="{{.SEO.Keywords }}">
+    <meta name="description" content="{{.SEO.Description }}">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="/assets/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
     {{template "header"}}
     <section class="slider">
-        <img src="/assets/img/img.png" alt="" width="1100">
+        <div class="owl-carousel owl-theme" id="slider">
+            <a class="slide" href="https://orbitel.ru/smotr/"><img src="/assets/img/img.png" alt="" ></a>
+            <a class="slide" href="https://orbitel.ru/smotr/"><img src="/assets/img/img2.jpg" alt=""></a>
+            <a class="slide"><img src="/assets/img/img3.jpg" alt="" ></a>
+        </div>
+        <div>
+            <div class="slider-btn slider-btn-left"><i class="fa-solid fa-chevron-left"></i></div>
+            <div class="slider-btn slider-btn-right"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
         <div class="border-bottom"></div>
     </section>
     <section class="tariffs">
-        <h2>Выберите тариф для подключения</h2>
+        <h2>{{ index .Settings "sections_tariffs_title" }}</h2>
         <div class="contain">
-            <div class="cases">
-                <div class="case">
-                    <img src="/assets/img/map.svg" alt="" width="74">
-                    <span>Как нас найти?</span>
-                </div>
-                <div class="case">
-                    <img src="/assets/img/wallet.svg" alt="" width="74">
-                    <span>Способы оплаты</span>
-                </div>
-            </div>
             <div class="cards">
-                <div class="card">
-                    <div class="price">650 ₽/мес</div>
-                    <h3>Домашний - Ультра 2</h3>
-                    <p>Тариф расчитан на несколько устройств домашней сети</p>
-                    <div class="border-bottom"></div>
-                    <div class="speed">до <span>300</span> мб/с</div>
-                    <div class="description">
-                        <div class="d1"><span>150</span> Цифровых каналов</div>
-                        <div class="d2"><span>50</span> Аналоговых каналов</div>
+                {{range $vl := .Tariffs}}
+                    <div class="card {{if eq $vl.Color "#ee5037"}}type2{{end}}">
+                        <div class="price">{{$vl.Price}} ₽/мес</div>
+                        <h3>{{$vl.Name}}</h3>
+                        <p>{{$vl.Description}}</p>
+                        <div class="border-bottom"></div>
+                        <div class="speed">до <span>{{$vl.Speed}}</span> мб/с</div>
+                        <div class="description">
+                            {{if ne $vl.DigitalChannel 0}}
+                            <div class="d1"><span>{{$vl.DigitalChannel}}</span> Цифровых каналов</div>
+                            {{end}}
+                            {{if ne $vl.AnalogChannel 0}}
+                            <div class="d2"><span>{{$vl.AnalogChannel}}</span> Аналоговых каналов</div>
+                            {{end}}
+                        </div>
+                        <a href="/abonent_application-{{$vl.ID}}"><button>Подключить</button></a>
                     </div>
-                    <button>Подключить</button>
-                </div>
-                <div class="card type2">
-                    <div class="price">650 ₽/мес</div>
-                    <h3>Домашний - Ультра 2</h3>
-                    <p>Тариф расчитан на несколько устройств домашней сети</p>
-                    <div class="border-bottom"></div>
-                    <div class="speed">до <span>300</span> мб/с</div>
-                    <div class="description">
-                        <div class="d1"><span>150</span> Цифровых каналов</div>
-                        <div class="d2"><span>50</span> Аналоговых каналов</div>
-                    </div>
-                    <button>Подключить</button>
-                </div>
-            </div>
-            <div>
-                <img src="/assets/img/smotr.png" alt="">
+                {{end}}
             </div>
         </div>
+        {{template "cases" .}}
         <div class="border-bottom"></div>
     </section>
     <section class="address-check">
-        <h2>Узнайте наличие подключения по вашему адресу!</h2>
+        <h2>{{ index .Settings "section_check-connection_title" }}</h2>
         <div class="contain">
-            <label for="address">Введите адрес:</label>
+            <label for="address">{{ index .Settings "label_check-connection_window" }}</label>
             <div class="input">
-                <input id="address" type="text" placeholder="Улица, номер дома">
-                <button class="check">Проверить</button>
+                <div>
+                    <input id="address" type="text" placeholder="Улица, номер дома">
+                    <div class="streets-list">
+                    </div>
+                </div>
+                <button class="check">{{ index .Settings "button_check-connection_text" }}</button>
             </div>
-{{/*            <p>Поздравляем! <span>Данный</span> адрес доступен для подключения!</p>*/}}
-{{/*            <button class="choose-tariff">Подобрать тариф</button>*/}}
+            <div class="messages" style="display: none">
+                <p class="success">{{ index .Settings "positive_massage_check-connection" }}</p>
+                <p class="failing">{{ index .Settings "negative_massage_check-connection" }}</p>
+            </div>
         </div>
     </section>
     {{ template "footer" }}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="/assets/js/script.js"></script>
+    <script>
+        $(document).ready(function(){
+            const slider = $("#slider").owlCarousel({
+                items: 1,
+                loop: true,
+                mouseDrag: false,
+                nav: true,
+                autoplay: true,
+                autoplayHoverPause: true,
+                navSpeed: 500,
+                autoplaySpeed: 500,
+                navText: [$('.slider-btn-left'),$('.slider-btn-right')],
+            });
+        });
+    </script>
+    <script src="/assets/js/owl.carousel.min.js"></script>
 </body>
 </html>
 {{end}}

@@ -1,0 +1,125 @@
+{{define "abonentApplication"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+    {{template "header"}}
+    <section class="abonent_application">
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
+        <h2>{{ index .Settings "section_abonent-application_title" }}</h2>
+        <div class="contain">
+            <div class="left">
+                {{if eq .Tariff nil}}
+                    <div class="card_preview">
+                        <div>+</div>
+                    </div>
+                    <button class="b1">Выбрать другой тариф</button>
+                {{else}}
+                    {{if eq .Tariff.Type.ID 1}}
+                        <div data-card-id="{{.Tariff.ID}}" class="card {{if eq .Tariff.Color "#ee5037"}}type2{{end}} cardS">
+                            <div class="price">{{.Tariff.Price}} ₽/мес</div>
+                            <h3>{{.Tariff.Name}}</h3>
+                            <p>{{.Tariff.Description}}</p>
+                            <div class="border-bottom"></div>
+                            <div class="speed">до <span>{{.Tariff.Speed}}</span> мб/c</div>
+                            <div class="description">
+                                {{if ne .Tariff.DigitalChannel 0}}
+                                    <div class="d1"><span>{{.Tariff.DigitalChannel}}</span> Цифровых каналов</div>
+                                {{end}}
+                                {{if ne .Tariff.AnalogChannel 0}}
+                                    <div class="d2"><span>{{.Tariff.AnalogChannel}}</span> Аналоговых каналов</div>
+                                {{end}}
+                            </div>
+                        </div>
+                        <button class="b1">Выбрать другой тариф</button>
+                    {{end}}
+                    {{if eq .Tariff.Type.ID 2}}
+                        <div data-card-id="{{.Tariff.ID}}" class="card {{if eq .Tariff.Color "#ee5037"}}type2{{end}} cardS">
+                            <div class="price">{{.Tariff.Price}} ₽/мес</div>
+                            <h3>{{.Tariff.Name}}</h3>
+                            <p>{{.Tariff.Description}}</p>
+                            <div class="border-bottom"></div>
+                            <div class="speed">до <span>{{.Tariff.Speed}}</span> мб/c</div>
+                            <img src="/assets/img/{{.Tariff.Image}}" alt="">
+                        </div>
+                        <button class="b1">Выбрать другой тариф</button>
+                    {{end}}
+                    {{if eq .Tariff.Type.ID 3}}
+                        <div data-card-id="{{.Tariff.ID}}" class="card_tv {{if ne .Tariff.DigitalChannel 0}}type2{{end}} cardS">
+                            <div class="icon"><img src="/assets/img/{{if ne .Tariff.DigitalChannel 0}}interaktiv_tv.svg{{else}}analog_tv.svg{{end}}" alt=""></div>
+                            <h3>{{.Tariff.Name}}</h3>
+                            <div class="description">
+                                {{if ne .Tariff.DigitalChannel 0}}<div><span>{{.Tariff.DigitalChannel}}</span> Цифровых каналов</div>{{end}}
+                                {{if ne .Tariff.AnalogChannel 0}}<div><span>{{.Tariff.AnalogChannel}}</span> Аналоговых каналов</div>{{end}}
+                            </div>
+                            <button class="list">Список каналов</button>
+                            <button class="params">Параметры настройки оборудования для цифрового телевидения</button>
+                            <div class="price-block">
+                                <div class='price'>{{.Tariff.Price}} ₽/мес</div>
+                                <div></div>
+                            </div>
+                            <p class="note">*Стоимость подключения 100 руб</p>
+                        </div>
+                        <button class="b1">Выбрать другой тариф</button>
+                    {{end}}
+                {{end}}
+            </div>
+            <div class="form">
+                <label>
+                    <div>Ваше имя</div>
+                    <input type="text" id="name">
+                </label>
+                <label>
+                    <div>Номер телефона</div>
+                    <input type="number" id="phone">
+                </label>
+                <label>
+                    <div>Адрес подключения</div>
+                    <input type="text" id="address">
+                </label>
+                <label>
+                    <div>Комментарий (необязательно)</div>
+                    <textarea id="note" cols="30" rows="5"></textarea>
+                </label>
+                <label>
+                    <input type="checkbox" id="agreement">
+                    <span>Я согласен(-на) на обработку своих <a href="https://orbitel.ru/wp-content/uploads/2018/06/Obrabotka_person_dannyh.pdf"> Персональных данных</a></span>
+                </label>
+                <button id="submit">Отправить</button>
+            </div>
+        </div>
+    </section>
+    <section class="tariff-select">
+        <div class="contain">
+            <div class="type-tariff" id="type1">
+                <h2>Тарифы "Интернет+ТВ"</h2>
+                <div></div>
+            </div>
+            <div class="type-tariff" id="type2">
+                <h2>Тарифы "Интернет"</h2>
+                <div></div>
+            </div>
+            <div class="type-tariff" id="type3">
+                <h2>Тарифы "ТВ"</h2>
+                <div></div>
+            </div>
+
+        </div>
+    </section>
+    {{ template "footer" }}
+    <script src="/assets/js/script.js"></script>
+    </body>
+    </html>
+{{end}}

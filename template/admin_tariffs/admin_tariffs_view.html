@@ -11,10 +11,15 @@
     <body>
     {{template "adminAside" .Active}}
     <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text"></div>
+            <div class="timer"></div>
+        </div>
         {{template "adminHead" .}}
         <div class="control_buttons">
             <a href="/admin/tariffs/edit-{{.Obj.ID}}"><button class="edit">Изменить</button></a>
-            <a href="/admin/tariffs/delete-{{.Obj.ID}}"><button class="delete">Удалить</button></a>
+            <button class="delete" onclick="deleteRecord({{.Obj.Name}},{{.Obj.ID}},'тариф', 'tariffs')">Удалить</button>
         </div>
         <div class="table view-table">
             <div class="row">
@@ -56,6 +61,10 @@
             <div class="row">
                 <div class="col-view">Цвет</div>
                 <div class="col-view" style="color: #ffffff;background-color: {{.Obj.Color}}">{{.Obj.Color}}</div>
+            </div>
+        </div>
+        <div class="massage">
+            <div class="contain">
             </div>
         </div>
     </main>

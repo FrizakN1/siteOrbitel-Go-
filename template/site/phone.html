@@ -4,7 +4,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Телефон - Orbitel</title>
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
         <link rel="stylesheet" href="/assets/css/all.min.css">
         <link rel="stylesheet" href="/assets/css/style.css">
     </head>
@@ -12,29 +14,31 @@
     {{template "header"}}
     <section class="phone">
         <div class="description">
-            <h2>Подключение телефонии от компании ООО "Орбител"</h2>
+            <h2>{{ index .Settings "section_phone_title" }}</h2>
             <p>
-                Оказание услуги реализовано на базе «Городской сети передачи данных» ООО «Орбител», построенной по технологии «оптика до дома» (FTTB). Подключение телефонного оборудования Абонентов к узлу ООО «Орбител» внутри здания осуществляется с помощью медного кабеля UTP, используемого для предоставления доступа к сети Интернет, что позволяет Абонентам пользоваться 2 услугами связи (интернет и телефон) независимо друг от друга, обеспечивая высокие качественные показатели этих услуг.
+                {{ index .Settings "section_phone_description" }}
             </p>
         </div>
         <div class="card">
             <div class="icon"><img src="/assets/img/telefonia.svg" alt="Телефония"></div>
-            <h3>Преимущества:</h3>
+            <h3>{{ index .Settings "section_phone_card_title" }}</h3>
             <ul>
-                <li>Тоновый режим набора номера;</li>
-                <li>Бесплатный АОН;</li>
-                <li>Низкая абонентская плата;</li>
-                <li>Беспрецедентно низкая стоимость пользования 2-мя телефонными номерами;</li>
-                <li>Закрепление телефонного номера за Абонентом при переездах (в пределах сети ООО «Орбител»).</li>
+                {{ index .Settings "section_phone_card_elements" }}
+{{/*                <li>Тоновый режим набора номера;</li>*/}}
+{{/*                <li>Бесплатный АОН;</li>*/}}
+{{/*                <li>Низкая абонентская плата;</li>*/}}
+{{/*                <li>Беспрецедентно низкая стоимость пользования 2-мя телефонными номерами;</li>*/}}
+{{/*                <li>Закрепление телефонного номера за Абонентом при переездах (в пределах сети ООО «Орбител»).</li>*/}}
             </ul>
             <div class="price-block">
-                <div class="price">300 ₽/мес</div>
+                <div class="price">{{ index .Settings "section_phone_card_price" }}</div>
                 <div></div>
             </div>
-            <p class="note">*требуется наличие VoIP-шлюза или IP-телефона</p>
+            <p class="note">{{ index .Settings "section_phone_card_note" }}</p>
         </div>
     </section>
     {{ template "footer" }}
+    <script src="/assets/js/script.js"></script>
     </body>
     </html>
 {{end}}

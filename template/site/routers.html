@@ -1,0 +1,51 @@
+{{ define "routers"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{.SEO.Title}}</title>
+        <meta name="keywords" content="{{.SEO.Keywords }}">
+        <meta name="description" content="{{.SEO.Description }}">
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+    {{template "header"}}
+    <section class="routers">
+        <h2>{{ index .Settings "section_routers_title" }}</h2>
+        <div class="contain">
+            <span>{{ index .Settings "label_routers_window" }}</span>
+            <div class="router_list">
+                <a href="https://orbitel.ru/wp-content/uploads/2016/10/router_tp_link.pdf">
+                    <div class="block main">
+                        <img src="/assets/img/tplink.png" alt="" width="230">
+                        <p>{{ index .Settings "section_routers_names" }}</p>
+                    </div>
+                </a>
+                <a href="https://orbitel.ru/wp-content/uploads/2018/01/Tenda.pdf">
+                    <div class="block">
+                        <img src="/assets/img/tenda-n300.png" alt="" width="240">
+                        <p>Tenda N300</p>
+                    </div>
+                </a>
+                <a href="https://orbitel.ru/wp-content/uploads/2016/10/router_dlink_air.pdf">
+                    <div class="block">
+                        <img src="/assets/img/DIR-300.png" alt="">
+                        <p>D-Link Dir-300/615 Air-интерфейс</p>
+                    </div>
+                </a>
+                <a href="https://orbitel.ru/wp-content/uploads/2016/10/router_dlink_silver.pdf">
+                    <div class="block">
+                        <img src="/assets/img/dir-815.png" alt="">
+                        <p>D-Link Dir-300/615 Silver-интерфейс</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    {{ template "footer" }}
+    <script src="/assets/js/script.js"></script>
+    </body>
+    </html>
+{{end}}

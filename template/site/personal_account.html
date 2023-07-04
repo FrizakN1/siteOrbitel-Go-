@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Личный кабинет - Orbitel</title>
+    <title>{{.SEO.Title}}</title>
+    <meta name="keywords" content="{{.SEO.Keywords }}">
+    <meta name="description" content="{{.SEO.Description }}">
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
@@ -17,25 +19,29 @@
 {{/*                <span>Фамилия Имя Отчество</span>*/}}
                 <span id="name">Виноградов Евгений Николаевич</span>
             </div>
-        </div><div class="leave">
-            Выйти
-            <img src="/assets/img/log_out.svg" alt="">
+        </div>
+        <div style="display: flex">
+            {{if eq .User.Role.ID 1}}<a href="/admin"><button class="control_site">Управлеие сайтом</button></a>{{end}}
+            <div class="leave">
+                Выйти
+                <img src="/assets/img/log_out.svg" alt="">
+            </div>
         </div>
     </section>
     <section class="personal_account">
         <div class="left">
             <div class="contain">
 {{/*                <h2><span>Текущий тариф: </span>Домашний-Плюс2</h2>*/}}
-                <h2 id="current-tariff"><span>Текущий тариф: </span>{{.Data.CurrentTariff.Name}}</h2>
+                <h2 id="current-tariff"><span>Текущий тариф: </span>{{if ne .Data.CurrentTariff.ID 0}}{{.Data.CurrentTariff.Name}}{{else}}Не выбран{{end}}</h2>
                 <p class="info"><img src="/assets/img/info.svg" alt=""> Подробнее о тарифе</p>
                 <div class="balance_block">
                     <div class="balance">
 {{/*                        <div>652,72 ₽</div>*/}}
-                        <div id="balance">{{.Data.CurrentBalance}}</div>
+                        <div id="balance"></div>
                         <p class="info" id="next_write-off">Дата следующего списания: 01.05.2023</p>
                     </div>
                     <div class="deposits">
-                        <div>
+                        <div id="replenishment_balance">
                             <img src="/assets/img/wallet_personal_account.svg" alt="">
                             <span>Пополненить счёт</span>
                         </div>
@@ -48,7 +54,7 @@
                 <div class="expenses_block">
                     <div class="head">
                         <h3>Расходы <span><span id="current-month">март</span> <img src="/assets/img/calendar.svg" alt="">:</span></h3>
-                        <button>Все расходы</button>
+                        <button id="expanse_history">Все расходы</button>
                     </div>
                     <div class="table" id="expenses-table-min">
                         <div class="row_h">
@@ -56,61 +62,28 @@
                             <div class="table_h">Сумма списания</div>
                             <div class="table_h">Услуга</div>
                         </div>
-                        {{range $vl := .Expanses}}
-                        <div class="row">
-                            <div>23.03.2023 18:43</div>
-                            <div>-650₽</div>
-                            <div>Ежемесячная плата</div>
-                        </div>
-                        {{end}}
-{{/*                        <div class="row">*/}}
-{{/*                            <div>23.03.2023 18:43</div>*/}}
-{{/*                            <div>-650₽</div>*/}}
-{{/*                            <div>Ежемесячная плата</div>*/}}
-{{/*                        </div>*/}}
-{{/*                        <div class="row">*/}}
-{{/*                            <div>23.03.2023 18:43</div>*/}}
-{{/*                            <div>-650₽</div>*/}}
-{{/*                            <div>Оплата телефона</div>*/}}
-{{/*                        </div>*/}}
-{{/*                        <div class="row">*/}}
-{{/*                            <div>23.03.2023 18:43</div>*/}}
-{{/*                            <div>-650₽</div>*/}}
-{{/*                            <div>Подключение кабельного ТВ</div>*/}}
-{{/*                        </div>*/}}
-{{/*                        <div class="row">*/}}
-{{/*                            <div>23.03.2023 18:43</div>*/}}
-{{/*                            <div>-650₽</div>*/}}
-{{/*                            <div>Аренда оборудования</div>*/}}
-{{/*                        </div>*/}}
                     </div>
                 </div>
             </div>
         </div>
         <div class="right">
-            <div class="deposits_history">
+            <div class="deposits_history" id="deposit_history_block">
                 <div class="close"></div>
                 <div class="table" id="deposits-table">
                     <div class="row_h">
                         <div class="table_h">Дата и время</div>
                         <div class="table_h">Сумма</div>
                     </div>
-{{/*                    <div class="row">*/}}
-{{/*                        <div>23.03.2023 18:43</div>*/}}
-{{/*                        <div>650₽</div>*/}}
-{{/*                    </div>*/}}
-{{/*                    <div class="row">*/}}
-{{/*                        <div>23.03.2023 18:43</div>*/}}
-{{/*                        <div>650₽</div>*/}}
-{{/*                    </div>*/}}
-{{/*                    <div class="row">*/}}
-{{/*                        <div>23.03.2023 18:43</div>*/}}
-{{/*                        <div>650₽</div>*/}}
-{{/*                    </div>*/}}
-{{/*                    <div class="row">*/}}
-{{/*                        <div>23.03.2023 18:43</div>*/}}
-{{/*                        <div>650₽</div>*/}}
-{{/*                    </div>*/}}
+                </div>
+            </div>
+            <div class="deposits_history" id="expanse_history_block">
+                <div class="close"></div>
+                <div class="table" id="expenses-table">
+                    <div class="row_h">
+                        <div class="table_h">Дата и время</div>
+                        <div class="table_h">Сумма списания</div>
+                        <div class="table_h">Услуга</div>
+                    </div>
                 </div>
             </div>
             <div class="contain">
@@ -119,14 +92,14 @@
                     <div id="menu-t-1-block2" class="block t-2">Тех.поддержка</div>
                 </div>
                 <div class="menu t-2">
-                    <a href="/">Смена тарифного плана</a>
-                    <a href="/">Настройка оборудования</a>
-                    <a href="/">Калькулятор услуг</a>
+                    <a href="/abonent_application-0">Смена тарифного плана</a>
+                    <a href="/routers">Настройка оборудования</a>
+                    <a href="/calculator">Калькулятор услуг</a>
                 </div>
-                <div class="menu t-3">
-                    <div id="menu-t-3-block1"></div>
-                    <div id="menu-t-3-block2"></div>
-                </div>
+{{/*                <div class="menu t-3">*/}}
+{{/*                    <div id="menu-t-3-block1"></div>*/}}
+{{/*                    <div id="menu-t-3-block2"></div>*/}}
+{{/*                </div>*/}}
             </div>
         </div>
     </section>

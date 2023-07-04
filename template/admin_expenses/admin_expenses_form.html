@@ -1,0 +1,27 @@
+{{define "adminExpensesForm"}}
+    {{template "adminAside" .Active}}
+    <main>
+        <div class="alert">
+            <div class="close"></div>
+            <div class="text">Заявка успешно отправлена</div>
+            <div class="timer"></div>
+        </div>
+        {{template "adminHead" .}}
+        <div class="contain expenses-form">
+            <div class="form">
+                <label>
+                    <div>Наименование услуги</div>
+                    <input type="text" id="service">
+                </label>
+                <label>
+                    <div>Сумма</div>
+                    <input type="number" id="amount">
+                </label>
+                <div class="control_buttons">
+                    <button class="create" id="create_expenses">Создать</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/assets/js/admin.js"></script>
+{{end}}
